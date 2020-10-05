@@ -1,0 +1,2 @@
+*.war filter=lfs diff=lfs merge=lfs -text
+campustown_20200713/target/asaproX-1.16.20.war filter=lfs diff=lfs merge=lfs -text

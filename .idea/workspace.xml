@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cafe105a-d20e-451f-9f13-66f88771e3b5" name="Default Changelist" comment="" />
+    <list default="true" id="cafe105a-d20e-451f-9f13-66f88771e3b5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/campustown_20200713/target/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/campustown_20200713/target/asaproX-1.16.20.war" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="8764aabc-f24b-4590-b502-c2b8d6b85a35" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -15,16 +25,21 @@
     </option>
   </component>
   <component name="ProjectId" id="1iB5LdRS9rZ3cSBY2PViiZWubNj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
@@ -52,38 +67,140 @@
       <workItem from="1601805641483" duration="2975000" />
       <workItem from="1601863100632" duration="395000" />
       <workItem from="1601865269849" duration="62000" />
-      <workItem from="1601865371924" duration="1605000" />
+      <workItem from="1601865371924" duration="2346000" />
+      <workItem from="1601872924108" duration="2850000" />
+      <workItem from="1601877810241" duration="778000" />
+      <workItem from="1601878644749" duration="174000" />
+      <workItem from="1601878824111" duration="182000" />
+      <workItem from="1601879012422" duration="1135000" />
+      <workItem from="1601880219061" duration="133000" />
+      <workItem from="1601880355378" duration="547000" />
+      <workItem from="1601880939122" duration="1179000" />
+      <workItem from="1601882197464" duration="2688000" />
     </task>
+    <task id="LOCAL-00001" summary="확인">
+      <created>1601872435906</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1601872435906</updated>
+    </task>
+    <task id="LOCAL-00002" summary="확인">
+      <created>1601872502231</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1601872502231</updated>
+    </task>
+    <task id="LOCAL-00003" summary="확인">
+      <created>1601873352459</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1601873352459</updated>
+    </task>
+    <task id="LOCAL-00004" summary="확인">
+      <created>1601873815698</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1601873815698</updated>
+    </task>
+    <task id="LOCAL-00005" summary="확인">
+      <created>1601877776076</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1601877776076</updated>
+    </task>
+    <task id="LOCAL-00006" summary="lfs 적용 테스트">
+      <created>1601878859815</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1601878859815</updated>
+    </task>
+    <task id="LOCAL-00007" summary="lfs 적용 테스트">
+      <created>1601879376522</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1601879376522</updated>
+    </task>
+    <task id="LOCAL-00008" summary="lfs 적용 테스트">
+      <created>1601880254965</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1601880254965</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="확인" />
+    <MESSAGE value="lfs 적용 테스트" />
+    <option name="LAST_COMMIT_MESSAGE" value="lfs 적용 테스트" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="438" y="281" key="#Notifications" timestamp="1601871789494">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="438" y="278" key="#Notifications" timestamp="1601877799308">
+      <screen x="0" y="23" width="1440" height="817" />
     </state>
-    <state x="438" y="281" key="#Notifications/0.0.1440.900@0.0.1440.900" timestamp="1601871789494" />
+    <state x="438" y="281" key="#Notifications/0.0.1440.900@0.0.1440.900" timestamp="1601874358348" />
+    <state x="438" y="278" key="#Notifications/0.23.1440.817@0.23.1440.817" timestamp="1601877799308" />
     <state x="320" y="79" key="#Plugins" timestamp="1601865249284">
       <screen x="0" y="23" width="1440" height="817" />
     </state>
     <state x="320" y="79" key="#Plugins/0.23.1440.817@0.23.1440.817" timestamp="1601865249284" />
-    <state x="575" y="354" key="Github.ShareDialog" timestamp="1601871774927">
+    <state x="278" y="23" key="CommitChangelistDialog2" timestamp="1601880254522">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="278" y="25" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1601873815478" />
+    <state x="278" y="23" key="CommitChangelistDialog2/0.23.1440.817@0.23.1440.817" timestamp="1601880254522" />
+    <state x="144" y="78" key="DiffContextDialog" timestamp="1601873677854">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="575" y="354" key="Github.ShareDialog/0.0.1440.900@0.0.1440.900" timestamp="1601871774927" />
-    <state x="221" y="89" key="SettingsEditor" timestamp="1601871674223">
+    <state x="144" y="78" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1601873677854" />
+    <state x="575" y="344" key="Github.ShareDialog" timestamp="1601885302578">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="575" y="354" key="Github.ShareDialog/0.0.1440.900@0.0.1440.900" timestamp="1601872237480" />
+    <state x="575" y="344" key="Github.ShareDialog/0.23.1440.817@0.23.1440.817" timestamp="1601885302578" />
+    <state x="345" y="162" key="Github.UntrackedFilesDialog" timestamp="1601872288697">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1601871674223" />
+    <state x="345" y="162" key="Github.UntrackedFilesDialog/0.0.1440.900@0.0.1440.900" timestamp="1601872288697" />
+    <state x="224" y="23" key="SettingsEditor" timestamp="1601881219742">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1601872994574" />
+    <state x="224" y="23" key="SettingsEditor/0.23.1440.817@0.23.1440.817" timestamp="1601881219742" />
     <state width="647" height="445" key="SwitcherDM" timestamp="1601812113191">
       <screen x="0" y="23" width="1440" height="817" />
     </state>
     <state width="647" height="445" key="SwitcherDM/0.23.1440.817@0.23.1440.817" timestamp="1601812113191" />
-    <state x="385" y="155" width="670" height="745" key="search.everywhere.popup" timestamp="1601871764823">
+    <state x="320" y="195" key="Vcs.Push.Dialog.v2" timestamp="1601884954698">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1601873822916" />
+    <state x="320" y="195" key="Vcs.Push.Dialog.v2/0.23.1440.817@0.23.1440.817" timestamp="1601884954698" />
+    <state x="412" y="97" width="720" height="668" key="find.popup" timestamp="1601881850132">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="412" y="82" width="720" height="735" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1601873320440" />
+    <state x="412" y="97" width="720" height="668" key="find.popup/0.23.1440.817@0.23.1440.817" timestamp="1601881850132" />
+    <state x="491" y="346" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1601873795029">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="155" width="670" height="745" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1601871764823" />
-    <state x="385" y="164" width="670" height="676" key="search.everywhere.popup/0.23.1440.817@0.23.1440.817" timestamp="1601865454922" />
+    <state x="491" y="346" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1440.900@0.0.1440.900" timestamp="1601873795029" />
+    <state x="375" y="90" width="670" height="676" key="search.everywhere.popup" timestamp="1601885278250">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="385" y="155" width="670" height="745" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1601873810812" />
+    <state x="375" y="90" width="670" height="676" key="search.everywhere.popup/0.23.1440.817@0.23.1440.817" timestamp="1601885278250" />
   </component>
 </project>
