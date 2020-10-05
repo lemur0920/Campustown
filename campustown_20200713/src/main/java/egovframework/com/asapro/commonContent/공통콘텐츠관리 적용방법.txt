@@ -1,0 +1,122 @@
+
+<< 공통 콘텐츠 관리 (이용안내관리) 이용방법 >>
+
+1. VO 필드추가
+
+	import egovframework.com.asapro.commonContent.service.CommonContent;
+
+	private CommonContent commonContent;
+
+	/**
+	 * @return the commonContent
+	 */
+	public CommonContent getCommonContent() {
+		return commonContent;
+	}
+	/**
+	 * @param commonContent the commonContent to set
+	 */
+	public void setCommonContent(CommonContent commonContent) {
+		this.commonContent = commonContent;
+	}
+
+2. Controller 처리 로직
+
+	import egovframework.com.asapro.commonContent.service.CommonContent;
+	import egovframework.com.asapro.commonContent.service.CommonContentRelation;
+	import egovframework.com.asapro.commonContent.service.CommonContentSearch;
+	import egovframework.com.asapro.commonContent.service.CommonContentService;
+
+	@Autowired
+	private CommonContentService commonContentService;
+	
+	1)
+	<insert 시 form view - GET>
+	CommonContentSearch commonContentSearch = new CommonContentSearch();
+	commonContentSearch.setSitePrefix(currentSite.getSitePrefix());
+	commonContentSearch.setPaging(false);
+	commonContentSearch.setComContModule("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+	List<CommonContent> commonContentList = commonContentService.getCommonContentList(commonContentSearch);
+	model.addAttribute("commonContentList",  commonContentList);
+
+	2)
+	<insert  - POST>
+	- 프로그램별 등록 후 추가 처리
+	if(exampleForm.getCommonContent().getComContId() != null && exampleForm.getCommonContent().getComContId() > 0 ){
+		CommonContentRelation commonContentRelation = new CommonContentRelation();
+		commonContentRelation.setSitePrefix(currentSite.getSitePrefix());
+		commonContentRelation.setProgramId(exampleForm.getExampleId().toString());
+		commonContentRelation.setComContId(exampleForm.getCommonContent().getComContId());
+		commonContentRelation.setModuleCode("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+		commonContentService.insertCommonContentRelation(commonContentRelation);
+	}
+
+	3)
+	<update 시 form view - GET>
+	CommonContentSearch commonContentSearch = new CommonContentSearch();
+	commonContentSearch.setSitePrefix(currentSite.getSitePrefix());
+	commonContentSearch.setPaging(false);
+	commonContentSearch.setComContModule("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+	List<CommonContent> commonContentList = commonContentService.getCommonContentList(commonContentSearch);
+	model.addAttribute("commonContentList",  commonContentList);
+	
+	CommonContentRelation commonContentRelation = new CommonContentRelation();
+	commonContentRelation.setSitePrefix(currentSite.getSitePrefix());
+	commonContentRelation.setProgramId(exampleForm.getExampleId().toString());
+	commonContentRelation.setModuleCode("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+	CommonContent CommonContent = commonContentService.getCommonContentByRelation(commonContentRelation);
+	exampleForm.setCommonContent(CommonContent);
+
+	4)
+	<update  - POST>
+	- 프로그램별 수정 후 추가 처리
+	
+	//등록된 릴레이션 삭제하고 다시등록한다.
+	CommonContentRelation commonContentRelation = new CommonContentRelation();
+	commonContentRelation.setSitePrefix(currentSite.getSitePrefix());
+	commonContentRelation.setProgramId(exampleForm.getExampleId().toString());
+	commonContentRelation.setModuleCode("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+	commonContentRelation.setComContId(exampleForm.getCommonContent().getComContId());
+	
+	commonContentService.deleteCommonContentRelation(commonContentRelation);
+	if(exampleForm.getCommonContent().getComContId() != null && exampleForm.getCommonContent().getComContId() > 0 ){
+		commonContentService.insertCommonContentRelation(commonContentRelation);
+	}
+
+	5)
+	<delete - >
+	- 프로그램별 삭제시 추가 처리
+	CommonContentRelation commonContentRelation = new CommonContentRelation();
+	commonContentRelation.setSitePrefix(currentSite.getSitePrefix());
+	commonContentRelation.setProgramId(bnId.toString());
+	commonContentRelation.setModuleCode("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+	commonContentService.deleteCommonContentRelation(commonContentRelation);
+
+3. FORM VIEW 추가
+	
+	<div class="form-group row">
+		<form:label path="commonContent.comContId" cssClass="col-sm-2 col-form-label">이용안내 </form:label>
+		<div class="col-sm">${commonContent.comContId }
+			<form:select path="commonContent.comContId" cssClass="form-control col-sm-6" cssErrorClass="form-control col-sm-6 is-invalid" >
+				<form:option value="">선택</form:option>
+				<form:options items="${commonContentList}" itemLabel="comContTitle" itemValue="comContId" />
+			</form:select>
+			<form:errors path="commonContent.comContId" element="div" cssClass="text-danger col-form-label ml-2" />
+		</div>
+	</div>
+
+4. 사용자 페이지 노출 방법
+
+	1) controller
+
+		CommonContentRelation commonContentRelation = new CommonContentRelation();
+		commonContentRelation.setSitePrefix(currentSite.getSitePrefix());
+		commonContentRelation.setProgramId(exampleForm.getExampleId().toString());
+		commonContentRelation.setModuleCode("lecture");	//lecture - 교육강좌 , lending - 체육/시설 대관 , see - 관람/체험
+		CommonContent CommonContent = commonContentService.getCommonContentByRelation(commonContentRelation);
+		exampleForm.setCommonContent(CommonContent);
+
+		담은 후
+
+	2) view 
+		<c:out value="${exampleForm.commonContent.comContContent}" escapeXml="false" />

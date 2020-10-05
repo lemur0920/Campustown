@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!--  admin inquire Log Aspect -->
+	<!--  관리자 회원 조회, 수정, 삭제등의 로그  -->	
+	<!-- <bean id="adminInquireLog" class="egovframework.com.asapro.statistics.service.AdminInquireLogAspect" />
+	<aop:config>
+		<aop:aspect ref="adminInquireLog">
+			<aop:pointcut id="adminMemberControllerMethod" expression="execution(public * egovframework.com..web.AdminMemberController.*(..))
+			&amp;&amp; ! execution(public * egovframework.com..web.AdminMemberController.*Passwor*(..))
+			&amp;&amp; ! execution(public * egovframework.com..web.AdminMemberController.*Profile*(..))
+			&amp;&amp; ! execution(public * egovframework.com..web.AdminMemberController.*SearchLayer*(..))
+			&amp;&amp; ! execution(public * egovframework.com..web.AdminMemberController.check*(..)) " />
+			<aop:after-returning method="afterAdminInquire" pointcut-ref="adminMemberControllerMethod" />
+		</aop:aspect>
+	</aop:config> -->
+	
+</beans>

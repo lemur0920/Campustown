@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.role.service.RoleMapper">
+	
+	<resultMap id="rolePlainResultMap" type="Role">
+		<id column="ROLE_CODE" property="roleCode" javaType="String" />
+		<result column="ROLE_NAME" property="roleName" javaType="String" />
+		<result column="ROLE_DESCRIPTION" property="roleDescription" javaType="String" />
+		<result column="ROLE_REGDATE" property="roleRegDate" javaType="Date" />
+		<result column="ROLE_DEFAULT" property="roleDefault" javaType="Boolean" />
+		<result column="ROLE_ADMIN" property="roleAdmin" javaType="Boolean" />
+		<result column="ROLE_JOIN" property="roleJoin" javaType="Boolean" />
+	</resultMap>
+	
+	<resultMap id="roleComplextResultMap" type="Role" extends="rolePlainResultMap">
+		<collection column="ROLE_CODE" property="capabilityList" javaType="ArrayList" ofType="Capability" select="selectRoleCapabilityList" />
+	</resultMap>
+	
+	<sql id="rolePlainColumns">
+		ROLE_CODE
+		, ROLE_NAME
+		, ROLE_DESCRIPTION
+		, ROLE_REGDATE
+		, ROLE_DEFAULT
+		, ROLE_ADMIN
+		, ROLE_JOIN
+	</sql>
+	
+	<sql id="roleJoinColumns">
+		ROL.ROLE_CODE
+		, ROL.ROLE_NAME
+		, ROL.ROLE_DESCRIPTION
+		, ROL.ROLE_REGDATE
+		, ROL.ROLE_DEFAULT
+		, ROL.ROLE_ADMIN
+		, ROL.ROLE_JOIN
+	</sql>
+	
+	<select id="selectRoleList" parameterType="RoleSearch" resultMap="roleComplextResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="rolePlainColumns"/>
+			FROM ASA_ROLE
+			<where>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							ROLE_NAME LIKE '%'||#{sv}||'%'
+							OR ROLE_DESCRIPTION LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						AND ${sc} LIKE '%'||#{sv}||'%'
+					</if>
+				</if>
+				<if test="roleCodeTmpArray != null and roleCodeTmpArray.length > 0">
+					AND 
+					<foreach collection="roleCodeTmpArray" item="code" open="(" separator="OR" close=")">
+						ROLE_CODE = #{code}
+					</foreach>
+					
+				</if>
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY ROLE_DEFAULT DESC, ROLE_ADMIN DESC, ROLE_CODE ASC, ROLE_REGDATE DESC
+			</if>
+		<if test="paging">
+				) Z
+			)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectRoleListTotal" parameterType="RoleSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_ROLE
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						ROLE_NAME LIKE '%'||#{sv}||'%'
+						OR ROLE_DESCRIPTION LIKE '%'||#{sv}||'%'
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE '%'||#{sv}||'%'
+				</if>
+			</if>
+			<if test="roleCodeTmpArray != null and roleCodeTmpArray.length > 0">
+				AND 
+				<foreach collection="roleCodeTmpArray" item="code" open="(" separator="OR" close=")">
+					ROLE_CODE = #{code}
+				</foreach>
+				
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRole" parameterType="Role" resultMap="roleComplextResultMap">
+		SELECT 
+			<include refid="rolePlainColumns"/>
+		FROM ASA_ROLE
+		<where>
+			ROLE_CODE = #{roleCode}
+		</where>
+	</select>
+	
+	<select id="selectJoinRole" resultMap="rolePlainResultMap">
+		SELECT 
+			<include refid="rolePlainColumns"/>
+		FROM ASA_ROLE
+		<where>
+			ROLE_JOIN = 1
+		</where>
+	</select>
+	
+	<select id="selectRoleCapabilityList" parameterType="String" resultMap="egovframework.com.asapro.capability.service.CapabilityMapper.capabilityPlainResultMap">
+		SELECT
+			<include refid="egovframework.com.asapro.capability.service.CapabilityMapper.capabilityJoinColumns"/>
+		FROM ASA_ROLE_CAP RC
+		INNER JOIN ASA_CAPABILITY CAP ON RC.CAP_ID = CAP.CAP_ID
+		<where>
+			RC.ROLE_CODE = #{value}
+			AND CAP.CAP_HIDDEN = 0
+		</where>
+		ORDER BY CAP.CAP_PRIORITY DESC
+	</select>
+	
+	<insert id="insertRole" parameterType="Role">
+		INSERT INTO ASA_ROLE (
+			<include refid="rolePlainColumns"/>
+		) VALUES (
+			#{roleCode}
+			, #{roleName}
+			, #{roleDescription}
+			, #{roleRegDate}
+			, #{roleDefault}
+			, #{roleAdmin}
+			, #{roleJoin}
+		)
+	</insert>
+	
+	<update id="updateRole" parameterType="Role">
+		UPDATE ASA_ROLE SET
+			ROLE_NAME			= #{roleName}
+			, ROLE_DESCRIPTION	= #{roleDescription}
+			, ROLE_DEFAULT		= #{roleDefault}
+			, ROLE_JOIN			= #{roleJoin}
+		<where>
+			ROLE_CODE = #{roleCode}
+		</where>
+	</update>
+	
+	<delete id="deleteRole" parameterType="Role">
+		DELETE FROM ASA_ROLE 
+		<where>
+			ROLE_CODE = #{roleCode}
+			AND ROLE_DEFAULT != 1 
+		</where>
+	</delete>
+	
+	<!-- ==================================== -->
+	<!-- ==================================== -->
+	<!-- ==================================== -->
+	
+	<select id="selectRoleCapList" parameterType="Role" resultType="RoleCap" >
+		SELECT
+			ROLE_CODE	roleCode
+			, CAP_ID	capId
+		FROM ASA_ROLE_CAP
+		<where>
+			ROLE_CODE = #{roleCode}	
+		</where>
+	</select>
+	
+	<insert id="insertRoleCap" parameterType="RoleCap">
+		INSERT INTO ASA_ROLE_CAP (
+			ROLE_CODE
+			, CAP_ID
+		) VALUES (
+			#{roleCode}
+			, #{capId}
+		)
+	</insert>
+	
+	<delete id="deleteRoleCapByRole" parameterType="RoleCap">
+		DELETE FROM ASA_ROLE_CAP 
+		<where>
+			ROLE_CODE = #{roleCode}
+		</where>
+
+
+		<!-- 
+		AND ROLE_CODE IN (
+			SELECT 
+				ROLE_CODE 
+			FROM ASA_ROLE
+			WHERE ROLE_DEFAULT != 1
+		) 
+		 -->
+	</delete>
+	
+	<delete id="deleteRoleCapByCap" parameterType="RoleCap">
+		DELETE FROM ASA_ROLE_CAP 
+		<where>
+			CAP_ID = #{capId}
+		</where>
+		<!-- 
+		AND CAP_ID IN (
+			SELECT
+				CAP_ID
+			FROM ASA_CAPABILITY
+			WHERE CAP_DEFAULT != 1
+		)
+		 -->
+	</delete>
+	
+	<!-- 
+	<update id="updateMemberRolesToJoinRole" parameterType="HashMap">
+		UPDATE ASA_ADMIN_MEMBER SET
+			ADMIN_ROLE = #{joinRoleCode}
+		<where>
+			ADMIN_ROLE = #{roleCode}
+		</where>
+	</update>
+	 -->
+	<update id="updateMemberRolesToJoinRole" parameterType="HashMap">
+		UPDATE ASA_ADMIN_SITE_ROLE_REL SET
+			ROLE_CODE = #{joinRoleCode}
+		<where>
+			ROLE_CODE = #{roleCode}
+		</where>
+	</update>
+	
+	<select id="selectRoleWithCapList" parameterType="String" resultMap="roleComplextResultMap">
+		SELECT
+			<include refid="roleJoinColumns"/>
+		FROM ASA_ROLE ROL
+		JOIN ASA_ROLE_CAP CA ON ROL.ROLE_CODE = CA.ROLE_CODE
+		<where>
+			CA.CAP_ID = #{value}
+		</where>
+	</select>
+	
+</mapper>

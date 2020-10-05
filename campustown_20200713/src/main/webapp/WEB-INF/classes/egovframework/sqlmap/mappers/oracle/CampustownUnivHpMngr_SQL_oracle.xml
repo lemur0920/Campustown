@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.univHpMngr.service.UnivHpMngrMapper">
+	
+	
+	
+	<resultMap id="univHpMngrResultMap" type="UnivHpMngr">
+		<id column="UNIV_ID"			property="univId"			javaType="String" />
+		<result column="UNIV_NM"		property="univNm"			javaType="String" />
+		<result column="FOND_DT"		property="fondDt"			javaType="String" />
+		<result column="TEL"			property="tel"				javaType="String" />
+		<result column="CHARGER_NM"		property="chargerNm"		javaType="String" />
+		<result column="EMAIL"			property="email"			javaType="String" />
+		<result column="ADDRESS"		property="address"			javaType="String" />
+		<result column="FILE_ID1"		property="fileId1"			javaType="String" />
+		<result column="FILE1_ALT_TEXT"	property="file1AltText"		javaType="String" />
+		<result column="FILE_ID2"		property="fileId2"			javaType="String" />
+		<result column="FILE_ID3"		property="fileId3"			javaType="String" />
+		<result column="MENT"			property="ment"				javaType="String" />
+		<result column="VSN"			property="vsn"				javaType="String" />
+		<result column="INTRCN"			property="intrcn"			javaType="String" />
+		<result column="PR_MSSAGE"		property="prMssage"			javaType="String" />
+		<result column="SPORT_PROGRM"	property="sportProgrm"		javaType="String" />
+		<result column="SNS_FACE"		property="snsFace"			javaType="String" />
+		<result column="SNS_TWIT"		property="snsTwit"			javaType="String" />
+		<result column="SNS_BLOG"		property="snsBlog"			javaType="String" />
+		<result column="SNS_HP"			property="snsHp"			javaType="String" />
+		<result column="SNS_INSTA"		property="snsInsta"			javaType="String" />
+		<result column="SNS_KAKAO"		property="snsKakao"			javaType="String" />
+		<result column="AREA_GU_CD"		property="areaGuCd"			javaType="String" />
+		<result column="EXPSR_YN"		property="expsrYn"			javaType="String" />
+		<result column="DEL_YN"			property="delYn"			javaType="String" />
+		<result column="REG_ID"			property="regId"			javaType="String" />
+		<result column="REG_NM"			property="regNm"			javaType="String" />
+		<result column="REG_DT"			property="regDt"			javaType="String" />
+		<result column="UPD_ID"			property="updId"			javaType="String" />
+		<result column="UPD_NM"			property="updNm"			javaType="String" />
+		<result column="UPD_DT"			property="updDt"			javaType="String" />
+		<result column="DEL_ID"			property="delId"			javaType="String" />
+		<result column="DEL_NM"			property="delNm"			javaType="String" />
+		<result column="DEL_DT"			property="delDt"			javaType="String" />
+		<result column="COMP_CNT"		property="compCnt"			javaType="String" />
+	</resultMap>
+	
+	<sql id="univHpMngrColumnsAll">
+		 univ.UNIV_ID
+		 , univ.UNIV_NM
+		 , univ.FOND_DT
+		 , univ.TEL
+		 , univ.CHARGER_NM
+		 , univ.EMAIL
+		 , univ.ADDRESS
+		 , univ.FILE1 AS FILE_ID1
+		 , univ.FILE1_ALT_TEXT
+		 , univ.FILE2 AS FILE_ID2
+		 , univ.FILE3 AS FILE_ID3
+		 , univ.MENT
+		 , univ.VSN
+		 , univ.INTRCN
+		 , univ.PR_MSSAGE
+		 , univ.SPORT_PROGRM
+		 , univ.SNS_FACE
+		 , univ.SNS_TWIT
+		 , univ.SNS_BLOG
+		 , univ.SNS_HP
+		 , univ.SNS_INSTA
+		 , univ.SNS_KAKAO
+		 , univ.AREA_GU_CD
+		 , univ.EXPSR_YN
+		 , univ.DEL_YN
+		 , univ.REG_ID
+		 , univ.REG_NM
+		 , univ.REG_DT
+		 , univ.UPD_ID
+		 , univ.UPD_NM
+		 , univ.UPD_DT
+		 , univ.DEL_ID
+		 , univ.DEL_NM
+		 , univ.DEL_DT
+		 , (SELECT count(*) 
+	          FROM STARTUP_COMPANY_INFO start_comp
+                 , STARTUP_EXECUTIVES_INFO start_exe 
+	         WHERE univ.UNIV_ID 		= start_comp.UNIV_ID
+	           AND start_comp.COMP_ID 	= start_exe.COMP_ID
+		       AND start_comp.DEL_YN    = 'N'
+		       AND start_comp.EXPSR_YN  = 'Y'
+		       AND Start_Exe.RPRSNTV_YN = 'Y'
+	      GROUP BY UNIV_ID) AS COMP_CNT
+	</sql>
+	
+	<select id="selectUnivHpMngrList" parameterType="UnivHpMngrSearch" resultMap="univHpMngrResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+				<include refid="univHpMngrColumnsAll"/>
+			  FROM UNIVERSITY_INFO univ
+		     WHERE univ.DEL_YN = 'N'
+		     <if test="expsrYn != null and expsrYn != ''">
+				AND univ.EXPSR_YN = #{expsrYn}
+			 </if> 
+			 <if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+			 	AND TO_CHAR(TO_DATE(univ.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDate} AND #{scRegEndDate} 
+			 </if>
+			 <if test="areaId != null and areaId != ''">
+				AND univ.AREA_GU_CD = #{areaId}
+			 </if>
+			 <if test="univId != null and univId != ''">
+				AND univ.UNIV_ID = #{univId}
+			 </if>
+			 <if test="expsrYnId != null and expsrYnId != ''">
+				AND univ.EXPSR_YN = #{expsrYnId}
+		     </if>
+			 <if test="sv != null and sv != ''">
+				 <if test="sc == null or sc == ''">
+					AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+				 </if>
+				 <if test="sc != null and sc != ''">
+					 <if test="sc == 'univNm'">
+						AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+					 </if>
+				 </if>
+			 </if>
+			
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY univ.${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				<!-- ORDER BY univ.UNIV_NM DESC -->
+				ORDER BY univ.UPD_DT DESC
+			</if> 
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectUnivHpMngrListTotal" parameterType="UnivHpMngrSearch" resultType="Integer">
+		SELECT COUNT(*)
+		FROM UNIVERSITY_INFO univ
+		    WHERE univ.DEL_YN = 'N'
+		     <if test="expsrYn != null and expsrYn != ''">
+				AND univ.EXPSR_YN = #{expsrYn}
+			 </if>
+			 <if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+			 	AND TO_CHAR(TO_DATE(univ.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDate} AND #{scRegEndDate}
+			 </if>
+			 <if test="areaId != null and areaId != ''">
+				AND univ.AREA_GU_CD = #{areaId}
+			 </if>
+			  <if test="univId != null and univId != ''">
+				AND univ.UNIV_ID = #{univId}
+			 </if>
+			 <if test="expsrYnId != null and expsrYnId != ''">
+				AND univ.EXPSR_YN = #{expsrYnId}
+		     </if>
+			 <if test="sv != null and sv != ''">
+				 <if test="sc == null or sc == ''">
+					AND(
+						univ.UNIV_NM LIKE '%'||#{sv}||'%'
+					)
+				 </if>
+				 <if test="sc != null and sc != ''">
+					 <if test="sc == 'univNm'">
+						AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+					 </if>
+				 </if>
+			 </if>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				<!-- ORDER BY univ.UNIV_NM DESC -->
+				ORDER BY univ.upd_dt DESC
+			</if> 
+	</select>
+	
+	
+	<select id="selectUnivHpMngrInfo" parameterType="UnivHpMngrSearch" resultMap="univHpMngrResultMap">
+		SELECT * 
+		  FROM(
+			SELECT 
+				<include refid="univHpMngrColumnsAll"/>
+			FROM UNIVERSITY_INFO univ
+		   WHERE 1=1
+				<if test="delYn != null and delYn != ''">
+					AND univ.DEL_YN = #{delYn}
+				</if>
+				<if test="expsrYn != null and expsrYn != ''">
+					AND univ.EXPSR_YN = #{expsrYn}
+				</if>
+				<if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+					AND univ.REG_DT BETWEEN #{scRegStartDate} AND #{scRegEndDate} 
+				</if>
+				<if test="areaId != null and areaId != ''">
+					AND univ.AREA_GU_CD = #{areaId}
+				</if>
+				<if test="univId != null and univId != ''">
+					AND univ.UNIV_ID = #{univId}
+				</if>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND(
+							univ.UNIV_NM LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="univNm != null and univNm != ''">
+							AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+						</if>
+					</if>
+				</if>
+				<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+				</if>
+				<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+					ORDER BY AREA_GU_CD DESC
+				</if>
+			)
+		WHERE ROWNUM = 1	
+	</select>
+	
+	
+	<insert id="insertUnivHpMngr" parameterType="UnivHpMngr">
+		INSERT INTO UNIVERSITY_INFO (
+			UNIV_ID
+			, UNIV_NM
+			, FOND_DT
+			, TEL
+			, CHARGER_NM
+			, EMAIL
+			, ADDRESS
+			, FILE1
+			, FILE1_ALT_TEXT
+			, FILE2
+			, FILE3
+			, MENT
+			, VSN
+			, INTRCN
+			, PR_MSSAGE
+			, SPORT_PROGRM
+			, SNS_FACE
+			, SNS_TWIT
+			, SNS_BLOG
+			, SNS_HP
+			, SNS_INSTA
+			, SNS_KAKAO
+			, AREA_GU_CD
+			, EXPSR_YN
+			, REG_ID
+			, REG_NM
+			, REG_DT
+			, UPD_DT
+		) VALUES (
+			#{univId}
+			, #{univNm}
+			, #{fondDt}
+			, #{tel}
+			, #{chargerNm}
+			, #{email}
+			, #{address}
+			, #{fileId1}
+			, #{file1AltText}
+			, #{fileId2}
+			, #{fileId3}
+			, #{ment}
+			, #{vsn}
+			, #{intrcn}
+			, #{prMssage}
+			, #{sportProgrm}
+			, #{snsFace}
+			, #{snsTwit}
+			, #{snsBlog}
+			, #{snsHp}
+			, #{snsInsta}
+			, #{snsKakao}
+			, #{areaGuCd}
+			, #{expsrYn}
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	<update id="updateDepNm" parameterType="Department">
+		UPDATE ASA_ORG_DEPARTMENT
+		   SET DEP_NAME = #{depName}
+		 WHERE DEP_ID = #{depId}
+	</update>
+	
+	
+	<update id="updateUnivHpMngr" parameterType="UnivHpMngr">
+		UPDATE UNIVERSITY_INFO 
+		   SET
+		   <if test="delYn != null and delYn != ''">
+				DEL_YN			= #{delYn}, 
+			</if>
+			<if test="oldUnivId != null and oldUnivId != ''">
+				UNIV_ID			= #{univId}, 
+			</if>
+			<if test="univNm != null and univNm != ''">
+				UNIV_NM			= #{univNm},
+			</if>
+			<if test="chargerNm != null and chargerNm != ''">
+				CHARGER_NM		= #{chargerNm},
+			</if>
+			<if test="address != null and address != ''">
+				ADDRESS			= #{address},
+			</if>
+			<if test="areaGuCd != null and areaGuCd != ''">
+				AREA_GU_CD		= #{areaGuCd},	
+			</if>
+			<if test="fondDt != null">
+				FOND_DT			= #{fondDt}, 
+			</if>
+			<if test="tel != null">
+				TEL				= #{tel},
+			</if>
+			<if test="email != null">
+				EMAIL				= #{email},
+			</if>
+			<if test="fileId1 != null and fileId1 != ''">
+				FILE1				= #{fileId1},
+			</if>
+			<if test="file1AltText != null and file1AltText != ''">
+				FILE1_ALT_TEXT	= #{file1AltText},
+			</if>
+			<if test="fileId2 != null and fileId2 != ''">
+				FILE2				= #{fileId2},
+			</if>
+			<if test="fileId3 != null and fileId3 != ''">
+				FILE3				= #{fileId3},
+			</if>
+			<if test="ment != null">
+				MENT				= #{ment},
+			</if>
+			<if test="vsn != null">
+				VSN				= #{vsn},
+			</if>
+			<if test="intrcn != null">
+				INTRCN				= #{intrcn},
+			</if>
+			<if test="prMssage != null">
+				PR_MSSAGE			= #{prMssage},
+			</if>
+			<if test="sportProgrm != null">
+				SPORT_PROGRM		= #{sportProgrm},
+			</if>
+			<if test="snsFace != null">
+				SNS_FACE			= #{snsFace},
+			</if>
+			<if test="snsTwit != null">
+				SNS_TWIT			= #{snsTwit},
+			</if>
+			<if test="snsBlog != null">
+				SNS_BLOG			= #{snsBlog},
+			</if>
+			<if test="snsHp != null">
+				SNS_HP			= #{snsHp},
+			</if>
+			<if test="snsInsta != null">
+				SNS_INSTA			= #{snsInsta},
+			</if>
+			<if test="snsKakao != null">
+				SNS_KAKAO			= #{snsKakao},
+			</if>
+			<if test="expsrYn != null and expsrYn != ''">
+				EXPSR_YN			= #{expsrYn},
+			</if>
+			<if test="regId != null and regId != ''">
+				REG_ID			= #{regId},
+			</if>
+			<if test="regNm != null and regNm != ''">
+				REG_NM			= #{regNm},
+			</if>
+			<if test='delYn == "N"'>
+				REG_DT			= to_char(sysdate,'YYYYMMDDHH24MISS'),
+				DEL_ID			= '',
+				DEL_NM			= '',
+				DEL_DT			= '',
+			</if>
+				UPD_ID			= #{updId},
+				UPD_NM			= #{updNm},
+				UPD_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			<if test="oldUnivId != null and oldUnivId != ''">
+				UNIV_ID				= #{oldUnivId}
+			</if>
+			<if test="oldUnivId == null or oldUnivId == ''">
+				UNIV_ID				= #{univId}
+			</if>
+		</where>	
+	</update>
+	
+	<update id="deleteUnivHpMngr" parameterType="UnivHpMngr">
+		UPDATE UNIVERSITY_INFO
+		   SET
+		   DEL_YN = 'Y'
+	   	   , DEL_ID			= #{delId}
+	  	   , DEL_NM			= #{delNm}
+	  	   , DEL_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+			<where>
+				UNIV_ID = #{univId}
+			</where>
+	</update>
+	
+</mapper>

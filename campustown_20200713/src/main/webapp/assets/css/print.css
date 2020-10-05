@@ -1,0 +1,11 @@
+/*
+.header,
+.sub-baner,#lnb,.footer{display:none !important;}
+.sub-contents{background:none;width:auto;}
+.RightWarp{float:none;width:auto;margin:0 auto;border-right:0}
+*/
+
+#wrap{width:100%; /*padding: 30px 30px 50px 30px;*/}
+.popup-tab{display:none;}
+.printing{display:none;}
+.popup-button{display:none;}

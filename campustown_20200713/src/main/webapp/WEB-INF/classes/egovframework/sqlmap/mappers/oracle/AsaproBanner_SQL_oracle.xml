@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.banner.service.BannerMapper">
+	
+	<resultMap type="Banner" id="bannerPlainResultMap">
+		<id column="BN_ID" property="bnId" javaType="Integer" />
+		<result column="BN_TYPE" property="bnType" javaType="String" />
+		<result column="BN_ORDER" property="bnOrder" javaType="Integer" />	
+		<result column="BN_NAME" property="bnName" javaType="String" />
+		<result column="BN_DESCRIPTION" property="bnDescription" javaType="String" />
+		<result column="BN_LINK" property="bnLink" javaType="String" />
+		<result column="BN_NEW_WIN" property="bnNewWin" javaType="Boolean" />	
+		<result column="BN_START_DATE" property="bnStartDate" javaType="String" />
+		<result column="BN_END_DATE" property="bnEndDate" javaType="String" />
+		<result column="BN_REGDATE" property="bnRegDate" javaType="Date" />
+		<result column="BN_USE" property="bnUse" javaType="Boolean" />	
+		<result column="BN_EXT" property="bnExt" javaType="String" />
+		<result column="BN_WIDTH" property="bnWidth" javaType="Integer" />
+		<result column="BN_HEIGHT" property="bnHeight" javaType="Integer" />
+		<result column="BN_TOP" property="bnTop" javaType="Integer" />
+		<result column="BN_LEFT" property="bnLeft" javaType="Integer" />
+		<association column="BN_THUMB" property="thumb" javaType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap" />
+	</resultMap>
+	
+	<sql id="bannerPlainColumns">
+		BN_ID
+		, BN_TYPE
+		, BN_ORDER
+		, BN_NAME
+		, BN_DESCRIPTION
+		, BN_LINK
+		, BN_NEW_WIN
+		, BN_START_DATE
+		, BN_END_DATE
+		, BN_REGDATE
+		, BN_USE
+		, BN_EXT
+		, BN_WIDTH
+		, BN_HEIGHT
+		, BN_TOP
+		, BN_LEFT
+		, BN_THUMB
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="bannerJoinColumns">
+		BN.BN_ID
+		, BN.BN_TYPE
+		, BN.BN_ORDER
+		, BN.BN_NAME
+		, BN.BN_DESCRIPTION
+		, BN.BN_LINK
+		, BN.BN_NEW_WIN
+		, BN.BN_START_DATE
+		, BN.BN_END_DATE
+		, BN.BN_REGDATE
+		, BN.BN_USE
+		, BN.BN_EXT
+		, BN.BN_WIDTH
+		, BN.BN_HEIGHT
+		, BN.BN_TOP
+		, BN.BN_LEFT
+		, BN.BN_THUMB
+		, BN.SITE_PREFIX
+	</sql>
+	
+	<select id="selectBannerList" parameterType="BannerSearch" resultMap="bannerPlainResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+				<include refid="bannerJoinColumns"/>
+				, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+			FROM ASA_BANNER BN
+			LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BN.BN_THUMB = FI.FILE_ID
+			<where>
+				<if test="bnType != null and bnType != ''">
+					AND BN.BN_TYPE = #{bnType}
+				</if>
+				<if test="bnUse != null">
+					AND BN.BN_USE = #{bnUse}
+				</if>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							BN.BN_NAME LIKE '%'||#{sv}||'%'
+							OR BN.BN_LINK LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'bnName'">
+							AND BN.BN_NAME LIKE '%'||#{sv}||'%'
+						</if>
+						<if test="sc == 'bnLink'">
+							AND BN.BN_LINK LIKE '%'||#{sv}||'%'
+						</if>
+					</if>
+				</if>
+				<if test="(bnType == 'popupzone' || bnType == 'layer') and bnToday != null and bnToday != ''">
+				<![CDATA[
+					AND COALESCE((NULLIF(BN.BN_START_DATE, '')), '1900-01-01') <= #{bnToday} 
+					AND COALESCE((NULLIF(BN.BN_END_DATE, '')), '2999-12-31') >= #{bnToday}
+				]]>
+				</if>
+				AND SITE_PREFIX = #{sitePrefix}
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY BN.BN_ORDER ASC
+			</if> 
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if> 
+	</select>
+	
+	<select id="selectBannerListTotal" parameterType="BannerSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ASA_BANNER BN
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BN.BN_THUMB = FI.FILE_ID
+		<where>
+			<if test="bnType != null and bnType != ''">
+				AND BN.BN_TYPE = #{bnType}
+			</if>
+			<if test="bnUse != null">
+				AND BN.BN_USE = #{bnUse}
+			</if>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						BN.BN_NAME LIKE '%'||#{sv}||'%'
+						OR BN.BN_LINK LIKE '%'||#{sv}||'%'
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'bnName'">
+						AND BN.BN_NAME LIKE '%'||#{sv}||'%'
+					</if>
+					<if test="sc == 'bnLink'">
+						AND BN.BN_LINK LIKE '%'||#{sv}||'%'
+					</if>
+				</if>
+			</if>
+			<if test="(bnType == 'popupzone' || bnType == 'layer') and bnToday != null and bnToday != ''">
+			<![CDATA[
+				AND COALESCE((NULLIF(BN.BN_START_DATE, '')), '1900-01-01') <= #{bnToday} 
+				AND COALESCE((NULLIF(BN.BN_END_DATE, '')), '2999-12-31') >= #{bnToday}
+			]]>
+			</if>
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<select id="selectBanner" parameterType="Banner" resultMap="bannerPlainResultMap">
+		SELECT 
+			<include refid="bannerJoinColumns"/>
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ASA_BANNER BN
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BN.BN_THUMB = FI.FILE_ID
+		<where>
+			BN.BN_ID = #{bnId}
+		</where>
+	</select>
+	
+	<insert id="insertBanner" parameterType="Banner">
+		<selectKey keyProperty="bnId" order="BEFORE" resultType="Integer">
+			SELECT ASA_COMMON_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ASA_BANNER (
+			<include refid="bannerPlainColumns"/>
+		) VALUES (
+			#{bnId}
+			, #{bnType}
+			, #{bnOrder}
+			, #{bnName}
+			, #{bnDescription}
+			, #{bnLink}
+			, #{bnNewWin}
+			, #{bnStartDate}
+			, #{bnEndDate}
+			, #{bnRegDate}
+			, #{bnUse}
+			, #{bnExt}
+			, #{bnWidth}
+			, #{bnHeight}
+			, #{bnTop}
+			, #{bnLeft}
+			, #{thumb.fileId}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<update id="updateBanner" parameterType="Banner">
+		UPDATE ASA_BANNER SET
+			BN_NAME				= #{bnName}
+			, BN_DESCRIPTION	= #{bnDescription}
+			, BN_LINK			= #{bnLink}
+			, BN_NEW_WIN		= #{bnNewWin}
+			<if test="bnType == 'popupzone' or bnType == 'layer'">
+			, BN_START_DATE		= #{bnStartDate}
+			, BN_END_DATE		= #{bnEndDate}
+			</if>
+			, BN_USE			= #{bnUse}
+			, BN_EXT			= #{bnExt}
+			, BN_WIDTH			= #{bnWidth}
+			, BN_HEIGHT			= #{bnHeight}
+			, BN_TOP			= #{bnTop}
+			, BN_LEFT			= #{bnLeft}
+			, BN_THUMB			= #{thumb.fileId}
+		<where>
+			BN_ID = #{bnId}
+		</where>
+	</update>
+	
+	<delete id="deleteBanner" parameterType="Banner">
+		DELETE FROM ASA_BANNER
+		<where>
+			BN_ID = #{bnId}
+		</where>
+	</delete>
+	
+	<update id="updateBannerOrder" parameterType="Banner">
+		UPDATE ASA_BANNER SET
+			BN_ORDER = #{bnOrder}
+		<where>
+			BN_ID = #{bnId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</update>
+	
+</mapper>

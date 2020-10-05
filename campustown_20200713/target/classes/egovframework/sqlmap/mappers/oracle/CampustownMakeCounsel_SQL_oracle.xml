@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.counsel.make_counsel.service.MakeCounselMapper">
+
+	<resultMap type="MakeCounsel" id="makeCounselListMap">
+		<id column="MAKE_COUNSEL_SEQ"							property="makeCounselSeq"		   	javaType="Integer" />
+		<result column="MAKE_COUNSEL_TITLE"						property="title"		  			javaType="String" />
+		<result column="MAKE_COUNSEL_ITEM_INTRODUCTION"			property="itemIntroduction"		    javaType="String" />
+		<result column="MAKE_COUNSEL_PRODUCT_DETAIL"			property="productDetail"		    javaType="String" />
+		<result column="MAKE_COUNSEL_PROCESS"					property="process"		  		    javaType="String" />
+		<result column="MAKE_COUNSEL_PRODUCT_OVERVIEW"			property="productOverview"		    javaType="String" />
+		<result column="MAKE_COUNSEL_REG_NAME"					property="regName"					javaType="String" />
+		<result column="MAKE_COUNSEL_REG_DATE"					property="regDate"					javaType="Date" />
+		<result column="MAKE_COUNSEL_TEAM_NAME"					property="teamName"					javaType="String" />
+		<result column="MAKE_COUNSEL_REG_ID"					property="regId"					javaType="String" />
+	</resultMap>
+
+	<resultMap type="MakeCounselRealm" id="makeCounselRealmMap">
+		<result column="MAKE_COUNSEL_SEQ"						property="makeCounselSeq"		    javaType="Integer" />
+		<result column="MAKE_COUNSEL_REALM"						property="makeCounselRealm"		  	javaType="String" />
+		<result column="MAKE_COUNSEL_TYPE"						property="type"		  		 	 	javaType="String" />
+	</resultMap>
+
+	<resultMap type="MakeCounselRealm" id="getUserMakeCounSelDetailListMap">
+		<result column="MAKE_COUNSEL_SEQ"						property="makeCounselSeq"		    javaType="Integer" />
+		<result column="MAKE_COUNSEL_REALM"						property="makeCounselRealm"		    javaType="String" />
+		<result column="MAKE_COUNSEL_TYPE"						property="type"		  		 	 	javaType="String" />
+	</resultMap>
+
+	<select id="getUserMakeCounselList" parameterType="MakeCounsel" resultMap="makeCounselListMap">
+		SELECT * FROM (
+			SELECT ROWNUM RN, Z.* FROM(
+				SELECT
+				   MAKE_COUNSEL_SEQ,
+				   MAKE_COUNSEL_TITLE,
+				   MAKE_COUNSEL_ITEM_INTRODUCTION,
+				   MAKE_COUNSEL_PRODUCT_DETAIL,
+				   MAKE_COUNSEL_PROCESS,
+				   MAKE_COUNSEL_PRODUCT_OVERVIEW,
+				   MAKE_COUNSEL_REG_NAME,
+				   MAKE_COUNSEL_REG_DATE,
+				   MAKE_COUNSEL_TEAM_NAME,
+				   MAKE_COUNSEL_REG_ID
+				FROM
+					MAKE_COUNSEL
+				WHERE 1=1
+				<if test="regName != null and regName != ''">
+					AND MAKE_COUNSEL_REG_NAME = #{regName}
+				</if>
+				ORDER BY MAKE_COUNSEL_REG_DATE DESC
+				) Z
+			)
+		WHERE 1=1
+		<if test="startDate != null and endDate != null">
+			AND MAKE_COUNSEL_REG_DATE between TO_DATE(#{startDate}, 'YYYY-MM-DD') and TO_DATE(#{endDate}||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		</if>
+		<if test="searchDiv == 'title' and searchWord != null and searchWord != ''">
+			AND MAKE_COUNSEL_TITLE like ('%'||#{searchWord}||'%')
+		</if>
+		<if test="searchDiv == 'productDetail' and searchWord != null and searchWord != ''">
+			AND MAKE_COUNSEL_PRODUCT_DETAIL like ('%'||#{searchWord}||'%')
+		</if>
+		AND RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+	<select id="getUserMakeCounselListTotalCount" parameterType="MakeCounsel" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			MAKE_COUNSEL
+		WHERE 1=1
+		<if test="regName != null and regName != ''">
+			AND MAKE_COUNSEL_REG_NAME = #{regName}
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND MAKE_COUNSEL_REG_DATE between TO_DATE(#{startDate}, 'YYYY-MM-DD') and TO_DATE(#{endDate}||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		</if>
+		<if test="searchDiv == 'title' and searchWord != null and searchWord != ''">
+			AND MAKE_COUNSEL_TITLE like ('%'||#{searchWord}||'%')
+		</if>
+		<if test="searchDiv == 'productDetail' and searchWord != null and searchWord != ''">
+			AND MAKE_COUNSEL_PRODUCT_DETAIL like ('%'||#{searchWord}||'%')
+		</if>
+	</select>
+
+	<select id="getUserMakeCounselView" parameterType="Integer" resultMap="makeCounselListMap">
+		SELECT
+			MAKE_COUNSEL_SEQ,
+			MAKE_COUNSEL_TITLE,
+			MAKE_COUNSEL_ITEM_INTRODUCTION,
+			MAKE_COUNSEL_PRODUCT_DETAIL,
+			MAKE_COUNSEL_PROCESS,
+			MAKE_COUNSEL_PRODUCT_OVERVIEW,
+			MAKE_COUNSEL_REG_NAME,
+			MAKE_COUNSEL_REG_DATE
+		FROM
+			MAKE_COUNSEL
+		WHERE MAKE_COUNSEL_SEQ = #{makeCounselSeq}
+	</select>
+
+	<select id="getUserMakeCounSelDetailList" parameterType="MakeCounselRealm" resultMap="getUserMakeCounSelDetailListMap">
+		SELECT
+			MAKE_COUNSEL_SEQ,
+			MAKE_COUNSEL_TYPE,
+			MAKE_COUNSEL_REALM,
+			REG_DATE
+		FROM
+			MAKE_COUNSEL_REALM
+		ORDER BY MAKE_COUNSEL_TYPE ASC -- , MAKE_COUNSEL_SEQ DESC
+	</select>
+
+	<select id="getUserMakeCounSelDetailViewList" parameterType="Integer" resultMap="getUserMakeCounSelDetailListMap">
+		SELECT
+			MAKE_COUNSEL_SEQ,
+			MAKE_COUNSEL_TYPE,
+			MAKE_COUNSEL_REALM,
+			REG_DATE
+		FROM
+			MAKE_COUNSEL_REALM
+		WHERE MAKE_COUNSEL_SEQ = #{makeCounselSeq}
+	</select>
+
+	<select id="getFileCount" parameterType="Integer" resultType="Integer">
+		SELECT
+			count(*)
+		FROM ASA_FILEINFO
+		WHERE FILE_MODULE_SUB = 'makeCounsel'
+		  AND FILE_MODULE_SUB_ID = #{makeCounselSeq}
+	</select>
+
+	<select id="getuserFileId" parameterType="Integer" resultType="Integer">
+		SELECT
+			FILE_ID
+		FROM ASA_FILEINFO
+		WHERE FILE_MODULE_SUB = 'makeCounsel'
+		AND FILE_MODULE_SUB_ID = #{makeCounselSeq}
+	</select>
+
+	<insert id="getUserMakeCounselSave" parameterType="MakeCounsel">
+		<selectKey keyProperty="makeCounselSeq" resultType="Integer" order="BEFORE"> select MAKE_COUNSEL_SEQ.nextval from dual </selectKey>
+		INSERT INTO MAKE_COUNSEL
+			(MAKE_COUNSEL_SEQ, MAKE_COUNSEL_TITLE, MAKE_COUNSEL_REG_NAME, MAKE_COUNSEL_ITEM_INTRODUCTION,
+			MAKE_COUNSEL_PRODUCT_DETAIL, MAKE_COUNSEL_PROCESS, MAKE_COUNSEL_PRODUCT_OVERVIEW, MAKE_COUNSEL_TEAM_NAME, MAKE_COUNSEL_REG_ID)
+		VALUES
+		(#{makeCounselSeq}, #{title}, #{regName}, #{itemIntroduction}, #{productDetail}, #{process}, #{productOverview}, #{teamName}, #{regId})
+	</insert>
+
+	<insert id="getUserMakeCounselDetail" parameterType="MakeCounselRealm"  >
+		INSERT INTO MAKE_COUNSEL_REALM
+			(MAKE_COUNSEL_SEQ, MAKE_COUNSEL_TYPE, MAKE_COUNSEL_REALM)
+		VALUES
+			(#{makeCounselSeq}, #{type}, #{value})
+	</insert>
+
+	<update id="getUserMakeCounselUpdate" parameterType="MakeCounsel">
+		UPDATE MAKE_COUNSEL
+		SET MAKE_COUNSEL_TITLE = #{title}
+		, MAKE_COUNSEL_ITEM_INTRODUCTION = #{itemIntroduction}
+		, MAKE_COUNSEL_PRODUCT_DETAIL = #{productDetail}
+		, MAKE_COUNSEL_PROCESS = #{process}
+		, MAKE_COUNSEL_PRODUCT_OVERVIEW = #{productOverview}
+		WHERE MAKE_COUNSEL_SEQ = #{makeCounselSeq}
+	</update>
+
+	<delete id="removeUserMakeCounselDetail" parameterType="Integer">
+		DELETE FROM MAKE_COUNSEL_REALM WHERE MAKE_COUNSEL_SEQ = #{makeCounselSeq}
+	</delete>
+
+
+</mapper>

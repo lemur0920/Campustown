@@ -1,0 +1,1527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.startHpMngr.service.StartHpMngrMapper">
+
+
+	<resultMap type="StartHpMngr" id="startHpMngrCompResultMap">
+		<id column="COMP_ID"			property="compId"			javaType="String" />
+		<result column="RN"				property="rn"				javaType="Integer" />
+		<result column="UNIV_ID"		property="univId"			javaType="String" />
+		<result column="UNIV_NM"		property="univNm"			javaType="String" />
+		<result column="COMP_NM"		property="compNm"			javaType="String" />
+		<result column="COMP_TEL"		property="compTel"			javaType="String" />
+		<result column="INDUTY"			property="induty"			javaType="String" />
+		<result column="BSNS_REALM"		property="bsnsRealm"		javaType="String" />
+		<result column="INTRST_REALM"	property="intrstRealm"		javaType="String" />
+		<result column="FOND_DT"		property="fondDt"			javaType="String" />
+		<result column="ADDRESS"		property="address"			javaType="String" />
+		<result column="EMP_CNT"		property="empCnt"			javaType="String" />
+		<result column="FILE_ID1"		property="fileId1"			javaType="String" />
+		<result column="FILE1_ALT_TEXT"	property="file1AltText"		javaType="String" />
+		<result column="FILE_ID2"		property="fileId2"			javaType="String" />
+		<result column="MENT"			property="ment"				javaType="String" />
+		<result column="SNS_FACE"		property="snsFace"			javaType="String" />
+		<result column="SNS_TWIT"		property="snsTwit"			javaType="String" />
+		<result column="SNS_BLOG"		property="snsBlog"			javaType="String" />
+		<result column="SNS_HP"			property="snsHp"			javaType="String" />
+		<result column="SNS_INSTA"		property="snsInsta"			javaType="String" />
+		<result column="SNS_KAKAO"		property="snsKakao"			javaType="String" />
+		<result column="VSN"			property="vsn"				javaType="String" />
+		<result column="INTRCN"			property="intrcn"			javaType="String" />
+		<result column="MAIN_SVC"		property="mainSvc"			javaType="String" />
+		<result column="PR_MSSAGE"		property="prMssage"			javaType="String" />
+		<result column="AREA_GU_CD"		property="areaGuCd"			javaType="String" />
+		<result column="EXPSR_YN"		property="expsrYn"			javaType="String" />
+		<result column="RPRSNTV_YN"		property="rprsntvYn"		javaType="String" />
+		<result column="DEL_YN"			property="delYn"			javaType="String" />
+		<result column="REG_ID"			property="regId"			javaType="String" />
+		<result column="REG_NM"			property="regNm"			javaType="String" />
+		<result column="REG_DT"			property="regDt"			javaType="String" />
+		<result column="UPD_ID"			property="updId"			javaType="String" />
+		<result column="UPD_NM"			property="updNm"			javaType="String" />
+		<result column="UPD_DT"			property="updDt"			javaType="String" />
+		<result column="DEL_ID"			property="delId"			javaType="String" />
+		<result column="DEL_NM"			property="delNm"			javaType="String" />
+		<result column="DEL_DT"			property="delDt"			javaType="String" />
+		<result column="BA_CNT"			property="baCnt"			javaType="Integer" />
+		<result column="CMT_CNT"		property="cmtCnt"			javaType="Integer" />
+		<result column="SCORE"			property="score"			javaType="Integer" />
+		<result column="EMP_NM"			property="empNm"           	javaType="String" typeHandler="CryptoStringTypeHandler" />
+	</resultMap>
+	
+	<resultMap type="StartHpMngr" id="activeIdxResultMap">
+		<id column="INDEX_ID"			property="indexId"		javaType="Integer"/>
+		<result column="COMP_ID"		property="compId"       javaType="String" /> 
+		<result column="SESN_YEAR"		property="sesnYear"  	javaType="String" /> 
+		<result column="CARDI_NUM"		property="cardiNum"     javaType="String" /> 
+		<result column="SALE_AMT"		property="saleAmt"      javaType="String" /> 
+		<result column="INVT_AMT"		property="invtAmt"      javaType="String" /> 
+		<result column="EMPLY_CNT"		property="emplyCnt"     javaType="String" /> 
+		<result column="INTELL_PROP"	property="intellProp"   javaType="String" /> 
+		<result column="DEL_YN"			property="delYn"        javaType="String" /> 
+		<result column="REG_ID"			property="regId"        javaType="String" /> 
+		<result column="REG_NM"			property="regNm"        javaType="String" /> 
+		<result column="REG_DT"			property="regDt"        javaType="String" /> 
+		<result column="UPD_ID"			property="updId"        javaType="String" /> 
+		<result column="UPD_NM"			property="updNm"        javaType="String" /> 
+		<result column="UPD_DT"			property="updDt"        javaType="String" /> 
+		<result column="DEL_ID"			property="delId"        javaType="String" /> 
+		<result column="DEL_NM"			property="delNm"        javaType="String" /> 
+		<result column="DEL_DT"			property="delDt"        javaType="String" /> 
+	</resultMap>
+	
+	<resultMap type="StartHpMngr" id="compEmpInfoResultMap">
+		<id column="EMP_ID"						property="empId"				javaType="Integer"/>
+		<result column="COMP_ID"				property="compId"				javaType="String" />
+		<result column="COMP_NM"				property="compNm"            	javaType="String" />
+		<result column="EMP_NM"					property="empNm"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="OFCPS"					property="ofcps"            	javaType="String" />
+		<result column="RPRSNTV_YN"				property="rprsntvYn"        	javaType="String" />
+		<result column="CHRG_JOB"				property="chrgJob"        		javaType="String" />
+		<result column="TEL"					property="tel"              	javaType="String" />
+		<result column="TEL_EXPSR_YN"			property="telExpsrYn"     		javaType="String" />
+		<result column="FILE_ID3"				property="fileId3"          	javaType="String" />
+		<result column="PHONE"					property="phone"            	javaType="String" typeHandler="CryptoStringTypeHandler"/>
+		<result column="PHONE_EXPSR_YN"			property="phoneExpsrYn"     	javaType="String" />
+		<result column="EMAIL"					property="email"            	javaType="String" typeHandler="CryptoStringTypeHandler"/>
+		<result column="EMAIL_EXPSR_YN"			property="emailExpsrYn"     	javaType="String" />
+		<result column="SEOUL_ID"				property="seoulId"          	javaType="String" />
+		<result column="SEOUL_ID_MSG_EXPSR_YN"	property="seoulIdMsgExpsrYn"	javaType="String" />
+		<result column="EXPSR_YN"				property="expsrYn"          	javaType="String" />
+		<result column="DEL_YN"					property="delYn"            	javaType="String" />
+		<result column="REG_ID"					property="regId"            	javaType="String" />
+		<result column="REG_NM"					property="regNm"            	javaType="String" />
+		<result column="REG_DT"					property="regDt"            	javaType="String" />
+		<result column="UPD_ID"					property="updId"            	javaType="String" />
+		<result column="UPD_NM"					property="updNm"            	javaType="String" />
+		<result column="UPD_DT"					property="updDt"            	javaType="String" />
+		<result column="DEL_ID"					property="delId"            	javaType="String" />
+		<result column="DEL_NM"					property="delNm"            	javaType="String" />
+	</resultMap>
+	
+	<resultMap type="StartHpMngr" id="compActiveJoinMap">
+		<id column="COMP_ID"					property="compId"				javaType="String" />
+		<result column="UNIV_ID"				property="univId"				javaType="String" />
+		<result column="UNIV_NM"				property="univNm"				javaType="String" />
+		<result column="FILE_ID1"				property="fileId1"          	javaType="String" />
+		<result column="FILE1_ALT_TEXT"			property="file1AltText" 	    javaType="String" />
+		<result column="FILE_ID2"				property="fileId2"          	javaType="String" />
+		<result column="COMP_NM"				property="compNm"            	javaType="String" />
+		<result column="MENT"					property="ment"					javaType="String" />
+		<result column="BSNS_REALM"				property="bsnsRealm"			javaType="String" />
+		<result column="INTRST_REALM"			property="intrstRealm"			javaType="String" />
+		<result column="SNS_FACE"				property="snsFace"				javaType="String" />
+		<result column="SNS_TWIT"				property="snsTwit"				javaType="String" />
+		<result column="SNS_BLOG"				property="snsBlog"				javaType="String" />
+		<result column="SNS_HP"					property="snsHp"				javaType="String" />
+		<result column="SNS_INSTA"				property="snsInsta"				javaType="String" />
+		<result column="SNS_KAKAO"				property="snsKakao"				javaType="String" />
+		<result column="EMP_NM"					property="empNm"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="UPD_DT"					property="updDt"            	javaType="String" />
+		<result column="REG_DT"					property="regDt"            	javaType="String" />
+		<result column="SALE_AMT"				property="saleAmt"      		javaType="String" /> 
+		<result column="INVT_AMT"				property="invtAmt"      		javaType="String" /> 
+		<result column="EMPLY_CNT"				property="emplyCnt"     		javaType="String" /> 
+		<result column="INTELL_PROP"			property="intellProp"   		javaType="String" />
+	</resultMap>
+
+	<resultMap type="StartHpMngr" id="univEmpJoinMap">
+		<id column="UNIV_ID"					property="univId"				javaType="String" />
+		<result column="COMP_ID"				property="compId"				javaType="String" />
+		<result column="COMP_TEL"				property="compTel"            	javaType="String" />
+		<result column="EMP_ID"					property="empId"				javaType="Integer"/>
+		<result column="INDUTY"					property="induty"            	javaType="String" />
+		<result column="BSNS_REALM"				property="bsnsRealm"            javaType="String" />
+		<result column="COMP_NM"				property="compNm"            	javaType="String" />
+		<result column="SNS_HP"					property="snsHp"				javaType="String" />
+		<result column="EMP_NM"					property="empNm"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="SEOUL_ID"				property="seoulId"          	javaType="String" />
+		<result column="SEOUL_ID_MSG_EXPSR_YN"	property="seoulIdMsgExpsrYn"	javaType="String" />
+		<result column="FOND_DT"				property="fondDt"				javaType="String" />
+		<!-- <result column="TEL"					property="tel"            		javaType="String" /> -->
+		<result column="TEL_EXPSR_YN"			property="telExpsrYn"     		javaType="String" />
+		<result column="PHONE"					property="phone"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="PHONE_EXPSR_YN"			property="phoneExpsrYn"     	javaType="String" />
+		<result column="EMAIL"					property="email"            	javaType="String" typeHandler="CryptoStringTypeHandler"/>
+		<result column="EMAIL_EXPSR_YN"			property="emailExpsrYn"     	javaType="String" />
+	</resultMap>
+	
+	<resultMap type="StartHpMngr" id="compEmpJoinMap">
+		<id column="UNIV_ID"					property="univId"				javaType="String" />
+		<result column="COMP_ID"				property="compId"				javaType="String" />
+		<result column="EMP_ID"					property="empId"				javaType="Integer"/>
+		<result column="BSNS_REALM"				property="bsnsRealm"			javaType="String" />
+		<result column="INDUTY"					property="induty"				javaType="String" />
+		<result column="AREA_GU_CD"				property="areaGuCd"				javaType="String" />
+		<result column="UNIV_NM"				property="univNm"            	javaType="String" />
+		<result column="EMP_NM"					property="empNm"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="FILE_ID3"				property="fileId3"          	javaType="String" />
+		<result column="OFCPS"					property="ofcps"            	javaType="String" />
+		<result column="RPRSNTV_YN"				property="rprsntvYn"            javaType="String" />
+		<result column="COMP_NM"				property="compNm"            	javaType="String" />
+		<result column="CHRG_JOB"				property="chrgJob"            	javaType="String" />
+		<result column="TEL"					property="tel"            		javaType="String" />
+		<result column="TEL_EXPSR_YN"			property="telExpsrYn"     		javaType="String" />
+		<result column="PHONE"					property="phone"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="PHONE_EXPSR_YN"			property="phoneExpsrYn"     	javaType="String" />
+		<result column="EMAIL"					property="email"            	javaType="String" typeHandler="CryptoStringTypeHandler"/>
+		<result column="EMAIL_EXPSR_YN"			property="emailExpsrYn"     	javaType="String" />
+		<result column="SEOUL_ID"				property="seoulId"          	javaType="String" />
+		<result column="SEOUL_ID_MSG_EXPSR_YN"	property="seoulIdMsgExpsrYn"	javaType="String" />
+		<result column="SNS_HP"					property="snsHp"				javaType="String" />
+	</resultMap>
+	
+	
+	
+	<resultMap type="StartHpMngr" id="activeIdxResultMap2">
+		<id column="COMP_ID"					property="compId"				javaType="String" />			
+		<result column="EXPSR_YN"				property="expsrYn"          	javaType="String" />
+		<result column="IDX_YEAR"				property="idxYear"         		javaType="String" />
+		<result column="CARDI_NUM"				property="cardiNum"     		javaType="String" />
+		<result column="FILE_ID1"				property="fileId1"          	javaType="String" />
+		<result column="FILE1_ALT_TEXT"			property="file1AltText"         javaType="String" />
+		<result column="COMP_NM"				property="compNm"            	javaType="String" />
+		<result column="EMP_NM"					property="empNm"            	javaType="String" typeHandler="CryptoStringTypeHandler" />
+		<result column="MENT"					property="ment"            		javaType="String" />
+		<result column="TOT_INVT_AMT"			property="totInvtAmt"           javaType="String" />
+		<result column="TOT_SALE_AMT"			property="totSaleAmt"           javaType="String" />
+		<result column="TOT_EMPLY_CNT"			property="totEmplyCnt"          javaType="String" />
+		<result column="TOT_INTELL_PROP"		property="totIntellProp"        javaType="String" />
+		<result column="IDX_UPD_DT"				property="idxUpdDt"            	javaType="String" />
+	</resultMap>
+	
+		
+	<sql id="startHpMngrCompCor">
+		start_com.COMP_ID
+		, start_com.UNIV_ID
+		, univ.UNIV_NM 
+		, start_com.COMP_NM
+		, start_com.COMP_TEL
+		, start_com.INDUTY
+		, start_com.BSNS_REALM
+		, start_com.INTRST_REALM
+		, start_com.FOND_DT
+		<!-- , start_com.ZIPCODE -->
+		, start_com.ADDRESS
+		, start_com.EMP_CNT
+		<!-- , start_com.ADDRESS_DETAIL -->
+		, start_com.FILE1 AS FILE_ID1
+		, start_com.FILE1_ALT_TEXT
+		, start_com.FILE2 AS FILE_ID2
+		, start_com.MENT
+		, start_com.SNS_FACE
+		, start_com.SNS_TWIT
+		, start_com.SNS_BLOG
+		, start_com.SNS_HP
+		, start_com.SNS_INSTA
+		, start_com.SNS_KAKAO
+		, start_com.VSN
+		, start_com.INTRCN
+		, start_com.MAIN_SVC
+		, start_com.PR_MSSAGE
+		, start_com.AREA_GU_CD
+		, start_com.EXPSR_YN
+		, (select RPRSNTV_YN from STARTUP_EXECUTIVES_INFO start_exe where start_exe.COMP_ID = start_com.COMP_ID and RPRSNTV_YN='Y') 
+      	  AS RPRSNTV_YN
+		, start_com.DEL_YN
+		, start_com.REG_ID
+		, start_com.REG_NM
+		, start_com.REG_DT
+		, start_com.UPD_ID
+		, start_com.UPD_NM
+		, start_com.UPD_DT
+		, start_com.DEL_ID
+		, start_com.DEL_NM
+		, start_com.DEL_DT
+	</sql>
+	
+	<sql id="activeIdxCor">
+		start_idx.INDEX_ID
+		, start_idx.COMP_ID
+		, start_idx.SESN_YEAR
+		, start_idx.CARDI_NUM
+		, start_idx.SALE_AMT
+		, start_idx.INVT_AMT
+		, start_idx.EMPLY_CNT
+		, start_idx.INTELL_PROP
+		, start_idx.DEL_YN
+		, start_idx.REG_ID
+		, start_idx.REG_NM
+		, start_idx.REG_DT
+		, start_idx.UPD_ID
+		, start_idx.UPD_NM
+		, start_idx.UPD_DT
+		, start_idx.DEL_ID
+		, start_idx.DEL_NM
+		, start_idx.DEL_DT
+	</sql>
+	
+	<sql id="compEmpInfoCor">
+		start_exe.EMP_ID					
+		, start_exe.COMP_ID	
+		, (SELECT UNIV_ID FROM STARTUP_COMPANY_INFO start_com WHERE start_com.COMP_ID = #{compId}) AS UNIV_ID
+		, (SELECT COMP_NM FROM STARTUP_COMPANY_INFO start_com WHERE start_com.COMP_ID = #{compId}) AS COMP_NM				
+		, start_exe.EMP_NM					
+		, start_exe.OFCPS				
+		, start_exe.RPRSNTV_YN				
+		, start_exe.CHRG_JOB 						
+		, start_exe.TEL						
+		, start_exe.TEL_EXPSR_YN			
+		, start_exe.FILE3 AS FILE_ID3				
+		, start_exe.PHONE					
+		, start_exe.PHONE_EXPSR_YN			
+		, start_exe.EMAIL					
+		, start_exe.EMAIL_EXPSR_YN			
+		, start_exe.SEOUL_ID				
+		, start_exe.SEOUL_ID_MSG_EXPSR_YN	
+		, start_exe.EXPSR_YN				
+		, start_exe.DEL_YN					
+		, start_exe.REG_ID					
+		, start_exe.REG_NM					
+		, start_exe.REG_DT					
+		, start_exe.UPD_ID					
+		, start_exe.UPD_NM					
+		, start_exe.UPD_DT					
+		, start_exe.DEL_ID					
+		, start_exe.DEL_NM	
+	</sql>
+	
+	
+	<!-- =============================================================== -->
+	<!-- =============================================================== -->
+
+	<!-- 관리자 화면 -->
+	
+	
+	<select id="selectStartHpMngrList" parameterType="StartHpMngrSearch" resultMap="startHpMngrCompResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>	
+			SELECT
+				<include refid="startHpMngrCompCor"/>
+			FROM STARTUP_COMPANY_INFO start_com
+			   , UNIVERSITY_INFO univ
+		   WHERE start_com.UNIV_ID = univ.UNIV_ID
+			 AND start_com.DEL_YN = 'N'
+			<if test="expsrYn != null and expsrYn != ''">
+				AND start_com.EXPSR_YN = #{expsrYn}
+		    </if>
+		    <if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+			 	AND TO_CHAR(TO_DATE(start_com.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDate} AND #{scRegEndDate} 
+			</if>
+			<if test="areaId != null and areaId != ''">
+				AND start_com.AREA_GU_CD = #{areaId}
+		    </if>
+			<if test="univId != null and univId != ''">
+				AND start_com.UNIV_ID = #{univId}
+		    </if>
+			<if test="compId != null and compId != ''">
+				AND start_com.COMP_ID = #{compId}
+		    </if>
+			<if test="expsrYnId != null and expsrYnId != ''">
+				AND start_com.EXPSR_YN = #{expsrYnId}
+		    </if>
+		    <if test="sv != null and sv != ''">
+				 <if test="sc == null or sc == ''">
+				 	AND(
+				 		univ.UNIV_NM  LIKE '%'||#{sv}||'%'
+				 		OR start_com.COMP_NM LIKE '%'||#{sv}||'%'
+				 	)
+				 </if>
+				 <if test="sc != null and sc != ''">
+				 	<if test="sc == 'univNm'">
+				 		AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+				 	</if>
+				 	<if test="sc == 'compNm'">
+				 		AND start_com.COMP_NM LIKE '%'||#{sv}||'%'
+				 	</if>
+				 </if>
+			</if>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				<if test="sortOrder == 'COMP_NM' or sortOrder == 'UPD_DT'">
+					ORDER BY start_com.${sortOrder} ${sortDirection}
+				</if>
+				<if test="sortOrder == 'UNIV_NM'">
+					ORDER BY univ.${sortOrder} ${sortDirection}
+				</if>
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				<!-- ORDER BY univ.UNIV_NM DESC -->
+				ORDER BY start_com.UPD_DT DESC
+			</if>
+			<if test="paging">	
+				) Z
+			)
+			<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+			</where>
+			</if>
+	</select>
+	
+	
+	<select id="selectStartHpMngrListTotal" parameterType="StartHpMngrSearch" resultType="Integer">
+	  SELECT COUNT(*) 
+		FROM STARTUP_COMPANY_INFO start_com
+		   , UNIVERSITY_INFO univ
+	   WHERE start_com.UNIV_ID = univ.UNIV_ID
+		 AND start_com.DEL_YN = 'N'
+			<if test="expsrYn != null and expsrYn != ''">
+				AND start_com.EXPSR_YN = #{expsrYn}
+		    </if>
+			<if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+			 	AND TO_CHAR(TO_DATE(start_com.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDate} AND #{scRegEndDate}
+			</if>
+			<if test="areaId != null and areaId != ''">
+				AND start_com.AREA_GU_CD = #{areaId}
+		    </if>
+			<if test="univId != null and univId != ''">
+					AND start_com.UNIV_ID = #{univId}
+		    </if>
+			<if test="compId != null and compId != ''">
+				AND start_com.COMP_ID = #{compId}
+		    </if>
+		    <if test="expsrYnId != null and expsrYnId != ''">
+				AND start_com.EXPSR_YN = #{expsrYnId}
+		    </if>
+		    <if test="sv != null and sv != ''">
+				 <if test="sc == null or sc == ''">
+				 	AND(
+				 		univ.UNIV_NM LIKE '%'||#{sv}||'%'
+				 		OR start_com.COMP_NM LIKE '%'||#{sv}||'%'
+				 	)
+				 </if>
+				 <if test="sc != null and sc != ''">
+				 	<if test="sc == 'univNm'">
+				 		AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+				 	</if>
+				 	<if test="sc == 'compNm'">
+				 		AND start_com.COMP_NM LIKE '%'||#{sv}||'%'
+				 	</if>
+				 </if>
+			</if>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				<if test="sortOrder == 'COMP_NM'">
+					ORDER BY start_com.${sortOrder} ${sortDirection}
+				</if>
+				<if test="sortOrder == 'UNIV_NM'">
+					ORDER BY univ.${sortOrder} ${sortDirection}
+				</if>
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY start_com.AREA_GU_CD DESC
+			</if>
+	</select>
+
+	
+	<select id="selectStartHpMngrCompInfo" parameterType="StartHpMngrSearch" resultMap="startHpMngrCompResultMap">
+		SELECT *
+		  FROM(
+			SELECT 
+				<include refid="startHpMngrCompCor"/>
+			FROM STARTUP_COMPANY_INFO start_com
+			   , UNIVERSITY_INFO univ
+		   WHERE start_com.UNIV_ID = univ.UNIV_ID
+		     AND start_com.DEL_YN = 'N'
+				<if test="scRegStartDate != null and scRegStartDate != '' and scRegEndDate != null and scRegEndDate != ''">
+				 	AND REG_DT BETWEEN #{scRegStartDate} AND #{scRegEndDate} 
+				 </if>
+				 <if test="areaId != null and areaId != ''">
+					AND start_com.AREA_GU_CD = #{areaId}
+				 </if>
+				<if test="univId != null and univId != ''">
+					AND start_com.UNIV_ID = #{univId}
+				</if>
+				<if test="compId != null and compId != ''">
+					AND start_com.COMP_ID = #{compId}
+				</if>
+				<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+				</if>
+				<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+					ORDER BY start_com.AREA_GU_CD DESC
+				</if>
+			)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<insert id="insertStartHpCompMngr" parameterType="StartHpMngr">
+		<selectKey keyProperty="compId" order="BEFORE" resultType="String">
+			SELECT STARTUP_COMPANY_INFO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO STARTUP_COMPANY_INFO (
+			COMP_ID
+			, UNIV_ID
+			, COMP_NM
+			, COMP_TEL
+			, INDUTY
+			, BSNS_REALM
+			, INTRST_REALM
+			, FOND_DT
+			<!-- , ZIPCODE -->
+			, ADDRESS
+			, EMP_CNT
+			<!-- , ADDRESS_DETAIL -->
+			, FILE1
+			, FILE1_ALT_TEXT
+			, FILE2
+			, MENT
+			, SNS_FACE
+			, SNS_TWIT
+			, SNS_BLOG
+			, SNS_HP
+			, SNS_INSTA
+			, SNS_KAKAO
+			, VSN
+			, INTRCN
+			, MAIN_SVC
+			, PR_MSSAGE
+			, AREA_GU_CD
+			<!-- , EXPSR_YN -->
+			, REG_ID
+			, REG_NM
+			, REG_DT
+			, UPD_DT
+		) VALUES (
+			'team'||#{compId}
+			, #{univId}
+			, #{compNm}
+			, #{compTel}
+			, #{induty}
+			, #{bsnsRealm}
+			, #{intrstRealm}
+			, #{fondDt}
+			<!-- , #{zipcode, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler} -->
+			, #{address}
+			, #{empCnt}
+			<!-- , #{addressDetail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler} -->
+			, #{fileId1}
+			, #{file1AltText}
+			, #{fileId2}
+			, #{ment}
+			, #{snsFace}
+			, #{snsTwit}
+			, #{snsBlog}
+			, #{snsHp}
+			, #{snsInsta}
+			, #{snsKakao}
+			, #{vsn}
+			, #{intrcn}
+			, #{mainSvc}
+			, #{prMssage}
+			, #{areaGuCd}
+			<!-- , NVL(#{expsrYn}, 'N') -->
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	
+	<update id="updateStartHpCompMngr" parameterType="StartHpMngr">
+		UPDATE STARTUP_COMPANY_INFO
+		   SET
+			<if test="areaGuCd != null and areaGuCd != ''">
+				AREA_GU_CD		= #{areaGuCd}, 
+			</if>
+		    <if test="compNm != null and compNm != ''">
+				COMP_NM				= #{compNm}, 
+			</if>
+		    <if test="compTel != null">
+				COMP_TEL			= #{compTel}, 
+			</if>
+		    <if test="induty != null">
+				INDUTY			= #{induty}, 
+			</if>
+				BSNS_REALM		= #{bsnsRealm}, 
+				INTRST_REALM		= #{intrstRealm}, 
+			<if test="fondDt != null">
+				FOND_DT			= #{fondDt}, 
+			</if>
+			<if test="address != null">
+				ADDRESS			= #{address}, 
+			</if>
+			<if test="empCnt != null">
+				EMP_CNT			= #{empCnt}, 
+			</if>
+			<if test="fileId1 != null and fileId1 != ''">	
+				FILE1				= #{fileId1}, 
+			</if>
+			<if test="file1AltText != null and file1AltText != ''">
+				FILE1_ALT_TEXT	= #{file1AltText}, 
+			</if>
+			<if test="fileId2 != null and fileId2 != ''">
+				FILE2				= #{fileId2}, 
+			</if>
+			<if test="ment != null">
+				MENT				= #{ment}, 
+			</if>
+			<if test="snsFace != null">
+				SNS_FACE			= #{snsFace}, 
+			</if>
+			<if test="snsTwit != null">
+				SNS_TWIT			= #{snsTwit}, 
+			</if>
+			<if test="snsBlog != null">
+				SNS_BLOG			= #{snsBlog}, 
+			</if>
+			<if test="snsHp != null">
+				SNS_HP			= #{snsHp}, 
+			</if>
+			<if test="snsInsta != null">
+				SNS_INSTA		= #{snsInsta}, 
+			</if>
+			<if test="snsKakao != null">
+				SNS_KAKAO			= #{snsKakao}, 
+			</if>
+			<if test="vsn != null">
+				VSN				= #{vsn}, 
+			</if>
+			<if test="intrcn != null">
+				INTRCN			= #{intrcn}, 
+			</if>
+			<if test="mainSvc != null">			
+				MAIN_SVC			= #{mainSvc}, 
+			</if>
+			<if test="prMssage != null">
+				PR_MSSAGE			= #{prMssage}, 
+			</if>
+
+			<if test="expsrYn != null and expsrYn != ''">
+				EXPSR_YN			= #{expsrYn}, 
+			</if>
+			UPD_ID			= #{updId}, 
+			UPD_NM			= #{updNm}, 
+			UPD_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			COMP_ID			= #{compId}
+		AND UNIV_ID			= #{univId}
+		</where>
+	</update>
+	
+	
+	<select id="selectCompIdxMaxSeq" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT INDEX_ID
+	      FROM STARTUP_ACTIVITY_INDEX_INFO
+	     WHERE INDEX_ID = (SELECT MAX(INDEX_ID)AS INDEX_ID FROM STARTUP_ACTIVITY_INDEX_INFO)
+	        AND COMP_ID = #{compId}
+	</select>
+	
+	<select id="selectActiveIdxInfo" parameterType="StartHpMngrSearch" resultMap="activeIdxResultMap">
+		SELECT * 
+		  FROM STARTUP_ACTIVITY_INDEX_INFO
+		 WHERE COMP_ID = #{compId}
+		   AND INDEX_ID = #{indexId}
+	</select>
+	
+	
+	<insert id="insertActiveIdxInfo" parameterType="StartHpMngr">
+		<selectKey keyProperty="indexId" order="BEFORE" resultType="Integer">
+			SELECT START_ACTIVITY_INDEX_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO STARTUP_ACTIVITY_INDEX_INFO(
+			INDEX_ID
+			, COMP_ID
+			, SESN_YEAR
+			, CARDI_NUM
+			, SALE_AMT
+			, INVT_AMT
+			, EMPLY_CNT
+			, INTELL_PROP
+			, REG_ID
+			, REG_NM
+			, REG_DT
+		) VALUES (
+			#{indexId}
+			, #{compId2}
+			, #{sesnYear}
+			, #{cardiNum}
+			, NVL(#{saleAmt}, '0')
+			, NVL(#{invtAmt}, '0')
+			, NVL(#{emplyCnt}, '0')
+			, NVL(#{intellProp},'0')
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	<select id="selectActiveIdxInfoList" parameterType="StartHpMngrSearch" resultMap="activeIdxResultMap">
+		SELECT 
+			<include refid="activeIdxCor"/>
+		  FROM STARTUP_ACTIVITY_INDEX_INFO start_idx
+		 WHERE start_idx.COMP_ID = #{compId}
+		   AND start_idx.DEL_YN = 'N'
+		 ORDER BY SESN_YEAR DESC, CARDI_NUM DESC
+	</select>
+	
+	<update id="updateActiveIdxInfo" parameterType="StartHpMngr">
+		UPDATE STARTUP_ACTIVITY_INDEX_INFO
+		   SET
+		   <if test="saleAmt != null">
+		   SALE_AMT			= #{saleAmt}, 
+		   </if>
+		   <if test="invtAmt != null">
+		   INVT_AMT		= #{invtAmt}, 
+		   </if>
+		   <if test="emplyCnt != null">
+		   EMPLY_CNT 		= #{emplyCnt}, 
+		   </if>
+		   <if test="intellProp != null">
+		   INTELL_PROP	= #{intellProp}, 
+		   </if>
+		   UPD_ID			= #{updId}, 
+		   UPD_NM			= #{updNm}, 
+		   UPD_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>	   
+		   INDEX_ID			= #{indexId}
+		</where>    
+	</update>
+	<!-- 
+	<update id="deleteActiveIdxInfo" parameterType="StartHpMngr">
+		UPDATE STARTUP_ACTIVITY_INDEX_INFO
+		   SET
+		   DEL_YN			= 'Y'
+		   , DEL_ID			= #{delId}
+		   , DEL_NM			= #{delNm}
+		   , DEL_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>	   
+		   INDEX_ID			= #{indexId}
+		</where>
+	</update>
+	 -->
+	<update id="deleteActiveIdxInfo" parameterType="StartHpMngr">
+		DELETE 
+		  FROM STARTUP_ACTIVITY_INDEX_INFO
+		<where>	   
+		   INDEX_ID			= #{indexId}
+		</where>
+	</update>
+
+ 
+	<select id="selectEmpRprsnInfo" parameterType="StartHpMngrSearch" resultMap="compEmpInfoResultMap">
+		SELECT
+			<include refid="compEmpInfoCor"/>
+		  FROM STARTUP_EXECUTIVES_INFO start_exe
+		 WHERE start_exe.COMP_ID = #{compId}
+		   AND start_exe.DEL_YN = 'N'
+		   AND start_exe.RPRSNTV_YN = 'Y'
+	</select>
+	
+
+	<select id="selectEmpssList" parameterType="StartHpMngrSearch" resultMap="compEmpInfoResultMap">
+		SELECT
+			<include refid="compEmpInfoCor"/>
+		  FROM STARTUP_EXECUTIVES_INFO start_exe
+		 WHERE start_exe.COMP_ID = #{compId}
+		   AND start_exe.DEL_YN = 'N'
+		   <if test="rprsntvYn != null and rprsntvYn != ''">
+		   AND start_exe.RPRSNTV_YN = #{rprsntvYn}
+		   </if>
+		 ORDER BY EMP_ID			 
+	</select>
+	
+	
+	<insert id="insertStartHpEmpMngr" parameterType="StartHpMngr">
+		<selectKey keyProperty="empId" order="BEFORE" resultType="Integer">
+			SELECT STARTUP_EXECUTIVES_INFO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO STARTUP_EXECUTIVES_INFO (
+			EMP_ID					
+			, COMP_ID					
+			, EMP_NM					
+			, OFCPS					
+			, RPRSNTV_YN
+			, CHRG_JOB				
+			, TEL						
+			, TEL_EXPSR_YN			
+			, FILE3		
+			, PHONE					
+			, PHONE_EXPSR_YN			
+			, EMAIL					
+			, EMAIL_EXPSR_YN			
+			, SEOUL_ID				
+			, SEOUL_ID_MSG_EXPSR_YN	
+			, REG_ID					
+			, REG_NM					
+			, REG_DT
+			, EXPSR_YN
+		) VALUES (
+			#{empId}
+			, #{compId}
+			, #{empNm, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{ofcps}
+			, #{rprsntvYn}
+			, #{chrgJob}
+			, #{tel}
+			, NVL(#{telExpsrYn}, 'N')
+			, #{fileId3}
+			, #{phone, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, NVL(#{phoneExpsrYn}, 'N')
+			, #{email, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, NVL(#{emailExpsrYn}, 'N')
+			, #{seoulId}
+			, NVL(#{seoulIdMsgExpsrYn}, 'N')
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+			, NVL(#{expsrYn}, 'N')
+		)
+	</insert>
+	
+	<update id="updateStartHpCompMngrEmp" parameterType="StartHpMngr">
+		update STARTUP_EXECUTIVES_INFO
+		   set
+		   <if test="empNm != null and empNm != ''">
+			EMP_NM					= #{empNm, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}, 
+			</if>
+			<if test="ofcps != null">
+			OFCPS					= #{ofcps}, 
+			</if>
+			<if test="rprsntvYn != null">
+			RPRSNTV_YN			= #{rprsntvYn}, 
+			</if>
+			<if test="tel != null">
+			TEL					= #{tel}, 
+			</if>
+			<if test="telExpsrYn != null and telExpsrYn != ''">
+			TEL_EXPSR_YN			= #{telExpsrYn}, 
+			</if>
+			<if test="fileId3 != null and fileId3 != ''">
+			FILE3					= #{fileId3}, 
+			</if>
+			<if test="chrgJob != null">
+			CHRG_JOB				= #{chrgJob}, 
+			</if>
+			<if test="phone != null">
+			PHONE					= #{phone, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}, 
+			</if>
+			<if test="phoneExpsrYn != null and phoneExpsrYn != ''">
+			PHONE_EXPSR_YN		= #{phoneExpsrYn}, 
+			</if>
+			<if test="email != null">
+			EMAIL					= #{email, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}, 
+			</if>
+			<if test="emailExpsrYn != null and emailExpsrYn != ''">
+			EMAIL_EXPSR_YN		= #{emailExpsrYn}, 
+			</if>
+			<if test="seoulId != null">
+			SEOUL_ID				= #{seoulId}, 
+			</if>
+			<if test="seoulIdMsgExpsrYn != null and seoulIdMsgExpsrYn != ''">
+			SEOUL_ID_MSG_EXPSR_YN	= #{seoulIdMsgExpsrYn}, 
+			</if>
+			<if test="expsrYn != null">
+			EXPSR_YN				= #{expsrYn}, 
+			</if>
+			UPD_ID				= #{updId}, 
+			UPD_NM				= #{updNm}, 
+			UPD_DT				= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			COMP_ID 				= #{compId}
+		AND	EMP_ID					= #{empId}
+		</where>   
+	</update>
+	
+	<select id="selectCompEmpMaxSeq" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT EMP_ID
+		  FROM STARTUP_EXECUTIVES_INFO
+		 WHERE EMP_ID = (SELECT MAX(EMP_ID)AS EMP_ID FROM STARTUP_EXECUTIVES_INFO where RPRSNTV_YN<![CDATA[ <> ]]>'Y')
+		   AND COMP_ID = #{compId}
+	</select>
+	
+	
+	<select id="selectEmpInfo" parameterType="StartHpMngrSearch" resultMap="compEmpInfoResultMap">
+		SELECT
+			<include refid="compEmpInfoCor"/>
+		  FROM STARTUP_EXECUTIVES_INFO start_exe
+		 WHERE start_exe.COMP_ID = #{compId}
+		   AND start_exe.EMP_ID  = #{empId}
+		   AND start_exe.DEL_YN  = 'N'
+	</select>	
+	
+	<update id="deleteStartHpCompMngrEmp" parameterType="StartHpMngr">
+	   DELETE 
+	     FROM STARTUP_EXECUTIVES_INFO
+		  <where>	   
+		   	 COMP_ID 		= #{compId}
+		 AND EMP_ID			= #{empId}
+		</where>
+	</update>
+	
+	
+	<!-- =============================================================== -->
+	<!-- =============================================================== -->
+
+	<!-- 사용자 화면 -->
+	
+	<select id="selectStartHpCompTeamSumList" parameterType="StartHpMngrSearch" resultMap="compActiveJoinMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z2.* FROM(
+		</if>	
+			SELECT * FROM
+			   ( SELECT start_com.COMP_ID
+			           , start_com.UNIV_ID
+			           , (SELECT UNIV_NM FROM UNIVERSITY_INFO univ WHERE univ.UNIV_ID =start_com.UNIV_ID) 
+        				 AS UNIV_NM 
+			           , start_com.FILE1 AS FILE_ID1
+			           , start_com.FILE1_ALT_TEXT
+			           , start_com.FILE2 AS FILE_ID2
+			           , start_com.COMP_NM
+			           , start_com.MENT
+			           , start_com.BSNS_REALM
+			           , start_com.INTRST_REALM
+			           , start_com.SNS_FACE
+				       , start_com.SNS_TWIT
+				       , start_com.SNS_BLOG
+				       , start_com.SNS_HP
+				       , start_com.SNS_INSTA
+				       , start_com.SNS_KAKAO
+				       , start_com.AREA_GU_CD
+			           , (SELECT EMP_NM 
+			                FROM startup_executives_info start_exe
+			               WHERE start_exe.COMP_ID = start_com.COMP_ID
+			                 AND RPRSNTV_YN='Y') as EMP_NM
+			           , start_com.UPD_DT
+			           , start_com.REG_DT
+			           , NVL(SUM(start_idx.SALE_AMT), '0') as SALE_AMT
+			           , NVL(SUM(start_idx.INVT_AMT), '0') as INVT_AMT
+			           , NVL(SUM(start_idx.EMPLY_CNT), '0') as EMPLY_CNT
+			           , NVL(SUM(start_idx.INTELL_PROP), '0') as INTELL_PROP
+			      FROM STARTUP_COMPANY_INFO start_com
+			         , STARTUP_ACTIVITY_INDEX_INFO start_idx
+			    WHERE start_com.COMP_ID = start_idx.COMP_ID (+)
+			      AND start_com.DEL_YN = 'N'
+			      AND start_com.EXPSR_YN = 'Y' 
+		     	GROUP BY start_com.COMP_ID
+		              , start_com.UNIV_ID
+		              , start_com.FILE1
+		              , start_com.FILE1_ALT_TEXT
+		              , start_com.FILE2
+		              , start_com.COMP_NM
+		              , start_com.MENT 
+		              , start_com.BSNS_REALM
+		              , start_com.INTRST_REALM
+		              , start_com.SNS_FACE
+				      , start_com.SNS_TWIT
+				      , start_com.SNS_BLOG
+				      , start_com.SNS_HP
+				      , start_com.SNS_INSTA
+				      , start_com.SNS_KAKAO
+		              , start_com.UPD_DT 
+		              , start_com.REG_DT
+		              , start_com.AREA_GU_CD) Z
+	              WHERE 1 = 1
+				   <if test="compId != null and compId != ''">
+				   		AND Z.COMP_ID = #{compId}	
+				   </if>     
+				   <if test="bsnsRealm != null and bsnsRealm != ''">
+				   		AND Z.BSNS_REALM = #{bsnsRealm}	
+				   </if>
+				   <if test="areaId != null and areaId != ''">
+					    AND Z.AREA_GU_CD = #{areaId}
+				   </if>     
+				   <if test="sv != null and sv != ''">
+						<if test="sc == null or sc == ''">
+							AND (
+								Z.COMP_NM LIKE '%'||#{sv}||'%'
+								OR Z.UNIV_NM LIKE '%'||#{sv}||'%'
+								OR Z.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							)
+						</if>
+						<if test="sc != null and sc != ''">
+							<if test="sc == 'compNm'">
+								AND Z.COMP_NM LIKE '%'||#{sv}||'%'
+							</if>
+							<if test="sc == 'univNm'">
+								AND Z.UNIV_NM LIKE '%'||#{sv}||'%'
+							</if>
+							<if test="sc == 'empNm'">
+								AND Z.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							</if>
+						</if>
+				   </if>
+				   <if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+						ORDER BY Z.${sortOrder} ${sortDirection}
+					</if>
+					<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+						ORDER BY Z.COMP_NM DESC
+					</if>
+		<if test="paging">	
+				) Z2
+			)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectStartHpCompTeamSumListTotal" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT COUNT(*) FROM
+		   ( SELECT start_com.COMP_ID
+		           , start_com.UNIV_ID 
+		           , (SELECT UNIV_NM FROM UNIVERSITY_INFO univ WHERE univ.UNIV_ID =start_com.UNIV_ID) 
+        			 AS UNIV_NM
+		           , start_com.FILE1 AS FILE_ID1
+		           , start_com.FILE2 AS FILE_ID2
+		           , start_com.COMP_NM
+		           , start_com.MENT
+		           , start_com.BSNS_REALM
+		           , start_com.INTRST_REALM
+		           , start_com.SNS_FACE
+				   , start_com.SNS_TWIT
+			       , start_com.SNS_BLOG
+			       , start_com.SNS_HP
+			       , start_com.AREA_GU_CD
+		           , (SELECT EMP_NM 
+		                FROM startup_executives_info start_exe
+		               WHERE start_exe.COMP_ID = start_com.COMP_ID
+		                 AND RPRSNTV_YN='Y') as EMP_NM
+		           , start_com.UPD_DT     
+		           , start_com.REG_DT     
+		           , SUM(start_idx.SALE_AMT) as SALE_AMT
+		           , SUM(start_idx.INVT_AMT) as INVT_AMT
+		           , SUM(start_idx.EMPLY_CNT) as EMPLY_CNT
+		           , SUM(start_idx.INTELL_PROP) as INTELL_PROP
+		      FROM STARTUP_COMPANY_INFO start_com
+		         , STARTUP_ACTIVITY_INDEX_INFO start_idx
+		    WHERE start_com.COMP_ID = start_idx.COMP_ID (+)
+		      AND start_com.DEL_YN='N'
+		      AND start_com.EXPSR_YN = 'Y'
+		      GROUP BY start_com.COMP_ID
+		             , start_com.UNIV_ID
+		             , start_com.FILE1
+		             , start_com.FILE2
+		             , start_com.COMP_NM
+		             , start_com.MENT 
+		             , start_com.BSNS_REALM
+		             , start_com.INTRST_REALM
+		             , start_com.SNS_FACE
+					 , start_com.SNS_TWIT
+				     , start_com.SNS_BLOG
+				     , start_com.SNS_HP
+		             , start_com.UPD_DT
+		             , start_com.REG_DT
+		             , start_com.AREA_GU_CD) Z
+			<where>
+			   <if test="compId != null and compId != ''">
+			   		Z.COMP_ID = #{compId}
+			   </if> 
+			   <if test="bsnsRealm != null and bsnsRealm != ''">
+			   		Z.BSNS_REALM = #{bsnsRealm}
+			   </if>
+			   <if test="areaId != null and areaId != ''">
+				    AND Z.AREA_GU_CD = #{areaId}
+			   </if>
+			   <if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							Z.COMP_NM LIKE '%'||#{sv}||'%'
+							OR Z.UNIV_NM LIKE '%'||#{sv}||'%'
+							OR Z.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'compNm'">
+							AND Z.COMP_NM LIKE '%'||#{sv}||'%'
+						</if>
+						<if test="sc == 'univNm'">
+							AND Z.UNIV_NM LIKE '%'||#{sv}||'%'
+						</if>
+						<if test="sc == 'empNm'">
+							AND Z.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						</if>
+					</if>
+			   </if>
+			</where> 
+	</select>  	
+	
+	<select id="selectStartHpCompEmpssSumList" parameterType="StartHpMngrSearch" resultMap="compEmpJoinMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+				SELECT univ.UNIV_ID
+				       , start_com.COMP_ID 
+				       , start_exe.EMP_ID
+				       , start_com.BSNS_REALM
+				       , start_com.INDUTY
+				       , univ.AREA_GU_CD
+				       , univ.UNIV_NM
+				       , start_exe.EMP_NM
+				       , start_exe.FILE3 AS FILE_ID3
+				       , start_exe.OFCPS
+				       , start_exe.RPRSNTV_YN
+				       , start_com.COMP_NM
+				       , start_exe.CHRG_JOB
+				       <!-- , start_exe.TEL -->
+				       <!-- , start_exe.TEL_EXPSR_YN -->
+				       , start_com.COMP_TEL
+				       , start_exe.PHONE
+				       , start_exe.PHONE_EXPSR_YN
+				       , start_exe.EMAIL
+				       , start_exe.EMAIL_EXPSR_YN
+				       , start_exe.SEOUL_ID
+				       , start_exe.SEOUL_ID_MSG_EXPSR_YN
+				       , start_com.SNS_HP
+				  FROM STARTUP_COMPANY_INFO start_com
+				     , UNIVERSITY_INFO univ
+				     , STARTUP_EXECUTIVES_INFO start_exe
+				 <where>
+				 	   start_com.UNIV_ID  = univ.UNIV_ID
+				   AND start_com.COMP_ID  = start_exe.COMP_ID
+				   AND start_com.DEL_YN   = 'N'	   
+				   AND start_com.EXPSR_YN = 'Y'  	 <!-- 회사 노출유무 eq 'Y' -->
+				   AND start_exe.DEL_YN   = 'N'    	 <!-- 임직원 정보 삭제유무 eq 'N' -->
+				   <!-- AND start_exe.EXPSR_YN = 'Y' -->  	 <!-- 임직원 정보 삭제유무 eq 'Y' --> 
+				   <if test="compId != null and compId != ''">
+				   		AND start_com.COMP_ID = #{compId}	
+				   </if>
+				   <if test="expsrYn != null and expsrYn != ''">
+				   		AND start_exe.EXPSR_YN = #{expsrYn}	<!-- 임직원 정보 노출유무 -->
+				   </if>
+				   <if test="areaId != null and areaId != ''">
+				   		AND univ.AREA_GU_CD = #{areaId}	
+				   </if>
+				   <if test="bsnsRealm != null and bsnsRealm != ''">
+				   		AND start_com.BSNS_REALM = #{bsnsRealm}	
+				   </if>
+				   <if test="rprsntvYn != null and rprsntvYn != ''">
+				   		AND start_exe.RPRSNTV_YN = #{rprsntvYn}	
+				   </if>
+				   <if test="sv != null and sv != ''">
+						<if test="sc == null or sc == ''">
+							AND (
+								univ.UNIV_NM LIKE '%'||#{sv}||'%'
+								OR start_exe.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+								OR start_com.COMP_NM LIKE '%'||#{sv}||'%'
+								<!-- OR start_exe.TEL LIKE '%'||#{sv}||'%' -->
+								OR start_exe.PHONE = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+								OR start_exe.EMAIL = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler} 
+							)
+						</if>
+						<if test="sc != null and sc != ''">
+							<if test="sc == 'univNm'">
+								AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+							</if>
+							<if test="sc == 'empNm'">
+								AND start_exe.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							</if>
+							<if test="sc == 'compNm'">
+								AND start_com.COMP_NM LIKE '%'||#{sv}||'%'
+							</if>
+							<if test="sc == 'compTel'">
+								AND start_com.COMP_TEL LIKE '%'||#{sv}||'%'
+							</if>
+							<!-- 
+							<if test="sc == 'tel'">
+								AND start_exe.TEL LIKE '%'||#{sv}||'%'
+							</if>
+							 -->
+							<if test="sc == 'phone'">
+								AND start_exe.PHONE = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							</if>
+							<if test="sc == 'email'">
+								AND start_exe.EMAIL = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							</if>
+						</if>
+				   </if>
+				 </where>    
+		<if test="paging">	
+				) Z
+			)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectStartHpCompEmpssSumListTotal" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM STARTUP_COMPANY_INFO start_com
+		     , UNIVERSITY_INFO univ
+		     , STARTUP_EXECUTIVES_INFO start_exe
+		 <where>
+			 	   start_com.UNIV_ID  = univ.UNIV_ID
+			   AND start_com.COMP_ID  = start_exe.COMP_ID
+			   AND start_com.DEL_YN   = 'N'
+			   AND start_com.EXPSR_YN = 'Y'  	 <!-- 회사 노출유무 eq 'Y' -->
+			   AND start_exe.DEL_YN   = 'N'    	 <!-- 임직원 정보 삭제유무 eq 'N' -->
+			   <!-- AND start_exe.EXPSR_YN = 'Y' -->  	 <!-- 임직원 정보 노출유무 eq 'Y' -->
+			   <if test="compId != null and compId != ''">
+			   		AND start_com.COMP_ID = #{compId}	
+			   </if>
+			   <if test="expsrYn != null and expsrYn != ''">
+			   		AND start_exe.EXPSR_YN = #{expsrYn}	<!-- 임직원 정보 노출유무 -->
+			   </if>
+			   <if test="areaId != null and areaId != ''">
+			   		AND univ.AREA_GU_CD = #{areaId}	
+			   </if>
+			   <if test="bsnsRealm != null and bsnsRealm != ''">
+			   		AND start_com.BSNS_REALM = #{bsnsRealm}	
+			   </if>
+			   <if test="rprsntvYn != null and rprsntvYn != ''">
+				   		AND start_exe.RPRSNTV_YN = #{rprsntvYn}	
+			   </if>
+			   <if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							univ.UNIV_NM LIKE '%'||#{sv}||'%'
+							OR start_exe.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							OR start_com.COMP_NM LIKE '%'||#{sv}||'%'
+							<!-- OR start_exe.TEL LIKE '%'||#{sv}||'%' -->
+							OR start_exe.PHONE = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+							OR start_exe.EMAIL = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler} 
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'univNm'">
+							AND univ.UNIV_NM LIKE '%'||#{sv}||'%'
+						</if>
+						<if test="sc == 'empNm'">
+							AND start_exe.EMP_NM = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						</if>
+						<if test="sc == 'compNm'">
+							AND start_com.COMP_NM LIKE '%'||#{sv}||'%'
+						</if>
+						<if test="sc == 'compTel'">
+							AND start_com.COMP_TEL LIKE '%'||#{sv}||'%'
+						</if>
+						<!-- 
+						<if test="sc == 'tel'">
+							AND start_exe.TEL LIKE '%'||#{sv}||'%'
+						</if>
+						 -->
+						<if test="sc == 'phone'">
+							AND start_exe.PHONE = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						</if>
+						<if test="sc == 'email'">
+							AND start_exe.EMAIL = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						</if>
+					</if>
+			   </if>
+			 </where>   
+	</select>	
+	
+	<select id="selectEmpRprsnList" parameterType="StartHpMngrSearch" resultMap="univEmpJoinMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+				SELECT start_comp.UNIV_ID
+				     , start_comp.COMP_ID
+				     , start_comp.COMP_TEL
+				     , start_exe.EMP_ID
+				     , start_comp.INDUTY
+				     , start_comp.BSNS_REALM
+				     , start_comp.COMP_NM
+				     , start_comp.SNS_HP
+				     , start_exe.EMP_NM
+				     , start_exe.SEOUL_ID
+				     , start_exe.SEOUL_ID_MSG_EXPSR_YN
+				     , start_comp.FOND_DT
+				     <!-- , start_exe.TEL -->
+				     , start_exe.TEL_EXPSR_YN
+				     , start_exe.PHONE
+				     , start_exe.PHONE_EXPSR_YN
+				     , start_exe.EMAIL
+				     , start_exe.EMAIL_EXPSR_YN
+				  FROM UNIVERSITY_INFO univ
+				     , STARTUP_COMPANY_INFO start_comp
+				     , STARTUP_EXECUTIVES_INFO start_exe
+				 WHERE univ.UNIV_ID = start_comp.UNIV_ID
+				   AND start_comp.COMP_ID = start_exe.COMP_ID
+				   AND start_comp.EXPSR_YN= 'Y'
+				   AND start_comp.DEL_YN = 'N'
+      			   AND start_exe.RPRSNTV_YN  = 'Y'
+				   AND univ.UNIV_ID = #{univId}
+				 ORDER BY start_comp.COMP_NM
+		<if test="paging">	
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectEmpRprsnListTotal" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT count(*)
+		  FROM UNIVERSITY_INFO univ
+		     , STARTUP_COMPANY_INFO start_comp
+		     , STARTUP_EXECUTIVES_INFO start_exe
+		 WHERE univ.UNIV_ID = start_comp.UNIV_ID
+		   AND start_comp.COMP_ID = start_exe.COMP_ID
+		    AND start_comp.EXPSR_YN= 'Y'
+		   AND start_comp.DEL_YN = 'N'
+      	   AND start_exe.RPRSNTV_YN  = 'Y'
+		   AND univ.UNIV_ID = #{univId}
+	</select>	
+	
+	<select id="selectStartHpCompActIdxList" parameterType="StartHpMngrSearch" resultMap="activeIdxResultMap2">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z2.* FROM(
+		</if>
+			SELECT COMP_ID
+				 , START_COMP_DEL_YN
+			     , EXPSR_YN
+			     , IDX_YEAR
+			     , CARDI_NUM
+			     , FILE_ID1
+			     , FILE1_ALT_TEXT
+			     , COMP_NM
+			     , EMP_NM
+			     , MENT
+			     , TOT_INVT_AMT
+			     , TOT_SALE_AMT
+			     , TOT_EMPLY_CNT 
+			     , TOT_INTELL_PROP
+			     , NVL2(NAX_UPD_DT, NAX_UPD_DT, COMP_REG_DT) AS IDX_UPD_DT
+			  FROM
+			    (
+				    SELECT start_idx.COMP_ID
+				    	 , (SELECT START_COMP.DEL_YN FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS START_COMP_DEL_YN 
+				         , start_idx.SESN_YEAR AS IDX_YEAR
+				         , start_idx.CARDI_NUM
+				         , (SELECT start_comp.FILE1 FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS FILE_ID1
+				         , (SELECT start_comp.FILE1_ALT_TEXT FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS FILE1_ALT_TEXT
+				         , (SELECT start_comp.EXPSR_YN FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS EXPSR_YN
+				         , (SELECT start_comp.COMP_NM FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS comp_nm
+				         , (SELECT start_exe.EMP_NM FROM STARTUP_EXECUTIVES_INFO start_exe WHERE start_idx.COMP_ID = start_exe.COMP_ID AND start_exe.RPRSNTV_YN='Y') AS EMP_NM
+				         , (SELECT start_comp.MENT FROM STARTUP_COMPANY_INFO start_comp where start_idx.COMP_ID = start_comp.COMP_ID) as ment
+				         , NVL(SUM(start_idx.INVT_AMT), '0') TOT_INVT_AMT
+				         , NVL(SUM(start_idx.SALE_AMT), '0') TOT_SALE_AMT
+				         , NVL(SUM(start_idx.EMPLY_CNT), '0')TOT_EMPLY_CNT
+				         , NVL(SUM(start_idx.INTELL_PROP), '0') TOT_INTELL_PROP
+				         , MAX(start_idx.UPD_DT) AS NAX_UPD_DT   <!-- 활동지수 수정일 -->
+				         , (SELECT REG_DT FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS COMP_REG_DT  <!-- 회사정보 수정일 -->    
+				      FROM STARTUP_ACTIVITY_INDEX_INFO start_idx 
+				     WHERE DEL_YN='N'
+				  GROUP BY start_idx.COMP_ID, start_idx.SESN_YEAR, start_idx.CARDI_NUM
+				    HAVING start_idx.SESN_YEAR = #{sesnYear} AND start_idx.CARDI_NUM = #{cardiNum}
+			    ) Z
+		     WHERE EXPSR_YN = 'Y'
+		       AND START_COMP_DEL_YN = 'N'
+		     <if test="sortOrder != null and sortOrder != ''">
+		       ORDER BY ${sortOrder} DESC 
+		     </if>
+		<if test="paging">	
+			) Z2
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	
+	
+	<select id="selectStartHpCompActIdxListTotal" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT COUNT(*)
+			  FROM
+			    (
+				    SELECT start_idx.COMP_ID
+				             , (SELECT START_COMP.DEL_YN FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS START_COMP_DEL_YN
+				             , start_idx.SESN_YEAR AS IDX_YEAR
+				             , start_idx.CARDI_NUM
+				             , (SELECT START_COMP.FILE1 from STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS FILE_ID1
+				             , (SELECT start_comp.EXPSR_YN FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS EXPSR_YN
+				             , (SELECT start_comp.COMP_NM FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS comp_nm
+				             , (SELECT start_exe.EMP_NM FROM STARTUP_EXECUTIVES_INFO start_exe WHERE start_idx.COMP_ID = start_exe.COMP_ID AND start_exe.RPRSNTV_YN='Y') AS EMP_NM
+				             , (SELECT MENT from STARTUP_COMPANY_INFO start_comp where start_idx.COMP_ID = start_comp.COMP_ID) as ment
+				             , SUM(start_idx.INVT_AMT) TOT_INVT_AMT
+				             , SUM(start_idx.SALE_AMT) TOT_SALE_AMT
+				             , SUM(start_idx.EMPLY_CNT)TOT_EMPLY_CNT
+				             , SUM(start_idx.INTELL_PROP) TOT_INTELL_PROP
+				             , MAX(start_idx.UPD_DT) AS NAX_UPD_DT   <!-- 활동지수 수정일 -->
+				             , (SELECT REG_DT FROM STARTUP_COMPANY_INFO start_comp WHERE start_idx.COMP_ID = start_comp.COMP_ID) AS COMP_REG_DT  <!-- 회사정보 수정일 -->    
+				        FROM STARTUP_ACTIVITY_INDEX_INFO start_idx 
+				       WHERE DEL_YN='N'
+				    GROUP BY start_idx.COMP_ID, start_idx.SESN_YEAR, start_idx.CARDI_NUM
+				      HAVING start_idx.SESN_YEAR = #{sesnYear} AND start_idx.CARDI_NUM = #{cardiNum}
+			    ) Z
+		  WHERE EXPSR_YN = 'Y'
+		    AND START_COMP_DEL_YN = 'N'
+		  <if test="sortOrder != null and sortOrder != ''">
+		  ORDER BY ${sortOrder} DESC 
+		  </if>
+	</select>
+	
+	<update id="deleteStartHpMngr" parameterType="StartHpMngr">
+		UPDATE STARTUP_COMPANY_INFO
+		   SET 
+		   DEL_YN = 'Y'
+		 , DEL_ID			= #{delId}
+	  	 , DEL_NM			= #{delNm}
+	  	 , DEL_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			COMP_ID = #{compId}
+		</where>
+	</update>
+	
+	
+	<select id="selectStartHomepageRankList" parameterType="StartHpMngrSearch" resultMap="startHpMngrCompResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+				SCI.*
+				, SCI.FILE1 AS FILE_ID1
+				, NVL(BA.BOARD_CNT,0) AS BA_CNT 
+				, NVL(CMT.COMMENT_CNT,0) AS CMT_CNT
+				, (NVL(BA.BOARD_CNT,0) * 5 + NVL(CMT.COMMENT_CNT,0)) AS SCORE
+				, (SELECT ECT.EMP_NM FROM STARTUP_EXECUTIVES_INFO ECT WHERE SCI.COMP_ID = ECT.COMP_ID AND ECT.RPRSNTV_YN='Y') AS EMP_NM
+			FROM STARTUP_COMPANY_INFO SCI
+			LEFT JOIN
+				(SELECT TEAM_ID, COUNT(*) AS BOARD_CNT  
+				FROM ASA_BOARD_ARTICLE
+				<where>
+					TO_CHAR(BA_REGDATE,'YYYY') = #{searchYear}
+					AND TO_CHAR(BA_REGDATE,'MM') = #{searchMonth}
+					AND BA_USE = 1
+					AND TEAM_ID IS NOT NULL
+				</where>
+				GROUP BY TEAM_ID
+				) BA ON SCI.COMP_ID = BA.TEAM_ID
+			LEFT JOIN
+				(SELECT 
+					ADM.ADMIN_TEAM
+					, COUNT(*) AS COMMENT_CNT
+				FROM
+					(SELECT CMT_USER_ID
+					FROM ASA_COMMENT 
+					<where>
+						TO_CHAR(CMT_REGDATE,'YYYY') = #{searchYear}
+						AND TO_CHAR(CMT_REGDATE,'MM') = #{searchMonth}
+						AND CMT_MODULE = 'board'
+						AND CMT_STATUS = 'APPROVED'
+					</where>
+					) TCMT
+				LEFT JOIN ASA_ADMIN_MEMBER ADM ON TCMT.CMT_USER_ID = ADM.ADMIN_ID
+				<where>
+					ADM.ADMIN_TEAM IS NOT NULL
+				</where>
+				GROUP BY ADM.ADMIN_TEAM) CMT ON SCI.COMP_ID = CMT.ADMIN_TEAM
+			<where>
+				DEL_YN = 'N'
+				AND EXPSR_YN = 'Y'
+			</where> 
+			ORDER BY SCORE DESC
+		<if test="paging">	
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		<if test="compId != null and compId != ''">
+			AND COMP_ID = #{compId}
+		</if>
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectStartHomepageRank" parameterType="StartHpMngrSearch" resultMap="startHpMngrCompResultMap">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+			SELECT 
+				SCI.*
+				, NVL(BA.BOARD_CNT,0) AS BA_CNT 
+				, NVL(CMT.COMMENT_CNT,0) AS CMT_CNT
+				, (NVL(BA.BOARD_CNT,0) * 5 + NVL(CMT.COMMENT_CNT,0)) AS SCORE
+				, (SELECT ECT.EMP_NM FROM STARTUP_EXECUTIVES_INFO ECT WHERE SCI.COMP_ID = ECT.COMP_ID AND ECT.RPRSNTV_YN='Y') AS EMP_NM
+			FROM STARTUP_COMPANY_INFO SCI
+			LEFT JOIN
+				(SELECT TEAM_ID, COUNT(*) AS BOARD_CNT  
+				FROM ASA_BOARD_ARTICLE
+				<where>
+					TO_CHAR(BA_REGDATE,'YYYY') = #{searchYear}
+					AND TO_CHAR(BA_REGDATE,'MM') = #{searchMonth}
+					AND BA_USE = 1
+					AND TEAM_ID IS NOT NULL
+				</where>
+				GROUP BY TEAM_ID
+				) BA ON SCI.COMP_ID = BA.TEAM_ID
+			LEFT JOIN
+				(SELECT 
+					ADM.ADMIN_TEAM
+					, COUNT(*) AS COMMENT_CNT
+				FROM
+					(SELECT CMT_USER_ID
+					FROM ASA_COMMENT 
+					<where>
+						TO_CHAR(CMT_REGDATE,'YYYY') = #{searchYear}
+						AND TO_CHAR(CMT_REGDATE,'MM') = #{searchMonth}
+						AND CMT_MODULE = 'board'
+						AND CMT_STATUS = 'APPROVED'
+					</where>
+					) TCMT
+				LEFT JOIN ASA_ADMIN_MEMBER ADM ON TCMT.CMT_USER_ID = ADM.ADMIN_ID
+				<where>
+					ADM.ADMIN_TEAM IS NOT NULL
+				</where>
+				GROUP BY ADM.ADMIN_TEAM) CMT ON SCI.COMP_ID = CMT.ADMIN_TEAM
+			<where>
+				DEL_YN = 'N'
+				AND EXPSR_YN = 'Y'
+			</where> 
+			ORDER BY SCORE DESC
+			) Z
+		) 
+		<where>
+			COMP_ID = #{compId}
+		</where>
+	</select>
+	
+	<select id="selectYearListByBoard" parameterType="StartHpMngrSearch" resultType="java.util.LinkedHashMap">
+		SELECT TO_CHAR(BA_REGDATE,'YYYY') AS SEARCH_YEAR
+		FROM ASA_BOARD_ARTICLE
+		<where>
+			BA_USE = 1
+			AND TEAM_ID IS NOT NULL
+		</where> 
+		GROUP BY TO_CHAR(BA_REGDATE,'YYYY')
+		ORDER BY SEARCH_YEAR DESC
+	</select>
+	
+	<select id="selectMonthListByBoard" parameterType="StartHpMngrSearch" resultType="java.util.LinkedHashMap">
+		SELECT TO_CHAR(BA_REGDATE,'MM') AS SEARCH_MONTH
+		FROM ASA_BOARD_ARTICLE
+		<where>
+			BA_USE = 1
+			AND TEAM_ID IS NOT NULL
+			AND TO_CHAR(BA_REGDATE,'YYYY') = #{searchYear}
+		</where> 
+		GROUP BY TO_CHAR(BA_REGDATE,'MM')
+		ORDER BY SEARCH_MONTH ASC
+	</select>
+	
+	<select id="selectCompEmpInfo" parameterType="StartHpMngrSearch" resultType="Integer">
+		SELECT COUNT(DISTINCT(COMP_ID))
+		  FROM STARTUP_EXECUTIVES_INFO
+		 WHERE COMP_ID = #{compId}
+	</select>
+	
+	<update id="updateCompUpdDt" parameterType="StartHpMngrSearch">
+		UPDATE STARTUP_COMPANY_INFO 
+		   SET
+		   UPD_ID				= #{updId}, 
+		   UPD_NM				= #{updNm}, 
+		   UPD_DT				= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			COMP_ID 			= #{compId} 
+		</where>
+	</update>
+	
+	<update id="updateCompExpsr" parameterType="StartHpMngrSearch">
+		UPDATE STARTUP_COMPANY_INFO 
+		   SET
+		   EXPSR_YN ='Y'
+		<where>
+			COMP_ID 			= #{compId} 
+		</where>
+	</update>
+		
+</mapper>

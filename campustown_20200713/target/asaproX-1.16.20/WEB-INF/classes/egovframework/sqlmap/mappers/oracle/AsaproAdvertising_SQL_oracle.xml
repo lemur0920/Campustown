@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.archive.customtype.advertising.service.AdvertisingMapper">
+	
+	<resultMap type="Advertising" id="advertisingPlainResultMap" extends="egovframework.com.asapro.archive.service.ArchiveMapper.archiveComplexResultMap">
+		<result column="ADT_MANUFACTURE_YEAR" property="adtManufactureYear" javaType="String" />
+		<result column="ADT_PRODUCER" property="adtProducer" javaType="String" />	
+		<result column="ADT_DIRECTOR" property="adtDirector" javaType="String" />
+		<result column="ADT_BACK_MUSIC" property="adtBackMusic" javaType="String" />
+		<result column="ADT_PLAN_INTENTION" property="adtPlanIntertion" javaType="String" />
+		<result column="ADT_COMPOSITION" property="adtComposition" javaType="String" />
+		<result column="ADT_PRODUCTION_REVIEW" property="adtProductionReview" javaType="String" />
+		<result column="ADT_TV_CF" property="adtTvCf" javaType="String" />
+		<result column="ADT_RADIO_CF" property="adtRadioCf" javaType="String" />
+		<result column="ADT_VIDEO" property="adtVideo" javaType="Integer" />
+		<result column="ADT_RADIO" property="adtRadio" javaType="Integer" />
+		<result column="ADT_MEDIA" property="adtMedia" javaType="String" />
+		<result column="ADT_AWARD_TYPE" property="adtAwardType" javaType="String" />
+		<result column="ADT_WINNER" property="adtWinner" javaType="String" />
+		<result column="ADT_UCC_URL" property="adtUccUrl" javaType="String" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+	</resultMap>
+	
+	<resultMap type="Advertising" id="advertisingComplexResultMap" extends="advertisingPlainResultMap">
+		<association property="videoFileInfo" column="{fileId=ADT_VIDEO, sitePrefix=SITE_PREFIX}" javaType="FileInfo" select="egovframework.com.asapro.fileinfo.service.FileInfoMapper.selectFileInfo"/>
+		<association property="radioFileInfo" column="{fileId=ADT_RADIO, sitePrefix=SITE_PREFIX}" javaType="FileInfo" select="egovframework.com.asapro.fileinfo.service.FileInfoMapper.selectFileInfo"/>
+	</resultMap>
+
+
+	<sql id="advertisingPlainColumns">
+		ARC_ID
+		, ADT_MANUFACTURE_YEAR
+		, ADT_PRODUCER
+		, ADT_DIRECTOR
+		, ADT_BACK_MUSIC
+		, ADT_PLAN_INTENTION
+		, ADT_COMPOSITION
+		, ADT_PRODUCTION_REVIEW
+		, ADT_TV_CF
+		, ADT_RADIO_CF
+		, ADT_VIDEO
+		, ADT_RADIO
+		, ADT_MEDIA
+		, ADT_AWARD_TYPE
+		, ADT_WINNER
+		, ADT_UCC_URL
+	</sql>
+			
+	<sql id="advertisingJoinColumns">
+		ADT.ARC_ID AS ADT_ARC_ID
+		, ADT.ADT_MANUFACTURE_YEAR
+		, ADT.ADT_PRODUCER
+		, ADT.ADT_DIRECTOR
+		, ADT.ADT_BACK_MUSIC
+		, ADT.ADT_PLAN_INTENTION
+		, ADT.ADT_COMPOSITION
+		, ADT.ADT_PRODUCTION_REVIEW
+		, ADT.ADT_TV_CF
+		, ADT.ADT_RADIO_CF
+		, ADT.ADT_VIDEO
+		, ADT.ADT_RADIO
+		, ADT.ADT_MEDIA
+		, ADT.ADT_AWARD_TYPE
+		, ADT.ADT_WINNER
+		, ADT.ADT_UCC_URL
+	</sql>
+	
+	
+	<!-- ====================================================================================================== -->
+	<!-- ==========================================		광고자료	 ================================================= -->
+	<!-- ====================================================================================================== -->
+	
+	<select id="selectAdvertisingList" parameterType="AdvertisingSearch" resultMap="advertisingComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="egovframework.com.asapro.archive.service.ArchiveMapper.archiveJoinColumns"/>
+				,<include refid="advertisingJoinColumns" />
+				, #{sitePrefix} AS SITE_PREFIX
+				, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+	  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+			FROM 
+			${sitePrefix}_ARCHIVE ARC
+			RIGHT OUTER JOIN ${sitePrefix}_ADVERTISING ADT ON ARC.ARC_ID = ADT.ARC_ID
+			LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+			LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+			<where>
+				ARC.ARC_CUSTOM_TYPE = 'advertising'
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							ARC_TITLE LIKE '%'||#{sv}||'%'
+							OR ARC_CONTENT LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						AND ${sc} LIKE '%'||#{sv}||'%'
+					</if>
+				</if>
+				<if test="arcCategory != null and arcCategory != ''">
+					AND ARC.ARC_CATEGORY = #{arcCategory}
+				</if>
+				<if test="arcTag != null and arcTag != ''">
+					AND ARC.ARC_TAG LIKE '%'||#{arcTag}||'%'
+				</if>
+				
+				<!-- 
+				<if test="meta1Array != null and meta1Array != ''">
+					AND
+					<foreach collection="meta1Array" item="meta1" separator="OR" open="(" close=")">
+						ARC.ARC_META_CODE1 LIKE '%'||#{meta1}||'%'
+					</foreach>
+				</if>
+				<if test="meta2Array != null and meta2Array != ''">
+					AND
+					<foreach collection="meta2Array" item="meta2" separator="OR" open="(" close=")">
+						ARC.ARC_META_CODE2 LIKE '%'||#{meta2}||'%'
+					</foreach>
+				</if>
+				<if test="meta3Array != null and meta3Array != ''">
+					AND
+					<foreach collection="meta3Array" item="meta3" separator="OR" open="(" close=")">
+						ARC.ARC_META_CODE3 LIKE '%'||#{meta3}||'%'
+					</foreach>
+				</if>
+				 -->
+				
+				
+				<if test="metaCode1 != null and metaCode1 != ''">
+					AND ARC.ARC_META_CODE1 = #{metaCode1}
+				</if>
+				<if test="metaCode2 != null and metaCode2 != ''">
+					AND ARC.ARC_META_CODE2 = #{metaCode2}
+				</if>
+				<if test="metaCode3 != null and metaCode3 != ''">
+					AND ARC.ARC_META_CODE3 = #{metaCode3}
+				</if>
+				
+				 
+				<if test="arcYear != null and arcYear != ''">
+					AND ARC.ARC_YEAR = #{arcYear}
+				</if>
+				<if test="arcAdvertiser != null and arcAdvertiser != ''">
+					AND ARC.ARC_ADVERTISER LIKE '%'||#{arcAdvertiser}||'%'
+				</if>
+				<if test="arcProduct != null and arcProduct != ''">
+					AND ARC.ARC_PRODUCT LIKE '%'||#{arcProduct}||'%'
+				</if>
+				<if test="arcActor != null and arcActor != ''">
+					AND ARC.ARC_ACTOR LIKE '%'||#{arcActor}||'%'
+				</if>
+				<if test="arcMedia != null and arcMedia != ''">
+					AND ARC.ARC_MEDIA LIKE '%'||#{arcMedia}||'%'
+				</if>
+				
+				<if test="adtManufactureYear != null and adtManufactureYear != ''">
+					AND ADT.ADT_MANUFACTURE_YEAR = #{adtManufactureYear}
+				</if>
+				
+				
+				<if test="arcUse != null">
+					AND ARC.ARC_USE = #{arcUse}
+				</if>
+				<if test="arcSelected1 != null">
+					AND ARC.ARC_SELECTED1 = #{arcSelected1}
+				</if>
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY ARC.ARC_ID DESC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectAdvertisingListTotal" parameterType="AdvertisingSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_ARCHIVE ARC
+		RIGHT OUTER JOIN ${sitePrefix}_ADVERTISING ADT ON ARC.ARC_ID = ADT.ARC_ID
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+		<where>
+			ARC.ARC_CUSTOM_TYPE = 'advertising'
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						ARC_TITLE LIKE '%'||#{sv}||'%'
+						OR ARC_CONTENT LIKE '%'||#{sv}||'%'
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE '%'||#{sv}||'%'
+				</if>
+			</if>
+			<if test="arcCategory != null and arcCategory != ''">
+				AND ARC.ARC_CATEGORY = #{arcCategory}
+			</if>
+			<if test="arcTag != null and arcTag != ''">
+				AND ARC.ARC_TAG LIKE '%'||#{arcTag}||'%'
+			</if>
+			
+			<!-- 
+			<if test="meta1Array != null and meta1Array != ''">
+				AND
+				<foreach collection="meta1Array" item="meta1" separator="OR" open="(" close=")">
+					ARC.ARC_META_CODE1 LIKE '%'||#{meta1}||'%'
+				</foreach>
+			</if>
+			<if test="meta2Array != null and meta2Array != ''">
+				AND
+				<foreach collection="meta2Array" item="meta2" separator="OR" open="(" close=")">
+					ARC.ARC_META_CODE2 LIKE '%'||#{meta2}||'%'
+				</foreach>
+			</if>
+			<if test="meta3Array != null and meta3Array != ''">
+				AND
+				<foreach collection="meta3Array" item="meta3" separator="OR" open="(" close=")">
+					ARC.ARC_META_CODE3 LIKE '%'||#{meta3}||'%'
+				</foreach>
+			</if>
+			 -->
+			
+			
+			<if test="metaCode1 != null and metaCode1 != ''">
+				AND ARC.ARC_META_CODE1 = #{metaCode1}
+			</if>
+			<if test="metaCode2 != null and metaCode2 != ''">
+				AND ARC.ARC_META_CODE2 = #{metaCode2}
+			</if>
+			<if test="metaCode3 != null and metaCode3 != ''">
+				AND ARC.ARC_META_CODE3 = #{metaCode3}
+			</if>
+			
+			 
+			<if test="arcYear != null and arcYear != ''">
+				AND ARC.ARC_YEAR = #{arcYear}
+			</if>
+			<if test="arcAdvertiser != null and arcAdvertiser != ''">
+				AND ARC.ARC_ADVERTISER LIKE '%'||#{arcAdvertiser}||'%'
+			</if>
+			<if test="arcProduct != null and arcProduct != ''">
+				AND ARC.ARC_PRODUCT LIKE '%'||#{arcProduct}||'%'
+			</if>
+			<if test="arcActor != null and arcActor != ''">
+				AND ARC.ARC_ACTOR LIKE '%'||#{arcActor}||'%'
+			</if>
+			<if test="arcMedia != null and arcMedia != ''">
+				AND ARC.ARC_MEDIA LIKE '%'||#{arcMedia}||'%'
+			</if>
+			
+			<if test="adtManufactureYear != null and adtManufactureYear != ''">
+				AND ADT.ADT_MANUFACTURE_YEAR = #{adtManufactureYear}
+			</if>
+			
+			
+			<if test="arcUse != null">
+				AND ARC.ARC_USE = #{arcUse}
+			</if>
+			<if test="arcSelected1 != null">
+				AND ARC.ARC_SELECTED1 = #{arcSelected1}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertAdvertising" parameterType="Advertising">
+		INSERT INTO ${sitePrefix}_ADVERTISING (
+			<include refid="advertisingPlainColumns"/>
+		) VALUES (
+			#{arcId}
+			, #{adtManufactureYear}
+			, #{adtProducer}
+			, #{adtDirector}
+			, #{adtBackMusic}
+			, #{adtPlanIntertion}
+			, #{adtComposition}
+			, #{adtProductionReview}
+			, #{adtTvCf}
+			, #{adtRadioCf}
+			, #{videoFileInfo.fileId}
+			, #{radioFileInfo.fileId}
+			, #{adtMedia}
+			, #{adtAwardType}
+			, #{adtWinner}
+			, #{adtUccUrl}
+			
+		)
+	</insert>
+	
+	<select id="selectAdvertising" parameterType="Advertising" resultMap="advertisingComplexResultMap">
+		SELECT
+			<include refid="egovframework.com.asapro.archive.service.ArchiveMapper.archiveJoinColumns"/>
+			, <include refid="advertisingJoinColumns" />
+			, #{sitePrefix} AS SITE_PREFIX
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+		FROM 
+			${sitePrefix}_ARCHIVE ARC
+			RIGHT OUTER JOIN ${sitePrefix}_ADVERTISING ADT ON ARC.ARC_ID = ADT.ARC_ID
+			LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+			LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+		<where>
+			ARC.ARC_ID = #{arcId}
+		</where>
+	</select>
+	
+	<update id="updateAdvertising" parameterType="Advertising">
+		UPDATE ${sitePrefix}_ADVERTISING SET
+			ADT_MANUFACTURE_YEAR		=	#{adtManufactureYear}
+			, ADT_PRODUCER				=	#{adtProducer}
+			, ADT_DIRECTOR				=	#{adtDirector}
+			, ADT_BACK_MUSIC			=	#{adtBackMusic}
+			, ADT_PLAN_INTENTION		=	#{adtPlanIntertion}
+			, ADT_COMPOSITION			=	#{adtComposition}
+			, ADT_PRODUCTION_REVIEW		=	#{adtProductionReview}
+			, ADT_TV_CF					=	#{adtTvCf}
+			, ADT_RADIO_CF				=	#{adtRadioCf}
+			, ADT_VIDEO					=	#{videoFileInfo.fileId}
+			, ADT_RADIO					=	#{radioFileInfo.fileId}
+			, ADT_MEDIA					=	#{adtMedia}
+			, ADT_AWARD_TYPE			=	#{adtAwardType}
+			, ADT_WINNER				=	#{adtWinner}
+			, ADT_UCC_URL				=	#{adtUccUrl}
+		<where>
+			ARC_ID	=	#{arcId}
+		</where>
+	</update>
+	
+	<select id="selectYearList" parameterType="AdvertisingSearch" resultType="String">
+		SELECT 
+			DISTINCT ADT.ADT_MANUFACTURE_YEAR YEAR 
+		FROM 
+			${sitePrefix}_ARCHIVE ARC
+			RIGHT OUTER JOIN ${sitePrefix}_ADVERTISING ADT ON ARC.ARC_ID = ADT.ARC_ID
+		<where>
+			ARC.ARC_CATEGORY = #{arcCategory}
+		</where>
+			<!-- GROUP BY ADT.ADT_MANUFACTURE_YEAR -->
+			ORDER BY ADT.ADT_MANUFACTURE_YEAR DESC
+	</select>
+			
+</mapper>

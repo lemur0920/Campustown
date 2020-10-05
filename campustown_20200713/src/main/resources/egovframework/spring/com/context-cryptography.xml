@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!--
+		Additional configuration for Encryption & Decryption setting.
+		Referenced from http://www.egovframe.org/wiki/doku.php?id=egovframework:rte2:fdl:encryption_decryption
+		'hashedPassword' property of passwordEncoder bean is the result string of
+		'egovframework.rte.fdl.cryptography.EgovPasswordEncoder.main(new String[]{"SHA-256", "AsaproEgov"});'
+		
+		비번 : mastermaster -> G8Bzln9MJPAA0Pw0AGz43oN1Kp2P3mgnixjAM7u2jSw=	 	
+	-->
+	<bean id="passwordEncoder" class="egovframework.rte.fdl.cryptography.EgovPasswordEncoder">
+		<property name="algorithm" value="${crypto.password.algorithm}" /><!-- default : SHA-256 -->
+		<property name="hashedPassword" value="${crypto.hashed.password}" />
+	</bean>
+
+	<bean id="ARIACryptoService" class="egovframework.rte.fdl.cryptography.impl.EgovARIACryptoServiceImpl">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="blockSize" value="1024" /><!-- default : 1024 -->
+	</bean>
+	
+	<bean id="digestService" class="egovframework.rte.fdl.cryptography.impl.EgovDigestServiceImpl">
+		<property name="algorithm" value="SHA-256" /><!-- default : SHA-256 -->
+		<property name="plainDigest" value="false" /><!-- default : false -->
+	</bean>
+
+	<bean id="generalCryptoService" class="egovframework.rte.fdl.cryptography.impl.EgovGeneralCryptoServiceImpl">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="algorithm" value="PBEWithSHA1AndDESede" /><!-- default : PBEWithSHA1AndDESede -->
+		<property name="blockSize" value="1024" /><!-- default : 1024 -->
+	</bean>
+	
+	<bean id="aesCbc128CryptoService" class="egovframework.com.asapro.support.crypto.AesCbc128CryptoService">
+		<property name="keyValue" value="${crypto.aes.password}" />
+	</bean>
+</beans>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.content_statis.service.ContentStatisMapper">
+	
+	<resultMap type="ContentStatisDay" id="contentStatisDayPlainResultMap">
+		<result column="CS_MODIUL_CODE" property="csModiulCode" javaType="String" />
+		<result column="CS_MODIUL_SUB_CODE" property="csModiulSubCode" javaType="String" />
+		<result column="CS_CATE_CODE" property="csCateCode" javaType="String" />
+		<result column="CS_CONTENT_ID" property="csContentId" javaType="String" />
+		<result column="CS_YEAR" property="csYear" javaType="Integer" />
+		<result column="CS_MONTH" property="csMonth" javaType="Integer" />
+		<result column="CS_DAY" property="csDay" javaType="Integer" />
+		<result column="CS_COUNT" property="csCount" javaType="Integer" />
+		<result column="CS_WEEK_START" property="csWeekStart" javaType="String" />
+		<result column="CS_WEEK_END" property="csWeekEnd" javaType="String" />
+		<result column="WEEK_OF_YEAR_ISO" property="weekOfYearIso" javaType="String" />
+		<result column="WEEK_OF_MONTH" property="weekOfMonth" javaType="String" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+	</resultMap>
+	
+	<resultMap type="ContentStatis7" id="contentStatis7PlainResultMap">
+		<result column="CS_MODIUL_CODE" property="csModiulCode" javaType="String" />
+		<result column="CS_MODIUL_SUB_CODE" property="csModiulSubCode" javaType="String" />
+		<result column="CS_CATE_CODE" property="csCateCode" javaType="String" />
+		<result column="CS_CONTENT_ID" property="csContentId" javaType="String" />
+		<result column="CS_YEAR" property="csYear" javaType="Integer" />
+		<result column="CS_MONTH" property="csMonth" javaType="Integer" />
+		<result column="CS_DAY" property="csDay" javaType="Integer" />
+		<result column="CS_COUNT" property="csCount" javaType="Integer" />
+		<result column="CS_START_DAY" property="csStartDay" javaType="String" />
+		<result column="CS_END_DAY" property="csEndDay" javaType="String" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+	</resultMap>
+	
+	<resultMap type="ContentStatis30" id="contentStatis30PlainResultMap">
+		<result column="CS_MODIUL_CODE" property="csModiulCode" javaType="String" />
+		<result column="CS_MODIUL_SUB_CODE" property="csModiulSubCode" javaType="String" />
+		<result column="CS_CATE_CODE" property="csCateCode" javaType="String" />
+		<result column="CS_CONTENT_ID" property="csContentId" javaType="String" />
+		<result column="CS_YEAR" property="csYear" javaType="Integer" />
+		<result column="CS_MONTH" property="csMonth" javaType="Integer" />
+		<result column="CS_DAY" property="csDay" javaType="Integer" />
+		<result column="CS_COUNT" property="csCount" javaType="Integer" />
+		<result column="CS_START_DAY" property="csStartDay" javaType="String" />
+		<result column="CS_END_DAY" property="csEndDay" javaType="String" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+	</resultMap>
+	
+	
+	<sql id="contentStatisDayPlainColumns">
+		CS_MODIUL_CODE
+		, CS_MODIUL_SUB_CODE
+		, CS_CATE_CODE
+		, CS_CONTENT_ID
+		, CS_YEAR
+		, CS_MONTH
+		, CS_DAY
+		, CS_COUNT
+		, CS_WEEK_START
+		, CS_WEEK_END
+		, WEEK_OF_YEAR_ISO
+		, WEEK_OF_MONTH
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="contentStatis7PlainColumns">
+		CS_MODIUL_CODE
+		, CS_MODIUL_SUB_CODE
+		, CS_CATE_CODE
+		, CS_CONTENT_ID
+		, CS_YEAR
+		, CS_MONTH
+		, CS_DAY
+		, CS_COUNT
+		, CS_START_DAY
+		, CS_END_DAY
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="contentStatis30PlainColumns">
+		CS_MODIUL_CODE
+		, CS_MODIUL_SUB_CODE
+		, CS_CATE_CODE
+		, CS_CONTENT_ID
+		, CS_YEAR
+		, CS_MONTH
+		, CS_DAY
+		, CS_COUNT
+		, CS_START_DAY
+		, CS_END_DAY
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="boardArticleJoinColumns">
+		BA.BA_ID
+		, BA.BC_ID
+		, BA.BA_TITLE
+		, BA.BA_CONTENT_HTML
+		, BA.BA_CONTENT_PLAIN
+		, BA.BA_NOTICE
+		, BA.BA_NOTICE_STARTDATE
+		, BA.BA_NOTICE_ENDDATE
+		, BA.BA_SECRET
+		, BA.BA_SECRET_PASSWORD
+		, BA.BA_CATEGORY1
+		, BA.BA_CATEGORY2
+		, BA.BA_CATEGORY3
+		, BA.BA_STATUS
+		, BA.BA_CUSTOM_FIELD_1
+		, BA.BA_CUSTOM_FIELD_2
+		, BA.BA_CUSTOM_FIELD_3
+		, BA.BA_CUSTOM_FIELD_4
+		, BA.BA_CUSTOM_FIELD_5
+		, BA.BA_CUSTOM_FIELD_6
+		, BA.BA_CUSTOM_FIELD_7
+		, BA.BA_CUSTOM_FIELD_8
+		, BA.BA_CUSTOM_FIELD_9
+		, BA.BA_CUSTOM_FIELD_10
+		, BA.MEM_ID
+		, BA.BA_GUEST_NAME
+		, BA.BA_GUEST_PASSWORD
+		, BA.BA_EMAIL
+		, BA.BA_IP
+		, BA.BA_REGDATE
+		, BA.BA_LAST_MODIFIED
+		, BA.BA_UPDATER_ID
+<!-- 		, BA.BA_HIT
+		, BA.BA_RECOMMEND -->
+		, BA.BA_COMMENT_TOTAL
+		, BA.BA_NURI
+		, BA.BA_THUMB
+		, BA.BA_USE
+		, BA.BA_THUMB_TEXT
+		, BA.BA_ANSWER
+		, BA.DEP_ID
+		, BA.TEAM_ID
+		, BA.BA_MAIN_SELEC
+		, BA.BA_COM_SEL_CAT
+		, BA.BA_COMM_SELEC
+		, BA.BA_START_DATE
+		, BA.BA_START_TIME
+		, BA.BA_END_DATE
+	</sql>
+	
+	<!-- ======================================================================================== -->
+	<!-- ================================  콘텐츠별 추천통계  =============================================== -->
+	<!-- ======================================================================================== -->
+	<select id="selectContentStatisDay" parameterType="ContentStatisDay" resultMap="contentStatisDayPlainResultMap">
+		SELECT 
+			<include refid="contentStatisDayPlainColumns" />
+		FROM ASA_CONTENT_STATIS_DAY
+		<where>
+			CS_MODIUL_CODE				=	#{csModiulCode}
+			<if test="csModiulSubCode != null and csModiulSubCode != ''">
+				AND CS_MODIUL_SUB_CODE		=	#{csModiulSubCode}
+			</if>
+			<if test="csCateCode != null and csCateCode != ''">
+				AND CS_CATE_CODE			=	#{csCateCode}
+			</if>
+			AND CS_CONTENT_ID			=	#{csContentId}
+			AND CS_YEAR					=	#{csYear}
+			AND CS_MONTH				=	#{csMonth}
+			AND CS_DAY					=	#{csDay}
+			AND SITE_PREFIX				=	#{sitePrefix}
+		</where>
+	</select>
+	
+	<insert id="insertContentStatisDay" parameterType="ContentStatisDay">
+		INSERT INTO ASA_CONTENT_STATIS_DAY (
+			<include refid="contentStatisDayPlainColumns"/>
+		) VALUES (
+			#{csModiulCode}
+			, #{csModiulSubCode}
+			, #{csCateCode}
+			, #{csContentId}
+			, #{csYear}
+			, #{csMonth}
+			, #{csDay}
+			, #{csCount}
+			, #{csWeekStart}
+			, #{csWeekEnd}
+			, #{weekOfYearIso}
+			, #{weekOfMonth}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<update id="updateContentStatisDayCnt" parameterType="ContentStatisDay">
+		UPDATE ASA_CONTENT_STATIS_DAY SET
+			CS_COUNT = CS_COUNT + 1
+		<where>
+			CS_MODIUL_CODE				=	#{csModiulCode}
+			<if test="csModiulSubCode != null and csModiulSubCode != ''">
+				AND CS_MODIUL_SUB_CODE		=	#{csModiulSubCode}
+			</if>
+			<if test="csCateCode != null and csCateCode != ''">
+				AND CS_CATE_CODE			=	#{csCateCode}
+			</if>
+			AND CS_CONTENT_ID			=	#{csContentId}
+			AND CS_YEAR					=	#{csYear}
+			AND CS_MONTH				=	#{csMonth}
+			AND CS_DAY					=	#{csDay}
+			AND SITE_PREFIX				=	#{sitePrefix}
+		</where>
+		
+	</update>
+	
+	
+	<!-- ======================================================================================== -->
+	<!-- ================================ 베스트 콘텐츠   =============================================== -->
+	<!-- ======================================================================================== -->
+	
+	<select id="selectBoardBestInMonthList" parameterType="ContentStatisSearch" resultMap="egovframework.com.asapro.board.service.BoardMapper.boardArticleComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+	  			<include refid="boardArticleJoinColumns"/>
+	  			, CS30.CS_COUNT
+	  			<if test="csModiulSubCode != null and csModiulSubCode == 'hit'">
+					, CS30.CS_COUNT AS BA_HIT
+					, NVL((SELECT CS_COUNT FROM ASA_CONTENT_STATIS_30 
+						WHERE SITE_PREFIX = #{sitePrefix}
+						AND CS_MODIUL_CODE 		=	#{csModiulCode}
+						AND CS_MODIUL_SUB_CODE	=	'recommend'
+         				AND CS_YEAR 			=	#{csYear}
+						AND CS_MONTH 			=	#{csMonth}
+          				AND CS_CONTENT_ID = CS30.CS_CONTENT_ID), 0) AS BA_RECOMMEND
+				</if>
+	  			<if test="csModiulSubCode != null and csModiulSubCode == 'recommend'">
+					, CS30.CS_COUNT AS BA_RECOMMEND
+					, NVL((SELECT CS_COUNT FROM ASA_CONTENT_STATIS_30 
+						WHERE SITE_PREFIX = #{sitePrefix}
+						AND CS_MODIUL_CODE 		=	#{csModiulCode}
+						AND CS_MODIUL_SUB_CODE	=	'hit'
+         				AND CS_YEAR 			=	#{csYear}
+						AND CS_MONTH 			=	#{csMonth}
+          				AND CS_CONTENT_ID = CS30.CS_CONTENT_ID), 0) AS BA_HIT 
+				</if>
+	  			, #{sitePrefix} AS SITE_PREFIX
+	  			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+	  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+			FROM 
+			( SELECT * FROM ASA_CONTENT_STATIS_30 
+				<where>
+					SITE_PREFIX 			=	#{sitePrefix}
+					AND CS_MODIUL_CODE 		=	#{csModiulCode}
+					AND CS_MODIUL_SUB_CODE	=	#{csModiulSubCode}
+					<if test="csCateCode != null and csCateCode != ''">
+						AND CS_CATE_CODE	=	#{csCateCode}
+					</if>
+					AND CS_YEAR 			=	#{csYear}
+					AND CS_MONTH 			=	#{csMonth}
+				</where>
+			) CS30
+			LEFT JOIN ${sitePrefix}_BOARD_ARTICLE BA ON CS30.CS_CONTENT_ID = BA.BA_ID
+			LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON BA.MEM_ID = ADM.ADMIN_ID
+			LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BA.BA_THUMB = FI.FILE_ID
+			<where>
+				<if test="csCateCode != null and csCateCode != ''">
+					BA.BC_ID = #{csCateCode}
+				</if>
+				AND BA.BA_USE = 1
+			</where>
+			ORDER BY CS30.CS_COUNT DESC 
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+		
+	<select id="selectYearListBy30" parameterType="ContentStatisSearch" resultType="java.util.LinkedHashMap">
+		SELECT CS_YEAR
+		FROM ASA_CONTENT_STATIS_30
+		<where>
+			SITE_PREFIX 			=	#{sitePrefix}
+			AND CS_MODIUL_CODE 		=	#{csModiulCode}
+			AND CS_MODIUL_SUB_CODE	=	#{csModiulSubCode}
+			<if test="csCateCode != null and csCateCode != ''">
+				AND CS_CATE_CODE	=	#{csCateCode}
+			</if>
+		</where>
+		GROUP BY CS_YEAR
+		ORDER BY CS_YEAR DESC
+	</select>
+	
+	<select id="selectMonthListBy30" parameterType="ContentStatisSearch" resultType="java.util.LinkedHashMap">
+		SELECT CS_MONTH
+		FROM ASA_CONTENT_STATIS_30
+		<where>
+			SITE_PREFIX 			=	#{sitePrefix}
+			AND CS_MODIUL_CODE 		=	#{csModiulCode}
+			AND CS_MODIUL_SUB_CODE	=	#{csModiulSubCode}
+			<if test="csCateCode != null and csCateCode != ''">
+				AND CS_CATE_CODE	=	#{csCateCode}
+			</if>
+			AND CS_YEAR 			=	#{csYear}
+		</where>
+		GROUP BY CS_MONTH
+		ORDER BY CS_MONTH ASC
+	</select>
+	
+	
+	<!-- ======================================================================================== -->
+	<!-- ================================ 배치  =============================================== -->
+	<!-- ======================================================================================== -->
+	
+	<select id="selectCntContentMonth" parameterType="ContentStatisSearch" resultType="java.util.LinkedHashMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+				SELECT CS_CONTENT_ID, SUM(CS_COUNT) as CS_COUNT 
+				FROM ASA_CONTENT_STATIS_DAY
+				<where>
+					SITE_PREFIX 			=	#{sitePrefix}
+					AND CS_MODIUL_CODE 		=	#{csModiulCode}
+					AND CS_MODIUL_SUB_CODE	=	#{csModiulSubCode}
+					<if test="csCateCode != null and csCateCode != ''">
+						AND CS_CATE_CODE	=	#{csCateCode}
+					</if>
+					AND CS_YEAR 			=	#{csYear}
+					AND CS_MONTH 			=	#{csMonth}
+				</where>
+				GROUP BY CS_CONTENT_ID
+				ORDER BY CS_COUNT DESC 
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectModuleMonth" parameterType="ContentStatisSearch" resultType="java.util.LinkedHashMap">
+		SELECT CS_MODIUL_CODE 
+		FROM ASA_CONTENT_STATIS_DAY
+		<where>
+			SITE_PREFIX 			=	#{sitePrefix}
+			AND CS_YEAR 			=	#{csYear}
+			AND CS_MONTH 			=	#{csMonth}
+		</where>
+		GROUP BY CS_MODIUL_CODE
+	</select>
+	
+	<select id="selectSubModuleMonth" parameterType="ContentStatisSearch" resultType="java.util.LinkedHashMap">
+		SELECT CS_MODIUL_SUB_CODE 
+		FROM ASA_CONTENT_STATIS_DAY
+		<where>
+			SITE_PREFIX 			=	#{sitePrefix}
+			AND CS_MODIUL_CODE 		=	#{csModiulCode}
+			AND CS_YEAR 			=	#{csYear}
+			AND CS_MONTH 			=	#{csMonth}
+		</where>
+		GROUP BY CS_MODIUL_SUB_CODE
+	</select>
+	
+	<insert id="insertContentStatis30" parameterType="ContentStatis30">
+		INSERT INTO ASA_CONTENT_STATIS_30 (
+			<include refid="contentStatis30PlainColumns"/>
+		) VALUES (
+			#{csModiulCode}
+			, #{csModiulSubCode}
+			, #{csCateCode}
+			, #{csContentId}
+			, #{csYear}
+			, #{csMonth}
+			, #{csDay}
+			, #{csCount}
+			, #{csStartDay}
+			, #{csEndDay}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<delete id="deleteContentStatis30" parameterType="ContentStatis30">
+		DELETE FROM ASA_CONTENT_STATIS_30 
+		<where>
+			SITE_PREFIX 			=	#{sitePrefix}
+			AND CS_MODIUL_CODE 		=	#{csModiulCode}
+			AND CS_MODIUL_SUB_CODE	=	#{csModiulSubCode}
+			<if test="csCateCode != null and csCateCode != ''">
+				AND CS_CATE_CODE	=	#{csCateCode}
+			</if>
+			AND CS_YEAR 			=	#{csYear}
+			AND CS_MONTH 			=	#{csMonth}
+		</where>
+	</delete>
+	
+</mapper>

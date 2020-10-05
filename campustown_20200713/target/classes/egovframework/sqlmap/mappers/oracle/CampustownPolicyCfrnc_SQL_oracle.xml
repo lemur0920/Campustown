@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.policyCfrnc.service.PolicyCfrncMapper">
+	
+							
+	<resultMap type="PolicyCfrnc" id="policyCfrncMngrComplexResultMap" extends="policyCfrncMngrResultMap">
+		<collection property="poFileInfos" column="{fileModuleSubId=MNG_SEQ,sitePrefix=SITE_PREFIX}" javaType="ArrayList" ofType="FileInfo" select="selectPolicyCfrncFileInfoList" />
+	</resultMap>				
+	
+	<resultMap type="PolicyCfrnc" id="policyCfrncDtlResultMap">
+		<id column="DTL_SEQ"						property="dtlSeq"					javaType="Integer" />
+		<result column="MNG_SEQ"					property="mngSeq"					javaType="Integer" />
+		<result column="PRTN_DT"					property="prtnDt"					javaType="String" />
+		<result column="PRTN_MATTER"				property="prtnMatter"				javaType="String" />
+		<result column="RM"							property="rm"						javaType="String" />
+		<result column="DEL_YN"						property="delYn"        			javaType="String" /> 
+		<result column="REG_ID"						property="regId"        			javaType="String" /> 
+		<result column="REG_NM"						property="regNm"       		 		javaType="String" /> 
+		<result column="REG_DT"						property="regDt"      		  		javaType="String" /> 
+		<result column="UPD_ID"						property="updId"        			javaType="String" /> 
+		<result column="UPD_NM"						property="updNm"        			javaType="String" /> 
+		<result column="UPD_DT"						property="updDt"        			javaType="String" /> 
+		<result column="DEL_ID"						property="delId"        			javaType="String" /> 
+		<result column="DEL_NM"						property="delNm"        			javaType="String" /> 
+		<result column="DEL_DT"						property="delDt"        			javaType="String" /> 
+	</resultMap>
+	
+	
+	
+	<resultMap type="PolicyCfrnc" id="policyCfrncStatResultMap">
+		<result column="MANAGE_YEAR"				property="manageYear"				javaType="Integer" />
+		<result column="CARDI_NUM"					property="cardiNum"					javaType="Integer" />
+		<result column="MANAGE_ORDR"				property="manageOrdr"				javaType="Integer" />
+		<result column="STTUS"						property="sttus"					javaType="Integer" />
+		<result column="TOT_STTUS"					property="totSttus"					javaType="Integer" />
+		<result column="STTUS_LO"					property="sttusLo"					javaType="Integer" />
+		<result column="STTUS_RE"					property="sttusRe"					javaType="Integer" />
+		<result column="STTUS_PR"					property="sttusPr"					javaType="Integer" />
+		<result column="COMPT_YN"					property="comptYn"					javaType="Integer" />
+		<result column="COMPT_N"					property="comptN"					javaType="Integer" />
+		<result column="COMPT_Y"					property="comptY"					javaType="Integer" />
+	</resultMap>
+					
+	<resultMap type="PolicyCfrnc" id="policyCfrncMngrResultMap">
+		<id column="MNG_SEQ"						property="mngSeq"					javaType="Integer" />
+		<result column="MNG_DIV"					property="mngDiv"					javaType="String" />
+		<result column="MANAGE_YEAR"				property="manageYear"				javaType="Integer" />
+		<result column="CARDI_NUM"					property="cardiNum"					javaType="Integer" />
+		<result column="MANAGE_ORDR"				property="manageOrdr"				javaType="Integer" />
+		<result column="STTUS"						property="sttus"					javaType="String" />
+		<result column="COMPT_YN"					property="comptYn"					javaType="String" />
+		<result column="MANAGE_NO"					property="manageNo"					javaType="String" />
+		<result column="MANAGE_NO_ORDR"				property="manageNoOrdr"				javaType="Integer" />
+		<result column="SJ"							property="sj"						javaType="String" />
+		<result column="SUGEST_TASK_MAIN_CN"		property="sugestTaskMainCn"			javaType="String" />
+		<result column="RELATE_LAWORD"				property="relateLaword"				javaType="String" />
+		<result column="SUGEST_UNIV_CHARGER_DEPT"	property="sugestUnivChargerDept"	javaType="String" />
+		<result column="SUGEST_UNIV_CHARGER_NM"		property="sugestUnivChargerNm"		javaType="String" />
+		<result column="SUGEST_UNIV_CHARGER_TEL"	property="sugestUnivChargerTel"		javaType="String" />
+		<result column="JOB_CHARGER_DEPT"			property="jobChargerDept"			javaType="String" />
+		<result column="JOB_CHARGER_NM"				property="jobChargerNm"				javaType="String" />
+		<result column="JOB_CHARGER_TEL"			property="jobChargerTel"			javaType="String" />
+		<result column="PROCESS_CHARGER_DEPT"		property="processChargerDept"		javaType="String" />
+		<result column="PROCESS_CHARGER_NM"			property="processChargerNm"			javaType="String" />
+		<result column="PROCESS_CHARGER_TEL"		property="processChargerTel"		javaType="String" />
+		<result column="DEL_YN"						property="delYn"					javaType="String" />
+		<result column="REG_ID"						property="regId"					javaType="String" />
+		<result column="REG_NM"						property="regNm"					javaType="String" />
+		<result column="REG_DT"						property="regDt"					javaType="String" />
+		<result column="UPD_ID"						property="updId"					javaType="String" />
+		<result column="UPD_NM"						property="updNm"					javaType="String" />
+		<result column="UPD_DT"						property="updDt"					javaType="String" />
+		<result column="DEL_ID"						property="delId"					javaType="String" />
+		<result column="DEL_NM"						property="delNm"					javaType="String" />
+		<result column="DEL_DT"						property="delDt"					javaType="String" />
+	</resultMap>
+	
+	<sql id="policyCfrncMngrCor">
+		ROW_NUMBER() OVER(PARTITION BY polcy_mng.MNG_SEQ ORDER BY FI.FILE_MODULE_SUB_ID DESC ) AS RNUM
+		, polcy_mng.MNG_SEQ					
+		, (polcy_mng.MANAGE_YEAR || ' ' || DECODE(polcy_mng.CARDI_NUM, 1, '상반기', 2, '하반기') || ' ' || polcy_mng.MANAGE_ORDR || '회') as MNG_DIV					
+		, polcy_mng.MANAGE_YEAR
+		, polcy_mng.CARDI_NUM
+     	, polcy_mng.MANAGE_ORDR					
+		, polcy_mng.STTUS						
+		, polcy_mng.COMPT_YN					
+		, polcy_mng.MANAGE_NO					
+		, polcy_mng.MANAGE_NO_ORDR					
+		, polcy_mng.SJ							
+		, polcy_mng.SUGEST_TASK_MAIN_CN		
+		, polcy_mng.RELATE_LAWORD				
+		, polcy_mng.SUGEST_UNIV_CHARGER_DEPT	
+		, polcy_mng.SUGEST_UNIV_CHARGER_NM		
+		, polcy_mng.SUGEST_UNIV_CHARGER_TEL	
+		, polcy_mng.JOB_CHARGER_DEPT			
+		, polcy_mng.JOB_CHARGER_NM				
+		, polcy_mng.JOB_CHARGER_TEL			
+		, polcy_mng.PROCESS_CHARGER_DEPT		
+		, polcy_mng.PROCESS_CHARGER_NM			
+		, polcy_mng.PROCESS_CHARGER_TEL		
+		, polcy_mng.DEL_YN						
+		, polcy_mng.REG_ID						
+		, polcy_mng.REG_NM						
+		, polcy_mng.REG_DT						
+		, polcy_mng.UPD_ID						
+		, polcy_mng.UPD_NM						
+		, polcy_mng.UPD_DT						
+		, polcy_mng.DEL_ID						
+		, polcy_mng.DEL_NM						
+		, polcy_mng.DEL_DT						
+	</sql>
+	
+	<select id="selectPolicyCfrnDiv" resultMap="policyCfrncMngrResultMap">
+		SELECT distinct MNG_DIV 
+         FROM
+			( 
+			SELECT (MANAGE_YEAR || ' ' || DECODE(CARDI_NUM, 1, '상반기', 2, '하반기') || ' ' || MANAGE_ORDR || '회') as MNG_DIV
+	             , MANAGE_YEAR
+	             , CARDI_NUM
+	             , MANAGE_ORDR
+		     FROM POLICY_CFRNC_MANAGE
+			WHERE DEL_YN='N'
+		    )
+		ORDER BY MNG_DIV DESC 
+	</select>
+	
+	<select id="selectPolicyCfrnMngrInfo" parameterType="PolicyCfrncSearch" resultMap="policyCfrncMngrComplexResultMap">
+			SELECT
+				<include refid="policyCfrncMngrCor"/>
+				, #{sitePrefix} AS SITE_PREFIX
+  				, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+			  FROM POLICY_CFRNC_MANAGE polcy_mng
+			  LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON polcy_mng.MNG_SEQ = FI.FILE_ID
+			 WHERE polcy_mng.DEL_YN = 'N'
+		       AND polcy_mng.MNG_SEQ = #{mngSeq}
+	</select>
+	
+	<select id="selectPolicyCfrnDtlInfo" parameterType="PolicyCfrncSearch" resultMap="policyCfrncDtlResultMap">
+		SELECT * 
+		  FROM POLICY_CFRNC_MANAGE_DETAIL 
+		 WHERE DTL_SEQ = #{dtlSeq}
+	</select>
+	
+	<select id="selectPolicyCfrnDtlInfoList" parameterType="PolicyCfrncSearch" resultMap="policyCfrncDtlResultMap">
+		SELECT * 
+		  FROM POLICY_CFRNC_MANAGE_DETAIL 
+		 WHERE MNG_SEQ = #{mngSeq}
+	</select>
+	
+	<select id="selectPolicyCfrncFileInfoList" parameterType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap">
+		SELECT 
+			<include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoColumns"/>
+		FROM ${sitePrefix}_FILEINFO
+		<where>
+			FILE_MODULE 				= 'policyCfrnc'
+			AND FILE_MODULE_SUB 		= 'policyArticle'
+			AND FILE_MODULE_SUB_ID 		= #{fileModuleSubId}
+			AND FILE_ATTACHMENT_TYPE 	= 'appending'
+		</where>
+		ORDER BY FILE_REGDATE ASC, FILE_ORIGINAL_NAME ASC
+	</select>
+	
+	<select id="selectPolicyCfrnStatList" parameterType="PolicyCfrncSearch" resultMap="policyCfrncStatResultMap">
+		SELECT (MANAGE_YEAR || ' ' || DECODE(CARDI_NUM, 1, '상반기', 2, '하반기') || ' ' || MANAGE_ORDR || '회') as MNG_DIV
+		     , MANAGE_YEAR
+		     , CARDI_NUM
+      		 , MANAGE_ORDR
+		     , COUNT(STTUS) AS TOT_STTUS
+		     , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='lo' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS STTUS_LO
+		     , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='so' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS STTUS_SO
+		     , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='re' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS STTUS_RE
+		     , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='pr' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS STTUS_PR
+		     , (SELECT COUNT(COMPT_YN) FROM POLICY_CFRNC_MANAGE WHERE COMPT_YN='N' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS COMPT_N
+		     , (SELECT COUNT(COMPT_YN) FROM POLICY_CFRNC_MANAGE WHERE COMPT_YN='Y' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+		     	AS COMPT_Y
+		  FROM
+		(
+		  SELECT  MANAGE_YEAR
+		        , CARDI_NUM
+		        , MANAGE_ORDR
+		        , STTUS
+		        , COMPT_YN
+		    FROM POLICY_CFRNC_MANAGE
+		   WHERE DEL_YN = 'N'
+		)PCT
+		GROUP BY MANAGE_YEAR, CARDI_NUM, MANAGE_ORDR
+		ORDER BY MANAGE_YEAR DESC, CARDI_NUM DESC, MANAGE_ORDR DESC
+	</select>
+	
+	<select id="selectPolicyCfrnStatListTotal" parameterType="PolicyCfrncSearch" resultType="Integer">
+		SELECT COUNT(*)
+		FROM
+		(
+		  SELECT (MANAGE_YEAR || ' ' || DECODE(CARDI_NUM, 1, '상반기', 2, '하반기') || ' ' || MANAGE_ORDR || '회') as MNG_DIV
+		       , MANAGE_YEAR
+		       , CARDI_NUM
+      		   , MANAGE_ORDR
+		       , COUNT(STTUS) AS TOT_STTUS
+			   , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='lo' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS STTUS_LO
+			   , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='so' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS STTUS_SO
+			   , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='re' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS STTUS_RE
+			   , (SELECT COUNT(STTUS) FROM POLICY_CFRNC_MANAGE WHERE STTUS='pr' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS STTUS_PR
+			   , (SELECT COUNT(COMPT_YN) FROM POLICY_CFRNC_MANAGE WHERE COMPT_YN='N' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS COMPT_N
+			   , (SELECT COUNT(COMPT_YN) FROM POLICY_CFRNC_MANAGE WHERE COMPT_YN='Y' AND MANAGE_YEAR=PCT.MANAGE_YEAR AND MANAGE_ORDR=PCT.MANAGE_ORDR AND CARDI_NUM=PCT.CARDI_NUM AND DEL_YN = 'N') 
+			   	AS COMPT_Y
+		    FROM
+		  (
+		    SELECT  MANAGE_YEAR
+		          , CARDI_NUM
+		          , MANAGE_ORDR
+		          , STTUS
+		          , COMPT_YN
+		      FROM POLICY_CFRNC_MANAGE
+		     WHERE DEL_YN = 'N'
+		  )PCT
+		  GROUP BY MANAGE_YEAR, CARDI_NUM, MANAGE_ORDR
+		  ORDER BY MANAGE_YEAR DESC, CARDI_NUM DESC, MANAGE_ORDR DESC
+		)
+	</select>
+	
+	<select id="selectPolicyCfrnMngrList" parameterType="PolicyCfrncSearch" resultMap="policyCfrncMngrComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN
+			     , Z2.* FROM
+		</if>
+			(SELECT Z.*
+		       FROM(
+			  	  SELECT
+				  	  <include refid="policyCfrncMngrCor"/>
+					  , #{sitePrefix} AS SITE_PREFIX
+	  				  , <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+				    FROM POLICY_CFRNC_MANAGE polcy_mng
+				    LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI
+			        ON TO_CHAR(polcy_mng.MNG_SEQ)   = FI.FILE_MODULE_SUB_ID 
+			         AND FI.FILE_MODULE = 'policyCfrnc'
+			         AND FI.FILE_MODULE_SUB = 'policyArticle'
+			       WHERE polcy_mng.DEL_YN = 'N'  
+			       <!-- ORDER BY polcy_mng.MANAGE_YEAR DESC, polcy_mng.MANAGE_NO_ORDR DESC -->
+				  )Z
+				  where RNUM = 1
+			 ) Z2
+			<where>
+				 <if test="scRegStartDt != null and scRegStartDt != '' and scRegEndDt != null and scRegEndDt != ''">
+				 	TO_CHAR(TO_DATE(Z2.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDt} AND #{scRegEndDt}
+				 </if>
+				 <if test="scDiv != null and scDiv != ''">
+				 	AND Z2.MNG_DIV = #{scDiv}
+				 </if>
+				 <if test="scSttus != null and scSttus != ''">
+				 	AND Z2.STTUS = #{scSttus}
+				 </if>
+				 <if test="scComptYn != null and scComptYn != ''">
+				 	AND Z2.COMPT_YN = #{scComptYn}
+				 </if>
+					 
+				 <if test="sv != null and sv != ''">
+					 <if test="sc == null or sc == ''">
+					 	AND(
+					 		polcy_mng.MANAGE_NO  LIKE '%'||#{sv}||'%'
+					 		OR Z2.SJ LIKE '%'||#{sv}||'%'
+					 		OR Z2.JOB_CHARGER_DEPT LIKE '%'||#{sv}||'%'
+					 		OR Z2.JOB_CHARGER_NM = #{sv}
+					 	)
+					 </if>
+					 <if test="sc != null and sc != ''">
+					 	<if test="sc == 'manageNo'">
+					 		AND Z2.MANAGE_NO LIKE '%'||#{sv}||'%'
+					 	</if>
+					 	<if test="sc == 'sj'">
+					 		AND Z2.SJ LIKE '%'||#{sv}||'%'
+					 	</if>
+					 	<if test="sc == 'jobChargerDept'">
+					 		AND Z2.JOB_CHARGER_DEPT LIKE '%'||#{sv}||'%'
+					 	</if>
+					 	<if test="sc == 'jobChargerNm'">
+					 		AND Z2.JOB_CHARGER_NM = #{sv}
+					 	</if>
+					 </if>
+				</if>
+			</where>
+			 	<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+					ORDER BY Z2.${sortOrder} ${sortDirection}
+				</if>
+				<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+					ORDER BY Z2.MNG_DIV DESC
+				</if>
+		<if test="paging">	
+		)
+		<where>
+		RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	
+	<select id="selectPolicyCfrnMngrListTotal" parameterType="PolicyCfrncSearch" resultType="Integer">
+		SELECT COUNT(*) FROM(
+		  SELECT Z.*
+		    FROM ( 
+			        SELECT
+					   <include refid="policyCfrncMngrCor"/>
+					   , #{sitePrefix} AS SITE_PREFIX
+					   , <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+					  FROM POLICY_CFRNC_MANAGE polcy_mng
+					  LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI 
+					  ON TO_CHAR(polcy_mng.MNG_SEQ)   = FI.FILE_MODULE_SUB_ID 
+					   AND FI.FILE_MODULE = 'policyCfrnc'
+					   AND FI.FILE_MODULE_SUB = 'policyArticle'
+				     WHERE polcy_mng.DEL_YN = 'N'
+			   ) Z
+			   where RNUM = 1
+			)Z2
+			<where>
+				<if test="scRegStartDt != null and scRegStartDt != '' and scRegEndDt != null and scRegEndDt != ''">
+					 	TO_CHAR(TO_DATE(Z2.REG_DT,'YYYYMMDDHH24MISS'),'YYYY-MM-DD') BETWEEN #{scRegStartDt} AND #{scRegEndDt}
+					 </if>
+					 <if test="scDiv != null and scDiv != ''">
+					 	AND Z2.MNG_DIV = #{scDiv}
+					 </if>
+					 <if test="scSttus != null and scSttus != ''">
+					 	AND Z2.STTUS = #{scSttus}
+					 </if>
+					 <if test="scComptYn != null and scComptYn != ''">
+					 	AND Z2.COMPT_YN = #{scComptYn}
+					 </if>
+					 <if test="sv != null and sv != ''">
+						 <if test="sc == null or sc == ''">
+						 	AND(
+						 		Z2.MANAGE_NO  LIKE '%'||#{sv}||'%'
+						 		OR Z2.SJ LIKE '%'||#{sv}||'%'
+						 		OR Z2.JOB_CHARGER_DEPT LIKE '%'||#{sv}||'%'
+						 		OR Z2.JOB_CHARGER_NM = #{sv}
+						 	)
+						 </if>
+						 <if test="sc != null and sc != ''">
+						 	<if test="sc == 'manageNo '">
+						 		AND Z2.MANAGE_NO LIKE '%'||#{sv}||'%'
+						 	</if>
+						 	<if test="sc == 'sj '">
+						 		AND Z2.SJ LIKE '%'||#{sv}||'%'
+						 	</if>
+						 	<if test="sc == 'jobChargerDept '">
+						 		AND Z2.JOB_CHARGER_DEPT LIKE '%'||#{sv}||'%'
+						 	</if>
+						 	<if test="sc == 'jobChargerNm '">
+						 		AND Z2.JOB_CHARGER_NM = #{sv}
+						 	</if>
+						 </if>
+					</if>
+			</where> 
+			<!--  
+		 	<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY Z2.${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY Z2.REG_DT DESC
+			</if>
+			 -->
+	</select>
+	
+	<select id="selectMinMngrYear" resultType="Integer">
+		SELECT DISTINCT(MANAGE_YEAR) FROM POLICY_CFRNC_MANAGE WHERE MANAGE_ORDR=1
+	</select>
+	
+	<select id="selectMaxMngOrder" resultType="Integer">
+		SELECT MAX(MANAGE_ORDR) FROM POLICY_CFRNC_MANAGE
+	</select>
+	
+	
+	<select id="selectMaxMngNoOrder" parameterType="policyCfrnc" resultType="Integer">
+		SELECT MAX(MANAGE_NO_ORDR) AS MANAGE_NO_ORDR FROM POLICY_CFRNC_MANAGE WHERE MANAGE_YEAR=#{manageYear} and MANAGE_ORDR=#{manageOrdr}
+	</select>
+	
+	<update id="updatePolicyCfrncMngr" parameterType="policyCfrnc">
+		UPDATE POLICY_CFRNC_MANAGE 
+			SET
+				<if test="manageYear != null">
+					MANAGE_YEAR  				= #{manageYear},
+				</if>			
+				<if test="cardiNum != null">			
+					CARDI_NUM					= #{cardiNum},
+				</if>
+				<if test="manageOrdr != null">
+					MANAGE_ORDR					= #{manageOrdr},	
+				</if>								
+				<if test="sttus != null">
+					STTUS						= #{sttus},
+				</if>
+				<!-- 
+				<if test="comptYn != null">				
+					COMPT_YN					= #{comptYn},
+				</if>
+				 -->
+				<if test="manageNo != null">			
+					MANAGE_NO					= #{manageNo},
+				</if>
+				<if test="manageNoOrdr != null">			
+					MANAGE_NO_ORDR				= #{manageNoOrdr},
+				</if>
+				<if test="sj != null">
+					SJ							= #{sj},
+				</if>
+				<if test="sugestTaskMainCn != null">					
+					SUGEST_TASK_MAIN_CN			= #{sugestTaskMainCn},
+				</if>
+				<if test="relateLaword != null">	
+					RELATE_LAWORD				= #{relateLaword},
+				</if>
+				<if test="sugestUnivChargerDept != null">			
+					SUGEST_UNIV_CHARGER_DEPT	= #{sugestUnivChargerDept},
+				</if>
+				<if test="sugestUnivChargerNm != null">	
+					SUGEST_UNIV_CHARGER_NM		= #{sugestUnivChargerNm},
+				</if>
+				<if test="sugestUnivChargerTel != null">	
+					SUGEST_UNIV_CHARGER_TEL		= #{sugestUnivChargerTel},
+				</if>
+				<if test="jobChargerDept != null">
+					JOB_CHARGER_DEPT			= #{jobChargerDept},
+				</if>
+				<if test="jobChargerNm != null">
+					JOB_CHARGER_NM				= #{jobChargerNm},
+				</if>
+				<if test="jobChargerTel != null">		
+					JOB_CHARGER_TEL				= #{jobChargerTel},
+				</if>
+				<if test="processChargerDept != null">			
+					PROCESS_CHARGER_DEPT		= #{processChargerDept},
+				</if>
+				<if test="processChargerNm != null">	
+					PROCESS_CHARGER_NM			= #{processChargerNm},
+				</if>
+				<if test="processChargerTel != null">	
+					PROCESS_CHARGER_TEL			= #{processChargerTel},
+				</if>	
+				UPD_ID						= #{updId},
+				UPD_NM						= #{updNm},
+				UPD_DT						= to_char(sysdate,'YYYYMMDDHH24MISS')
+		  WHERE MNG_SEQ						= #{mngSeq}
+	</update>
+	
+	<insert id="insertpolicyCfrncMngr" parameterType="policyCfrnc">
+		<selectKey keyProperty="mngSeq" order="BEFORE" resultType="Integer">
+			SELECT POLICY_CFRNC_MANAGE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO POLICY_CFRNC_MANAGE (
+			MNG_SEQ
+			, MANAGE_YEAR
+			, CARDI_NUM
+			, MANAGE_ORDR
+			, MANAGE_NO
+			, STTUS
+			<!-- , COMPT_YN -->
+			, MANAGE_NO_ORDR
+			, SJ
+			, SUGEST_TASK_MAIN_CN
+			, RELATE_LAWORD
+			, SUGEST_UNIV_CHARGER_DEPT
+			, SUGEST_UNIV_CHARGER_NM
+			, SUGEST_UNIV_CHARGER_TEL
+			, JOB_CHARGER_DEPT
+			, JOB_CHARGER_NM
+			, JOB_CHARGER_TEL
+			, PROCESS_CHARGER_DEPT
+			, PROCESS_CHARGER_NM
+			, PROCESS_CHARGER_TEL
+			, REG_ID
+			, REG_NM
+			, REG_DT
+			, UPD_DT
+		) VALUES (
+			#{mngSeq}
+			, #{manageYear}
+			, #{cardiNum}
+			, #{manageOrdr}
+			, #{manageNo}
+			, #{sttus}
+			<!-- , #{comptYn} -->
+			, #{manageNoOrdr}
+			, #{sj}
+			, #{sugestTaskMainCn}
+			, #{relateLaword}
+			, #{sugestUnivChargerDept}
+			, #{sugestUnivChargerNm}
+			, #{sugestUnivChargerTel}
+			, #{jobChargerDept}
+			, #{jobChargerNm}
+			, #{jobChargerTel}
+			, #{processChargerDept}
+			, #{processChargerNm}
+			, #{processChargerTel}
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	<insert id="insertPolicyMngrDtl" parameterType="policyCfrnc">
+		<selectKey keyProperty="dtlSeq" order="BEFORE" resultType="Integer">
+			SELECT POLICY_CFRNC_MANAGE_DETAIL_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO POLICY_CFRNC_MANAGE_DETAIL(
+			DTL_SEQ
+			, MNG_SEQ
+			, PRTN_DT
+			, PRTN_MATTER
+			, RM
+			, REG_ID
+			, REG_NM
+			, REG_DT
+		) values (
+			#{dtlSeq}
+			, #{mngSeq}
+			, #{prtnDt}
+			, #{prtnMatter}
+			, #{rm}
+			, #{regId}
+			, #{regNm}
+			, to_char(sysdate,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	<select id="selectPolicyMaxDtlSeq" parameterType="policyCfrncSearch" resultType="Integer">
+		SELECT MAX(DTL_SEQ) AS DTL_SEQ 
+		  FROM POLICY_CFRNC_MANAGE_DETAIL
+		 WHERE MNG_SEQ = #{mngSeq}
+	</select>
+	
+	<update id="updatePolicyCfrnDtlInfo" parameterType="PolicyCfrnc">
+		UPDATE POLICY_CFRNC_MANAGE_DETAIL
+		   SET
+		   <if test="prtnDt != null">	
+		   PRTN_DT		= #{prtnDt},
+		   </if>
+		   <if test="prtnMatter != null">
+		   PRTN_MATTER  = #{prtnMatter},
+		   </if>
+		   <if test="rm != null">
+		   RM			= #{rm},	
+		   </if>
+		   UPD_ID		= #{updId},
+		   UPD_NM		= #{updNm},
+		   UPD_DT		= to_char(sysdate,'YYYYMMDDHH24MISS')   
+		<where>
+		   DTL_SEQ 		= #{dtlSeq}
+		</where>		   
+		   
+	</update>
+	
+	<update id="deletePolicyCfrnDtlInfo" parameterType="PolicyCfrnc">
+		DELETE 
+		  FROM POLICY_CFRNC_MANAGE_DETAIL
+		<where>
+		  DTL_SEQ		= #{dtlSeq}
+		</where>
+	</update>
+	
+	<update id="deletePolicyCfrnc" parameterType="PolicyCfrnc">
+		UPDATE POLICY_CFRNC_MANAGE
+		   SET
+		   DEL_YN = 'Y'
+		 , DEL_ID			= #{delId}
+	  	 , DEL_NM			= #{delNm}
+	  	 , DEL_DT			= to_char(sysdate,'YYYYMMDDHH24MISS')
+		<where>
+			MNG_SEQ = #{mngSeq}
+		</where>
+	</update>
+</mapper>

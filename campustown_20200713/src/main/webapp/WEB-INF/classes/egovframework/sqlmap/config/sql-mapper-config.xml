@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!--Mybatis 설정 -->
+	<settings>
+		<!-- 전통적인 데이터베이스 컬럼명 형태인 A_COLUMN을 CamelCase형태의 자바 프로퍼티명 형태인 aColumn으로 자동으로 매핑하도록 함 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
+		<!--  파라미터에 Null 값이 있을 경우 에러 처리 -->
+		<setting name="jdbcTypeForNull" value="VARCHAR"></setting>
+		<!-- 값이 null인 컬럼 누락 방지 -->
+		<setting name="callSettersOnNulls" value="true"/>
+		<!-- 
+		<setting name="cacheEnabled" value="false" />		
+		<setting name="lazyLoadingEnabled" value="true" />		
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="enhancementEnabled" value="false" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+		 -->
+	</settings>
+	
+	<!-- Type Aliases 설정-->
+	<typeAliases>
+		<typeAlias alias="egovMap" 				type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+		<typeAlias alias="FileVO"				type="egovframework.com.cmm.service.FileVO" />
+		<typeAlias alias="ComDefaultCodeVO" 	type="egovframework.com.cmm.ComDefaultCodeVO" />
+		<typeAlias alias="comDefaultVO"         type="egovframework.com.cmm.ComDefaultVO"/>
+		
+		<typeAlias type="egovframework.com.asapro.support.crypto.CryptoStringTypeHandler" alias="CryptoStringTypeHandler" />
+		<typeAlias type="egovframework.com.asapro.code.service.Code" alias="Code" />
+		<typeAlias type="egovframework.com.asapro.code.service.CodeSearch" alias="CodeSearch" />
+		<typeAlias type="egovframework.com.asapro.code.service.CodeCategory" alias="CodeCategory" />
+		<typeAlias type="egovframework.com.asapro.code.service.CodeCategorySearch" alias="CodeCategorySearch" />
+		<typeAlias type="egovframework.com.asapro.member.admin.service.AdminMember" alias="AdminMember" />
+		<typeAlias type="egovframework.com.asapro.member.admin.service.AdminMemberSearch" alias="AdminMemberSearch" />
+		<typeAlias type="egovframework.com.asapro.member.admin.service.AdminPassword" alias="AdminPassword" />
+		<typeAlias type="egovframework.com.asapro.member.admin.service.AdminSiteRoleRel" alias="AdminSiteRoleRel" />
+		<typeAlias type="egovframework.com.asapro.organization.service.Organization" alias="Organization" />
+		<typeAlias type="egovframework.com.asapro.organization.service.OrganizationSearch" alias="OrganizationSearch" />
+		<typeAlias type="egovframework.com.asapro.organization.service.Department" alias="Department" />
+		<typeAlias type="egovframework.com.asapro.organization.service.DepartmentSearch" alias="DepartmentSearch" />
+		<typeAlias type="egovframework.com.asapro.organization.service.DepartmentView" alias="DepartmentView" />
+		<typeAlias type="egovframework.com.asapro.organization.service.DepartmentViewSearch" alias="DepartmentViewSearch" />
+		<typeAlias type="egovframework.com.asapro.organization.service.Staff" alias="Staff" />
+		<typeAlias type="egovframework.com.asapro.organization.service.StaffSearch" alias="StaffSearch" />
+		<typeAlias type="egovframework.com.asapro.capability.service.Capability" alias="Capability" />
+		<typeAlias type="egovframework.com.asapro.capability.service.CapabilitySearch" alias="CapabilitySearch" />
+		<typeAlias type="egovframework.com.asapro.role.service.Role" alias="Role" />
+		<typeAlias type="egovframework.com.asapro.role.service.RoleSearch" alias="RoleSearch" />
+		<typeAlias type="egovframework.com.asapro.role.service.RoleCap" alias="RoleCap" />
+		<typeAlias type="egovframework.com.asapro.board.service.BoardConfig" alias="BoardConfig" />
+		<typeAlias type="egovframework.com.asapro.board.service.BoardConfigSearch" alias="BoardConfigSearch" />
+		<typeAlias type="egovframework.com.asapro.board.service.BoardArticle" alias="BoardArticle" />
+		<typeAlias type="egovframework.com.asapro.board.service.BoardArticleSearch" alias="BoardArticleSearch" />
+		<typeAlias type="egovframework.com.asapro.fileinfo.service.FileInfo" alias="FileInfo" />
+		<typeAlias type="egovframework.com.asapro.fileinfo.service.FileInfoSearch" alias="FileInfoSearch" />
+		<typeAlias type="egovframework.com.asapro.menu.service.Menu" alias="Menu" />
+		<typeAlias type="egovframework.com.asapro.menu.service.MenuSearch" alias="MenuSearch" />
+		<typeAlias type="egovframework.com.asapro.content.service.Content" alias="Content" />
+		<typeAlias type="egovframework.com.asapro.content.service.ContentSearch" alias="ContentSearch" />
+		<typeAlias type="egovframework.com.asapro.banner.service.Banner" alias="Banner" />
+		<typeAlias type="egovframework.com.asapro.banner.service.BannerSearch" alias="BannerSearch" />
+		<typeAlias type="egovframework.com.asapro.config.service.ConfigOption" alias="ConfigOption" />
+		<typeAlias type="egovframework.com.asapro.config.service.TextData" alias="TextData" />
+		<typeAlias type="egovframework.com.asapro.allowip.service.AllowIp" alias="AllowIp" />
+		<typeAlias type="egovframework.com.asapro.allowip.service.AllowIpSearch" alias="AllowIpSearch" />
+		<typeAlias type="egovframework.com.asapro.allowip.service.AllowIpTemp" alias="AllowIpTemp" />
+		<typeAlias type="egovframework.com.asapro.allowip.service.AllowIpTempSearch" alias="AllowIpTempSearch" />
+		<typeAlias type="egovframework.com.asapro.allowmac.service.AllowMac" alias="AllowMac" />
+		<typeAlias type="egovframework.com.asapro.allowmac.service.AllowMacSearch" alias="AllowMacSearch" />
+		<typeAlias type="egovframework.com.asapro.commonContent.service.CommonContent" alias="CommonContent" />
+		<typeAlias type="egovframework.com.asapro.commonContent.service.CommonContentSearch" alias="CommonContentSearch" />
+		<typeAlias type="egovframework.com.asapro.commonContent.service.CommonContentRelation" alias="CommonContentRelation" />
+		<typeAlias type="egovframework.com.asapro.site.service.Site" alias="Site" />
+		<typeAlias type="egovframework.com.asapro.site.service.SiteSearch" alias="SiteSearch" />
+		<typeAlias type="egovframework.com.asapro.rental.service.Rental" alias="Rental" />
+		<typeAlias type="egovframework.com.asapro.rental.service.RentalSearch" alias="RentalSearch" />
+		<typeAlias type="egovframework.com.asapro.rental.service.RentalReservationInfo" alias="RentalReservationInfo" />
+		<typeAlias type="egovframework.com.asapro.rental.service.RentalReservationSearch" alias="RentalReservationSearch" />
+		<typeAlias type="egovframework.com.asapro.rental.service.RentalReservCloseTime" alias="RentalReservCloseTime" />
+		<typeAlias type="egovframework.com.asapro.volunteer.service.VolunteerReservation" alias="VolunteerReservation" />
+		<typeAlias type="egovframework.com.asapro.volunteer.service.VolunteerReservationSearch" alias="VolunteerReservationSearch" />
+		<typeAlias type="egovframework.com.asapro.viewing.service.ViewingReservation" alias="ViewingReservation" />
+		<typeAlias type="egovframework.com.asapro.viewing.service.ViewingReservationSearch" alias="ViewingReservationSearch" />
+		<typeAlias type="egovframework.com.asapro.education.service.EducationReservation" alias="EducationReservation" />
+		<typeAlias type="egovframework.com.asapro.education.service.EducationReservationSearch" alias="EducationReservationSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.service.Archive" alias="Archive" />
+		<typeAlias type="egovframework.com.asapro.archive.service.ArchiveSearch" alias="ArchiveSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.service.ArchiveCategory" alias="ArchiveCategory" />
+		<typeAlias type="egovframework.com.asapro.archive.service.ArchiveCategorySearch" alias="ArchiveCategorySearch" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsAdminAccessLog" alias="StatisticsAdminAccessLog" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsAdminAccessLogSearch" alias="StatisticsAdminAccessLogSearch" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsMemberInquireLog" alias="StatisticsMemberInquireLog" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsMemberInquireLogSearch" alias="StatisticsMemberInquireLogSearch" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsUserTemp" alias="StatisticsUserTemp" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsSession" alias="StatisticsSession" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsOs" alias="StatisticsOs" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsBrowser" alias="StatisticsBrowser" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsCountry" alias="StatisticsCountry" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsMenu" alias="StatisticsMenu" />
+		<typeAlias type="egovframework.com.asapro.statistics.service.StatisticsSearch" alias="StatisticsSearch" />
+		<typeAlias type="egovframework.com.asapro.openapiinfo.service.OpenApiInfo" alias="OpenApiInfo" />
+		<typeAlias type="egovframework.com.asapro.openapiinfo.service.OpenApiInfoSearch" alias="OpenApiInfoSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.space.service.Space" alias="Space" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.space.service.SpaceSearch" alias="SpaceSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.research.service.Research" alias="Research" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.research.service.ResearchSearch" alias="ResearchSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.advertising.service.Advertising" alias="Advertising" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.advertising.service.AdvertisingSearch" alias="AdvertisingSearch" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.policy.service.Policy" alias="Policy" />
+		<typeAlias type="egovframework.com.asapro.archive.customtype.policy.service.PolicySearch" alias="PolicySearch" />
+		<typeAlias type="egovframework.com.asapro.satisfaction.service.Satisfaction" alias="Satisfaction" />
+		<typeAlias type="egovframework.com.asapro.satisfaction.service.SatisfactionSearch" alias="SatisfactionSearch" />
+		<typeAlias type="egovframework.com.asapro.satisfaction.service.SatisOpinion" alias="SatisOpinion" />
+		<typeAlias type="egovframework.com.asapro.satisfaction.service.SatisOpinionSearch" alias="SatisOpinionSearch" />
+		<typeAlias type="egovframework.com.asapro.comment.service.Comment" alias="Comment" />
+		<typeAlias type="egovframework.com.asapro.comment.service.CommentSearch" alias="CommentSearch" />
+		<typeAlias type="egovframework.com.asapro.emailTargetInfo.service.EmailTargetInfo" alias="EmailTargetInfo" />
+		<typeAlias type="egovframework.com.asapro.emailTargetInfo.service.EmailTargetInfoSearch" alias="EmailTargetInfoSearch" />
+		<typeAlias type="egovframework.com.asapro.content_statis.service.ContentStatisDay" alias="ContentStatisDay" />
+		<typeAlias type="egovframework.com.asapro.content_statis.service.ContentStatis7" alias="ContentStatis7" />
+		<typeAlias type="egovframework.com.asapro.content_statis.service.ContentStatis30" alias="ContentStatis30" />
+		<typeAlias type="egovframework.com.asapro.content_statis.service.ContentStatisSearch" alias="ContentStatisSearch" />
+		<typeAlias type="egovframework.com.asapro.poll.service.Poll" alias="Poll" />
+		<typeAlias type="egovframework.com.asapro.poll.service.PollSearch" alias="PollSearch" />
+		<typeAlias type="egovframework.com.asapro.note.service.Note" alias="Note" />
+		<typeAlias type="egovframework.com.asapro.note.service.NoteSearch" alias="NoteSearch" />
+		
+		<typeAlias type="egovframework.com.campustown.startHpMngr.service.StartHpMngrSearch" alias="StartHpMngrSearch" />
+		<typeAlias type="egovframework.com.campustown.startHpMngr.service.StartHpMngr" alias="StartHpMngr" />
+		
+		<typeAlias type="egovframework.com.campustown.univHpMngr.service.UnivHpMngrSearch" alias="UnivHpMngrSearch" />
+		<typeAlias type="egovframework.com.campustown.univHpMngr.service.UnivHpMngr" alias="UnivHpMngr" />
+		
+		<typeAlias type="egovframework.com.campustown.policyCfrnc.service.PolicyCfrncSearch" alias="PolicyCfrncSearch" />
+		<typeAlias type="egovframework.com.campustown.policyCfrnc.service.PolicyCfrnc" alias="PolicyCfrnc" />
+
+		<typeAlias type="egovframework.com.campustown.counsel.make_counsel.domain.MakeCounsel" alias="MakeCounsel" />
+		<typeAlias type="egovframework.com.campustown.counsel.make_counsel.domain.MakeCounsel" alias="MakeCounselRealm" />
+		<typeAlias type="egovframework.com.campustown.counsel.legal_counsel.domain.LegalCounsel" alias="LegalCounsel" />
+		<typeAlias type="egovframework.com.campustown.counsel.legal_counsel.domain.Lawyer" alias="Lawyer" />
+
+
+
+		<!-- 청년포탈 API -->
+		<!-- 샘플이므로 참고하여 사용하고 삭제하세요 -->
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JobNewDealBiz" alias="JobNewDealBiz"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JobNewDealBizSearch" alias="JobNewDealBizSearch"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JobEduCenter" alias="JobEduCenter"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JobEduCenterSearch" alias="JobEduCenterSearch"/>	
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JynEmpSpt" alias="JynEmpSpt"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.JynEmpSptSearch" alias="JynEmpSptSearch"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.PublicEmplInfo" alias="PublicEmplInfo"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.PublicEmplInfoSearch" alias="PublicEmplInfoSearch"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.RegionEventInfo" alias="RegionEventInfo"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.RegionEventInfoSearch" alias="RegionEventInfoSearch"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.YouthActSupInfo" alias="YouthActSupInfo"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.YouthActSupInfoSearch" alias="YouthActSupInfoSearch"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.YouthProgram" alias="YouthProgram"/>
+		<typeAlias type="egovframework.com.asapro.openapiinfo.api.service.YouthProgramSearch" alias="YouthProgramSearch"/>
+		
+		 
+	</typeAliases>
+	
+	<typeHandlers>
+		<!-- <typeHandler handler="egovframework.com.asapro.support.crypto.CryptoStringTypeHandler" /> -->
+	</typeHandlers>
+    
+</configuration>

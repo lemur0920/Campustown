@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.config.service.ConfigMapper">
+	
+	<!-- <cache /> -->
+	
+	<resultMap type="ConfigOption" id="configOptionPlainResultMap">
+		<id column="CONF_ID" property="confId" javaType="String" />
+		<id column="OPT_KEY" property="optKey" javaType="String" />
+		<result column="OPT_VALUE" property="optValue" javaType="String" />
+		<result column="OPT_NAME" property="optName" javaType="String" />
+		<result column="OPT_HELP" property="optHelp" javaType="String" />
+		<result column="OPT_TYPE" property="optType" javaType="String" />
+		<result column="OPT_HIDDEN" property="optHidden" javaType="Boolean" />
+		<result column="OPT_UNIT_TEXT" property="optUnitText" javaType="String" />
+	</resultMap>
+	
+	<resultMap type="TextData" id="textDataPlainResultMap">
+		<id column="TEXT_GROUP" property="textGroup" javaType="String" />
+		<id column="TEXT_ID" property="textId" javaType="String" />
+		<id column="TEXT_NAME" property="textName" javaType="String" />
+		<result column="TEXT_CONTENT" property="textContent" javaType="String" />
+	</resultMap>
+	
+	<select id="selectConfigOptionList" parameterType="Map" resultMap="configOptionPlainResultMap">
+		SELECT
+			CONF_ID
+			, OPT_KEY
+			, OPT_VALUE
+			, OPT_NAME
+			, OPT_HELP
+			, OPT_TYPE
+			, OPT_HIDDEN
+			, OPT_UNIT_TEXT
+			, SITE_PREFIX
+		FROM ASA_CONFIG_OPTION
+		<where>
+			CONF_ID = #{confId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+		ORDER BY OPT_KEY ASC
+	</select>
+	
+	<select id="selectConfigOption" parameterType="ConfigOption" resultMap="configOptionPlainResultMap">
+		SELECT
+			CONF_ID
+			, OPT_KEY
+			, OPT_VALUE
+			, OPT_NAME
+			, OPT_HELP
+			, OPT_TYPE
+			, OPT_HIDDEN
+			, OPT_UNIT_TEXT
+			, SITE_PREFIX
+		FROM ASA_CONFIG_OPTION
+		<where>
+			CONF_ID = #{confId}
+			AND OPT_KEY = #{optKey}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<insert id="insertConfigOption" parameterType="ConfigOption">
+		INSERT INTO ASA_CONFIG_OPTION (
+			CONF_ID
+			, OPT_KEY
+			, OPT_VALUE
+			, OPT_NAME
+			, OPT_HELP
+			, OPT_TYPE
+			, OPT_HIDDEN
+			, OPT_UNIT_TEXT
+			, SITE_PREFIX
+		) VALUES (
+			#{confId}
+			, #{optKey}
+			, #{optValue}
+			, #{optName}
+			, #{optHelp}
+			, #{optType}
+			, #{optHidden}
+			, #{optUnitText}
+			, #{sitePreFix}
+		)
+	</insert>
+	
+	<update id="updateConfigOption" parameterType="ConfigOption">
+		UPDATE ASA_CONFIG_OPTION SET
+			OPT_VALUE = #{optValue}
+		<where>
+			CONF_ID = #{confId}
+			AND OPT_KEY = #{optKey}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</update>
+	
+	<delete id="deleteConfig" parameterType="Map">
+		DELETE FROM ASA_CONFIG_OPTION
+		<where>
+			CONF_ID = #{confId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</delete>
+	
+	<delete id="deleteConfigOption" parameterType="ConfigOption">
+		DELETE FROM ASA_CONFIG_OPTION
+		<where>
+			CONF_ID = #{confId}
+			AND OPT_KEY = #{optKey}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</delete>
+	
+	<select id="selectTextDataList" parameterType="Map" resultMap="textDataPlainResultMap">
+		SELECT
+			TEXT_GROUP
+			, TEXT_ID
+			, TEXT_NAME
+			, TEXT_CONTENT
+		FROM ASA_TEXT_DATA
+		<where>
+			TEXT_GROUP = #{textGroup} 
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<select id="selectTextData" parameterType="TextData" resultMap="textDataPlainResultMap">
+		SELECT
+			TEXT_GROUP
+			, TEXT_ID
+			, TEXT_NAME
+			, TEXT_CONTENT
+		FROM ASA_TEXT_DATA
+		<where>
+			TEXT_GROUP = #{textGroup} 
+			AND TEXT_ID = #{textId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<update id="updateTextData" parameterType="TextData">
+		UPDATE ASA_TEXT_DATA SET
+			TEXT_CONTENT = #{textContent}
+		<where>
+			TEXT_GROUP = #{textGroup}
+			AND TEXT_ID = #{textId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</update>
+	
+</mapper>

@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.archive.service.ArchiveMapper">
+	
+	<resultMap type="ArchiveCategory" id="archiveCategoryPlainResultMap">
+		<id column="CAT_ID" property="catId" javaType="String" />
+		<result column="CAT_NAME" property="catName" javaType="String" />	
+		<result column="CAT_CUSTOM_TYPE" property="catCustomType" javaType="String" />	
+		<result column="CAT_PAGE_SIZE" property="catPageSize" javaType="Integer" />
+		<result column="CAT_META_CODE1" property="catMetaCode1" javaType="String" />
+		<result column="CAT_META_CODE2" property="catMetaCode2" javaType="String" />
+		<result column="CAT_META_CODE3" property="catMetaCode3" javaType="String" />
+		<result column="CAT_USER_LIST_TEMPLATE" property="catUserListTemplate" javaType="String" />	
+		<result column="CAT_USER_VIEW_TEMPLATE" property="catUserViewTemplate" javaType="String" />	
+		<result column="CAT_ADMIN_LIST_TEMPLATE" property="catAdminListTemplate" javaType="String" />	
+		<result column="CAT_ADMIN_FORM_TEMPLATE" property="catAdminFormTemplate" javaType="String" />	
+		<result column="CAT_SORT_ORDER" property="catSortOrder" javaType="String" />	
+		<result column="CAT_SORT_DIRECTION" property="catSortDirection" javaType="String" />
+		<result column="CAT_REGDATE" property="catRegdate" javaType="Date" />
+		<result column="CAT_ARCHIVE_COUNT" property="catArchiveCount" javaType="Integer" />
+		<result column="CAT_SUPPORT_SELECT1" property="catSupportSelect1" javaType="Boolean" />
+		<result column="CAT_SUPPORT_NURI" property="catSupportNuri" javaType="Boolean" />
+		<result column="CAT_SUPPORT_RECOMMEND" property="catSupportRecommend" javaType="Boolean" />
+		<result column="CAT_SUPPORT_FIXING" property="catSupportFixing" javaType="Boolean" />
+		<result column="CAT_FIXING_NUM" property="catFixingNum" javaType="Integer" />
+		<result column="CAT_SUPPORT_IMAGE" property="catSupportImage" javaType="Boolean" />
+		<result column="CAT_SUPPORT_THUMBNAIL" property="catSupportThumbnail" javaType="Boolean" />
+		<result column="CAT_THUMBNAIL_CROP" property="catThumbnailCrop" javaType="Boolean" />
+		<result column="CAT_THUMBNAIL_WIDTH" property="catThumbnailWidth" javaType="Integer" />
+		<result column="CAT_THUMBNAIL_HEIGHT" property="catThumbnailHeight" javaType="Integer" />
+		<result column="CAT_UPLOAD_FILE_NAME" property="catUploadFileNum" javaType="Integer" />
+		<result column="CAT_UPLOAD_SIZE_MAX" property="catUploadSizeMax" javaType="Integer" />
+	</resultMap>
+	
+
+	<resultMap type="Archive" id="archivePlainResultMap">
+		<id column="ARC_ID" property="arcId" javaType="Integer" />
+		<result column="ARC_CATEGORY" property="arcCategory" javaType="String" />	
+		<result column="ARC_TITLE" property="arcTitle" javaType="String" />
+		<result column="ARC_CUSTOM_TYPE" property="arcCustomType" javaType="String" />
+		<result column="ARC_CONTENT" property="arcContent" javaType="String" />
+		<result column="MEM_ID" property="memId" javaType="String" />
+		<result column="ARC_REGDATE" property="arcRegdate" javaType="Date" />
+		<result column="ARC_LAST_UPDATE" property="arcLastUpdate" javaType="Date" />	
+		<result column="ARC_HIT" property="arcHit" javaType="Integer" />
+		<result column="ARC_RECOMMEND" property="arcRecommend" javaType="Integer" />
+		<result column="ARC_NURI" property="arcNuri" javaType="String" />	
+		<result column="ARC_USE" property="arcUse" javaType="Boolean" />
+		<result column="ARC_THUMB" property="arcThumb" javaType="Integer" />
+		<result column="ARC_META_CODE1" property="arcMetaCode1" javaType="String" />
+		<result column="ARC_META_CODE2" property="arcMetaCode2" javaType="String" />
+		<result column="ARC_META_CODE3" property="arcMetaCode3" javaType="String" />
+		<result column="ARC_TAG" property="arcTag" javaType="String" />
+		<result column="ARC_MEDIA" property="arcMedia" javaType="String" />
+		<result column="ARC_YEAR" property="arcYear" javaType="String" />
+		<result column="ARC_ADVERTISER" property="arcAdvertiser" javaType="String" />
+		<result column="ARC_PRODUCT" property="arcProduct" javaType="String" />
+		<result column="ARC_PRODUCT_DIV" property="arcProductDiv" javaType="String" />
+		<result column="ARC_ACTOR" property="arcActor" javaType="String" />
+		<result column="ARC_PERIOD" property="arcPeriod" javaType="String" />
+		<result column="ARC_THUMB_TEXT" property="arcThumbText" javaType="String" />
+		<result column="ARC_SELECTED1" property="arcSelected1" javaType="Boolean" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+		<result column="CS_SUM_COUNT" property="csSumCount" javaType="Integer" />
+	</resultMap>
+	
+	<resultMap type="Archive" id="archiveComplexResultMap" extends="archivePlainResultMap">
+		<association property="adminMember" column="MEM_ID" javaType="AdminMember" resultMap="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberPlainResultMap" />
+		<association property="thumb" column="ARC_THUMB" javaType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap" />
+		<collection property="arcFileInfos" column="{fileModuleSubId=ARC_ID,fileModuleId=ARC_CUSTOM_TYPE,sitePrefix=SITE_PREFIX}" javaType="ArrayList" ofType="FileInfo" select="selectArchiveFileInfoList" />
+	</resultMap>
+
+
+	<sql id="archiveCategoryPlainColumns">
+		CAT_ID
+		, CAT_NAME
+		, CAT_CUSTOM_TYPE
+		, CAT_PAGE_SIZE
+		, CAT_META_CODE1
+		, CAT_META_CODE2
+		, CAT_META_CODE3
+		, CAT_USER_LIST_TEMPLATE
+		, CAT_USER_VIEW_TEMPLATE
+		, CAT_ADMIN_LIST_TEMPLATE
+		, CAT_ADMIN_FORM_TEMPLATE
+		, CAT_SORT_ORDER
+		, CAT_SORT_DIRECTION
+		, CAT_REGDATE
+		, CAT_SUPPORT_SELECT1
+		, CAT_SUPPORT_NURI
+		, CAT_SUPPORT_RECOMMEND
+		, CAT_SUPPORT_FIXING
+		, CAT_FIXING_NUM
+		, CAT_SUPPORT_IMAGE
+		, CAT_SUPPORT_THUMBNAIL
+		, CAT_THUMBNAIL_CROP
+		, CAT_THUMBNAIL_WIDTH
+		, CAT_THUMBNAIL_HEIGHT
+		, CAT_UPLOAD_FILE_NAME
+		, CAT_UPLOAD_SIZE_MAX
+	</sql>
+	
+	<sql id="archiveCategoryJoinColumns">
+		CAT.CAT_ID
+		, CAT.CAT_NAME
+		, CAT.CAT_CUSTOM_TYPE
+		, CAT.CAT_PAGE_SIZE
+		, CAT.CAT_META_CODE1
+		, CAT.CAT_META_CODE2
+		, CAT.CAT_META_CODE3
+		, CAT.CAT_USER_LIST_TEMPLATE
+		, CAT.CAT_USER_VIEW_TEMPLATE
+		, CAT.CAT_ADMIN_LIST_TEMPLATE
+		, CAT.CAT_ADMIN_FORM_TEMPLATE
+		, CAT.CAT_SORT_ORDER
+		, CAT.CAT_SORT_DIRECTION
+		, CAT.CAT_REGDATE
+		, CAT.CAT_SUPPORT_SELECT1
+		, CAT.CAT_SUPPORT_NURI
+		, CAT.CAT_SUPPORT_RECOMMEND
+		, CAT.CAT_SUPPORT_FIXING
+		, CAT.CAT_FIXING_NUM
+		, CAT.CAT_SUPPORT_IMAGE
+		, CAT.CAT_SUPPORT_THUMBNAIL
+		, CAT.CAT_THUMBNAIL_CROP
+		, CAT.CAT_THUMBNAIL_WIDTH
+		, CAT.CAT_THUMBNAIL_HEIGHT
+		, CAT.CAT_UPLOAD_FILE_NAME
+		, CAT.CAT_UPLOAD_SIZE_MAX
+	</sql>
+
+	<sql id="archivePlainColumns">
+		ARC_ID
+		, ARC_CATEGORY
+		, ARC_TITLE
+		, ARC_CUSTOM_TYPE
+		, ARC_CONTENT
+		, MEM_ID
+		, ARC_REGDATE
+		, ARC_LAST_UPDATE
+		, ARC_HIT
+		, ARC_RECOMMEND
+		, ARC_NURI
+		, ARC_USE
+		, ARC_THUMB
+		, ARC_META_CODE1
+		, ARC_META_CODE2
+		, ARC_META_CODE3
+		, ARC_TAG
+		, ARC_MEDIA
+		, ARC_YEAR
+		, ARC_ADVERTISER
+		, ARC_PRODUCT
+		, ARC_PRODUCT_DIV
+		, ARC_ACTOR
+		, ARC_PERIOD
+		, ARC_THUMB_TEXT
+		, ARC_SELECTED1
+	</sql>
+			
+	<sql id="archiveJoinColumns">
+		ARC.ARC_ID
+		, ARC.ARC_CATEGORY
+		, ARC.ARC_TITLE
+		, ARC.ARC_CUSTOM_TYPE
+		, ARC.ARC_CONTENT
+		, ARC.MEM_ID
+		, ARC.ARC_REGDATE
+		, ARC.ARC_LAST_UPDATE
+		, ARC.ARC_HIT
+		, ARC.ARC_RECOMMEND
+		, ARC.ARC_NURI
+		, ARC.ARC_USE
+		, ARC.ARC_THUMB
+		, ARC.ARC_META_CODE1
+		, ARC.ARC_META_CODE2
+		, ARC.ARC_META_CODE3
+		, ARC.ARC_TAG
+		, ARC.ARC_MEDIA
+		, ARC.ARC_YEAR
+		, ARC.ARC_ADVERTISER
+		, ARC.ARC_PRODUCT
+		, ARC.ARC_PRODUCT_DIV
+		, ARC.ARC_ACTOR
+		, ARC.ARC_PERIOD
+		, ARC.ARC_THUMB_TEXT
+		, ARC.ARC_SELECTED1
+	</sql>
+	
+	
+	<!-- ============================================================================================= -->
+	<!-- =================================	아카이브 카테고리		=========================================== -->
+	<!-- ============================================================================================= -->
+	
+	<select id="selectArchiveCategoryList" parameterType="ArchiveCategorySearch" resultMap="archiveCategoryPlainResultMap">
+		SELECT
+			<include refid="archiveCategoryPlainColumns" />
+			, ( SELECT COUNT(*) FROM ${sitePrefix}_ARCHIVE WHERE ARC_CATEGORY = CAT_ID ) AS CAT_ARCHIVE_COUNT
+		FROM ${sitePrefix}_ARCHIVE_CATEGORY
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CAT_NAME LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CAT_NAME ASC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectArchiveCategoryListTotal" parameterType="ArchiveCategorySearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_ARCHIVE_CATEGORY
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CAT_NAME LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertArchiveCategory" parameterType="ArchiveCategory">
+		<!-- <selectKey keyProperty="catId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey> -->
+		INSERT INTO ${sitePrefix}_ARCHIVE_CATEGORY (
+			<include refid="archiveCategoryPlainColumns"/>
+		) VALUES (
+			#{catId}
+			, #{catName}
+			, #{catCustomType}
+			, #{catPageSize}
+			, #{catMetaCode1}
+			, #{catMetaCode2}
+			, #{catMetaCode3}
+			, #{catUserListTemplate}
+			, #{catUserViewTemplate}
+			, #{catAdminListTemplate}
+			, #{catAdminFormTemplate}
+			, #{catSortOrder}
+			, #{catSortDirection}
+			, #{catRegdate}
+			, #{catSupportSelect1}
+			, #{catSupportNuri}
+			, #{catSupportRecommend}
+			, #{catSupportFixing}
+			, #{catFixingNum}
+			, #{catSupportImage}
+			, #{catSupportThumbnail}
+			, #{catThumbnailCrop}
+			, #{catThumbnailWidth}
+			, #{catThumbnailHeight}
+			, #{catUploadFileNum}
+			, #{catUploadSizeMax}
+		)
+	</insert>
+
+	<select id="selectArchiveCategory" parameterType="ArchiveCategory" resultMap="archiveCategoryPlainResultMap">
+		SELECT 
+			<include refid="archiveCategoryPlainColumns"/>
+		FROM ${sitePrefix}_ARCHIVE_CATEGORY AC
+		<where>
+			AC.CAT_ID = #{catId}
+		</where>
+	</select>
+	
+	<update id="updateArchiveCategory" parameterType="ArchiveCategory">
+		UPDATE ${sitePrefix}_ARCHIVE_CATEGORY SET
+			CAT_NAME					=	#{catName}
+			, CAT_PAGE_SIZE				=	#{catPageSize}
+			, CAT_CUSTOM_TYPE			=	#{catCustomType}
+			, CAT_META_CODE1			=	#{catMetaCode1}
+			, CAT_META_CODE2			=	#{catMetaCode2}
+			, CAT_META_CODE3			=	#{catMetaCode3}
+			, CAT_USER_LIST_TEMPLATE	=	#{catUserListTemplate}
+			, CAT_USER_VIEW_TEMPLATE	=	#{catUserViewTemplate}
+			, CAT_ADMIN_LIST_TEMPLATE	=	#{catAdminListTemplate}
+			, CAT_ADMIN_FORM_TEMPLATE	=	#{catAdminFormTemplate}
+			, CAT_SORT_ORDER			=	#{catSortOrder}
+			, CAT_SORT_DIRECTION		=	#{catSortDirection}
+			, CAT_SUPPORT_SELECT1		=	#{catSupportSelect1}
+			, CAT_SUPPORT_NURI			=	#{catSupportNuri}
+			, CAT_SUPPORT_RECOMMEND		=	#{catSupportRecommend}
+			, CAT_SUPPORT_FIXING		=	#{catSupportFixing}
+			, CAT_FIXING_NUM			=	#{catFixingNum}
+			, CAT_SUPPORT_IMAGE			=	#{catSupportImage}
+			, CAT_SUPPORT_THUMBNAIL		=	#{catSupportThumbnail}
+			, CAT_THUMBNAIL_CROP		=	#{catThumbnailCrop}
+			, CAT_THUMBNAIL_WIDTH		=	#{catThumbnailWidth}
+			, CAT_THUMBNAIL_HEIGHT		=	#{catThumbnailHeight}
+			, CAT_UPLOAD_FILE_NAME		=	#{catUploadFileNum}
+			, CAT_UPLOAD_SIZE_MAX		=	#{catUploadSizeMax}
+		<where>
+			CAT_ID	=	#{catId}
+		</where>
+	</update>
+	
+	<delete id="deleteArchiveCategory" parameterType="ArchiveCategory">
+		DELETE FROM ${sitePrefix}_ARCHIVE_CATEGORY
+		<where>
+			CAT_ID	=	#{catId}
+		</where>
+	</delete>
+
+
+	<!-- ====================================================================================================== -->
+	<!-- ==========================================		아카이브	 ================================================= -->
+	<!-- ====================================================================================================== -->
+	
+	<select id="selectArchiveList" parameterType="archiveSearch" resultMap="archiveComplexResultMap">
+		SELECT
+			<include refid="archiveJoinColumns" />
+			, #{sitePrefix} AS SITE_PREFIX
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+		FROM ${sitePrefix}_ARCHIVE ARC
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						ARC_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR ARC_CONTENT LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="arcCategory != null and arcCategory != ''">
+				AND ARC.ARC_CATEGORY = #{arcCategory}
+			</if>
+			<if test="arcTag != null and arcTag != ''">
+				AND ARC.ARC_TAG LIKE CONCAT('%',#{arcTag},'%')
+			</if>
+			
+			
+			<if test="arcYear != null and arcYear != ''">
+				AND ARC.ARC_YEAR = #{arcYear}
+			</if>
+			<if test="arcAdvertiser != null and arcAdvertiser != ''">
+				AND ARC.ARC_ADVERTISER LIKE CONCAT('%',#{arcAdvertiser},'%')
+			</if>
+			<if test="arcProduct != null and arcProduct != ''">
+				AND ARC.ARC_PRODUCT LIKE CONCAT('%',#{arcProduct},'%')
+			</if>
+			<if test="arcActor != null and arcActor != ''">
+				AND ARC.ARC_ACTOR LIKE CONCAT('%',#{arcActor},'%')
+			</if>
+			
+			
+			<if test="metaCode1 != null and metaCode1 != ''">
+				AND ARC.ARC_META_CODE1 = #{metaCode1}
+			</if>
+			<if test="metaCode2 != null and metaCode2 != ''">
+				AND ARC.ARC_META_CODE2 = #{metaCode2}
+			</if>
+			<if test="metaCode3 != null and metaCode3 != ''">
+				AND ARC.ARC_META_CODE3 = #{metaCode3}
+			</if>
+			<if test="arcMedia != null and arcMedia != ''">
+				AND ARC.ARC_MEDIA LIKE CONCAT('%',#{arcMedia},'%')
+			</if>
+			<if test="arcUse != null">
+				AND ARC.ARC_USE = #{arcUse}
+			</if>
+			<if test="arcSelected1 != null">
+				AND ARC.ARC_SELECTED1 = #{arcSelected1}
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY ARC_ID DESC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectArchiveListTotal" parameterType="ArchiveSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_ARCHIVE ARC
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						ARC_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR ARC_CONTENT LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="arcCategory != null and arcCategory != ''">
+				AND ARC.ARC_CATEGORY = #{arcCategory}
+			</if>
+			<if test="arcTag != null and arcTag != ''">
+				AND ARC.ARC_TAG LIKE CONCAT('%',#{arcTag},'%')
+			</if>
+			
+			
+			<if test="arcYear != null and arcYear != ''">
+				AND ARC.ARC_YEAR = #{arcYear}
+			</if>
+			<if test="arcAdvertiser != null and arcAdvertiser != ''">
+				AND ARC.ARC_ADVERTISER LIKE CONCAT('%',#{arcAdvertiser},'%')
+			</if>
+			<if test="arcProduct != null and arcProduct != ''">
+				AND ARC.ARC_PRODUCT LIKE CONCAT('%',#{arcProduct},'%')
+			</if>
+			<if test="arcActor != null and arcActor != ''">
+				AND ARC.ARC_ACTOR LIKE CONCAT('%',#{arcActor},'%')
+			</if>
+			
+			
+			<if test="metaCode1 != null and metaCode1 != ''">
+				AND ARC.ARC_META_CODE1 = #{metaCode1}
+			</if>
+			<if test="metaCode2 != null and metaCode2 != ''">
+				AND ARC.ARC_META_CODE2 = #{metaCode2}
+			</if>
+			<if test="metaCode3 != null and metaCode3 != ''">
+				AND ARC.ARC_META_CODE3 = #{metaCode3}
+			</if>
+			<if test="arcMedia != null and arcMedia != ''">
+				AND ARC.ARC_MEDIA LIKE CONCAT('%',#{arcMedia},'%')
+			</if>
+			<if test="arcUse != null">
+				AND ARC.ARC_USE = #{arcUse}
+			</if>
+			<if test="arcSelected1 != null">
+				AND ARC.ARC_SELECTED1 = #{arcSelected1}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertArchive" parameterType="Archive">
+		<selectKey keyProperty="arcId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO ${sitePrefix}_ARCHIVE (
+			<include refid="archivePlainColumns"/>
+		) VALUES (
+			#{arcId}
+			, #{arcCategory}
+			, #{arcTitle}
+			, #{arcCustomType}
+			, #{arcContent}
+			, #{memId}
+			, #{arcRegdate}
+			, #{arcLastUpdate}
+			, #{arcHit}
+			, #{arcRecommend}
+			, #{arcNuri}
+			, #{arcUse}
+			, #{thumb.fileId}
+			, #{arcMetaCode1}
+			, #{arcMetaCode2}
+			, #{arcMetaCode3}
+			, #{arcTag}
+			, #{arcMedia}
+			, #{arcYear}
+			, #{arcAdvertiser}
+			, #{arcProduct}
+			, #{arcProductDiv}
+			, #{arcActor}
+			, #{arcPeriod}
+			, #{arcThumbText}
+			, #{arcSelected1}
+		)
+	</insert>
+
+	<select id="selectArchive" parameterType="Archive" resultMap="archiveComplexResultMap">
+		SELECT
+			<include refid="archiveJoinColumns" />
+			, #{sitePrefix} AS SITE_PREFIX
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+		FROM ${sitePrefix}_ARCHIVE ARC
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON ARC.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON ARC.ARC_THUMB = FI.FILE_ID
+		<where>
+			ARC.ARC_ID = #{arcId}
+		</where>
+	</select>
+	
+	<update id="updateArchive" parameterType="Archive">
+		UPDATE ${sitePrefix}_ARCHIVE SET
+			ARC_TITLE					=	#{arcTitle}
+			, ARC_CUSTOM_TYPE			=	#{arcCustomType}
+			, ARC_CONTENT				=	#{arcContent}
+			, ARC_LAST_UPDATE			=	#{arcLastUpdate}
+			, ARC_NURI					=	#{arcNuri}
+			, ARC_USE					=	#{arcUse}
+			, ARC_THUMB					=	#{thumb.fileId}
+			, ARC_META_CODE1			=	#{arcMetaCode1}
+			, ARC_META_CODE2			=	#{arcMetaCode2}
+			, ARC_META_CODE3			=	#{arcMetaCode3}
+			, ARC_TAG					=	#{arcTag}
+			, ARC_MEDIA					=	#{arcMedia}
+			, ARC_YEAR					=	#{arcYear}
+			, ARC_ADVERTISER			=	#{arcAdvertiser}
+			, ARC_PRODUCT				=	#{arcProduct}
+			, ARC_PRODUCT_DIV			=	#{arcProductDiv}
+			, ARC_ACTOR					=	#{arcActor}
+			, ARC_PERIOD				=	#{arcPeriod}
+			, ARC_THUMB_TEXT			=	#{arcThumbText}
+			, ARC_SELECTED1				=	#{arcSelected1}
+		<where>
+			ARC_ID	=	#{arcId}
+		</where>
+	</update>
+	
+	<delete id="deleteArchive" parameterType="Archive">
+		DELETE FROM ${sitePrefix}_ARCHIVE
+		<where>
+			ARC_ID	=	#{arcId}
+		</where>
+	</delete>
+	
+	<update id="updateArchiveHit" parameterType="Archive">
+		UPDATE ${sitePrefix}_ARCHIVE 
+		SET ARC_HIT = ARC_HIT + 1
+		<where>
+			ARC_ID	=	#{arcId}
+		</where> 
+	</update>
+	
+	<update id="updateArchiveRecommend" parameterType="Archive">
+		UPDATE ${sitePrefix}_ARCHIVE 
+		SET ARC_RECOMMEND = ARC_RECOMMEND + 1
+		<where>
+			ARC_ID	=	#{arcId}
+		</where> 
+	</update>
+
+	
+	<!-- ================================================================================================================================ -->
+	<!-- ================================================================================================================================ -->
+	<!-- ================================================================================================================================ -->
+
+	<select id="selectArchiveFileInfoList" parameterType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap">
+		SELECT 
+			<include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoColumns"/>
+		FROM ${sitePrefix}_FILEINFO
+		<where>
+			FILE_MODULE 				= 'archive'
+			AND FILE_MODULE_ID	 		= #{fileModuleId}
+			AND FILE_MODULE_SUB_ID 		= #{fileModuleSubId}
+			AND FILE_ATTACHMENT_TYPE 	= 'appending'
+		</where>
+		ORDER BY FILE_REGDATE ASC, FILE_ORIGINAL_NAME ASC
+	</select>
+</mapper>

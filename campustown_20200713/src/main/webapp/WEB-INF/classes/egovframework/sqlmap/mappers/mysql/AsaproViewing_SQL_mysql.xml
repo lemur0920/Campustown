@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.viewing.service.ViewingMapper">
+	
+	<resultMap type="ViewingReservation" id="viewingReservationPlainResultMap">
+		<id column="RESERV_ID" property="reservId" javaType="Integer" />
+		<result column="RESERV_NAME" property="reservName" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />	
+		<result column="RESERV_GROUP" property="reservGroup" javaType="String" />
+		<result column="RESERV_ADDRESS" property="reservAddress" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_EMAIL" property="reservEmail" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_HP" property="reservHp" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_PEOPLE" property="reservPeople" javaType="Integer" />	
+		<result column="RESERV_DATE" property="reservDate" javaType="String" />
+		<result column="RESERV_STIME" property="reservStime" javaType="String" />
+		<result column="RESERV_ETIME" property="reservEtime" javaType="String" />	
+		<result column="RESERV_REGDATE" property="reservRegdate" javaType="Date" />
+		<result column="RESERV_MEMO" property="reservMemo" javaType="String" />
+		<result column="RESERV_STATUS" property="reservStatus" javaType="String" />
+		<result column="RESERV_AGREE" property="reservAgree" javaType="Boolean" />
+	</resultMap>
+	
+	
+	<sql id="viewingReservationPlainColumns">
+		RESERV_ID
+		, RESERV_NAME
+		, RESERV_GROUP
+		, RESERV_ADDRESS
+		, RESERV_EMAIL
+		, RESERV_HP
+		, RESERV_PEOPLE
+		, RESERV_DATE
+		, RESERV_STIME
+		, RESERV_ETIME
+		, RESERV_REGDATE
+		, RESERV_MEMO
+		, RESERV_STATUS
+		, RESERV_AGREE
+	</sql>
+	
+	<sql id="viewingReservationJoinColumns">
+		RES.RESERV_ID
+		, RES.RESERV_NAME
+		, RES.RESERV_GROUP
+		, RES.RESERV_ADDRESS
+		, RES.RESERV_EMAIL
+		, RES.RESERV_HP
+		, RES.RESERV_PEOPLE
+		, RES.RESERV_DATE
+		, RES.RESERV_STIME
+		, RES.RESERV_ETIME
+		, RES.RESERV_REGDATE
+		, RES.RESERV_MEMO
+		, RES.RESERV_STATUS
+		, RES.RESERV_AGREE
+	</sql>
+	
+	
+	<!-- ============================================================================================= -->
+	<!-- =================================	신청정보		=========================================== -->
+	<!-- ============================================================================================= -->
+	
+	<select id="selectViewingReservationList" parameterType="ViewingReservationSearch" resultMap="viewingReservationPlainResultMap">
+		SELECT 
+			<include refid="viewingReservationJoinColumns"/>
+		FROM ${sitePrefix}_VIEWING_RESERVATION RES
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						OR RES.RESERV_GROUP LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'RESERV_NAME'">
+						AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+					<if test="sc != 'RESERV_NAME'">
+						AND ${sc} LIKE CONCAT('%',#{sv},'%')
+					</if>
+				</if>
+			</if>
+			<if test="reservStatus != null and reservStatus != ''">
+				AND RES.RESERV_STATUS = #{reservStatus}
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RES.RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+			<if test="reservDate != null and reservDate != ''">
+				AND RES.RESERV_DATE = #{reservDate}
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY RES.RESERV_ID DESC
+		</if> 
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectViewingReservationListTotal" parameterType="RentalReservationSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_VIEWING_RESERVATION RES
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						OR RES.RESERV_GROUP LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'RESERV_NAME'">
+						AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+					<if test="sc != 'RESERV_NAME'">
+						AND ${sc} LIKE CONCAT('%',#{sv},'%')
+					</if>
+				</if>
+			</if>
+			<if test="reservStatus != null and reservStatus != ''">
+				AND RES.RESERV_STATUS = #{reservStatus}
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RES.RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+			<if test="reservDate != null and reservDate != ''">
+				AND RES.RESERV_DATE = #{reservDate}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertViewingReservation" parameterType="ViewingReservation">
+		<selectKey keyProperty="reservId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO ${sitePrefix}_VIEWING_RESERVATION (
+			<include refid="viewingReservationPlainColumns"/>
+		) VALUES (
+			#{reservId}
+			, #{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservGroup}
+			, #{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservPeople}
+			, #{reservDate}
+			, #{reservStime}
+			, #{reservEtime}
+			, #{reservRegdate}
+			, #{reservMemo}
+			, #{reservStatus}
+			, #{reservAgree}
+		)
+	</insert>
+	
+	<select id="selectViewingReservation" parameterType="ViewingReservation" resultMap="viewingReservationPlainResultMap">
+		SELECT 
+			<include refid="viewingReservationJoinColumns"/>
+		FROM ${sitePrefix}_VIEWING_RESERVATION RES
+		<where>
+			RES.RESERV_ID = #{reservId}
+		</where>
+	</select>
+	
+	<update id="updateViewingReservation" parameterType="ViewingReservation">
+		UPDATE ${sitePrefix}_VIEWING_RESERVATION SET
+			RESERV_NAME					=	#{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_GROUP				=	#{reservGroup}
+			, RESERV_ADDRESS			=	#{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_EMAIL				=	#{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_HP					=	#{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_PEOPLE				=	#{reservPeople}
+			, RESERV_DATE				=	#{reservDate}
+			, RESERV_STIME				=	#{reservStime}
+			, RESERV_ETIME				=	#{reservEtime}
+			, RESERV_MEMO				=	#{reservMemo}
+			, RESERV_STATUS				=	#{reservStatus}
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</update>
+	
+	<delete id="deleteViewingReservation" parameterType="ViewingReservation">
+		DELETE FROM ${sitePrefix}_VIEWING_RESERVATION
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</delete>
+	
+	
+</mapper>

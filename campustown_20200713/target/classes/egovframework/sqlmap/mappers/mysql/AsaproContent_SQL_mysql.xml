@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.content.service.ContentMapper">
+	
+	<resultMap type="Content" id="contentPlainResultMap">
+		<id property="contentId" column="CONTENT_ID" javaType="Integer"/>
+		<result property="contentRoot" column="CONTENT_ROOT" javaType="Integer" />
+		<result property="contentTitle" column="CONTENT_TITLE" javaType="String" />
+		<result property="menu.menuId" column="MENU_ID" javaType="String"/>
+		<result property="content" column="CONTENT" javaType="String" />
+		<result property="contentPlain" column="CONTENT_PLAIN" javaType="String" />
+		<result property="contentStatus" column="CONTENT_STATUS" javaType="String" />
+		<result property="contentVer" column="CONTENT_VER" javaType="Integer" />
+		<result property="contentRegDate" column="CONTENT_REGDATE" javaType="Date" />
+		<result property="contentLastModified" column="CONTENT_LAST_MODIFIED" javaType="Date" />
+		<result property="contentLastWorker.adminId" column="CONTENT_LAST_WORKER" javaType="String" />
+		<result property="contentMemo" column="CONTENT_MEMO" javaType="String" />
+	</resultMap>
+	
+	<sql id="contentPlainColumns">
+		CONTENT_ID
+		, CONTENT_ROOT
+		, CONTENT_TITLE
+		, MENU_ID
+		, CONTENT
+		, CONTENT_PLAIN
+		, CONTENT_STATUS
+		, CONTENT_VER
+		, CONTENT_REGDATE
+		, CONTENT_LAST_MODIFIED
+		, CONTENT_LAST_WORKER
+		, CONTENT_MEMO
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="contentJoinColumns">
+		CNT.CONTENT_ID
+		, CNT.CONTENT_ROOT
+		, CNT.CONTENT_TITLE
+		, CNT.MENU_ID
+		, CNT.CONTENT_PLAIN
+		, CNT.CONTENT_STATUS
+		, CNT.CONTENT_VER
+		, CNT.CONTENT_REGDATE
+		, CNT.CONTENT_LAST_MODIFIED
+		, CNT.CONTENT_LAST_WORKER
+		, CNT.CONTENT_MEMO
+		, CNT.SITE_PREFIX
+		, CNT.CONTENT
+	</sql>
+	
+	<insert id="insertContent" parameterType="Content">
+		<selectKey keyProperty="contentId" order="BEFORE" resultType="Integer">
+			SELECT IFNULL(MAX(CONTENT_ID), 0) + 1 FROM ASA_CONTENT; 
+		</selectKey>
+		INSERT INTO ASA_CONTENT (
+			<include refid="contentPlainColumns"/>
+		) VALUES (
+			#{contentId}
+			<if test="contentRoot == null or contentRoot le 0 ">
+			, #{contentId}
+			</if>
+			<if test="contentRoot != null and contentRoot gt 0 ">
+			, #{contentRoot}
+			</if>
+			, #{contentTitle}
+			, #{menu.menuId}
+			, #{content}
+			, #{contentPlain}
+			, #{contentStatus}
+			, #{contentVer}
+			, #{contentRegDate}
+			, #{contentLastModified}
+			, #{contentLastWorker.adminId}
+			, #{contentMemo}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<select id="selectContent" parameterType="Content" resultMap="contentPlainResultMap">
+		SELECT
+			<include refid="contentPlainColumns"/>
+		FROM ASA_CONTENT
+		<where>
+			<if test="contentId != null ">
+				AND CONTENT_ID = #{contentId}
+			</if>
+			<if test="contentRoot != null ">
+				AND CONTENT_ROOT = #{contentRoot}
+			</if>
+			<if test="contentStatus != null and contentStatus != ''">
+				AND CONTENT_STATUS = #{contentStatus}
+			</if>
+			<if test="contentStatus != null and contentStatus == 'revision' and contentVer > 0">
+				AND CONTENT_VER = #{contentVer}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectContentList" parameterType="ContentSearch" resultMap="contentPlainResultMap">
+		SELECT 
+			<include refid="contentPlainColumns"/>
+		FROM ASA_CONTENT
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CONTENT_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR CONTENT LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="contentRoot != null and contentRoot > 0">
+				AND CONTENT_ROOT = #{contentRoot}
+			</if>
+			<if test="contentStatus != null and contentStatus != ''">
+				AND CONTENT_STATUS = #{contentStatus}
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CONTENT_LAST_MODIFIED DESC
+		</if> 
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectContentListTotal" parameterType="ContentSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ASA_CONTENT
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CONTENT_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR CONTENT LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="contentRoot != null and contentRoot > 0">
+				AND CONTENT_ROOT = #{contentRoot}
+			</if>
+			<if test="contentStatus != null and contentStatus != ''">
+				AND CONTENT_STATUS = #{contentStatus}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateContent" parameterType="Content">
+		UPDATE ASA_CONTENT SET 
+			CONTENT_TITLE			= #{contentTitle}
+			, CONTENT				= #{content}
+			, CONTENT_PLAIN			= #{contentPlain}
+			, CONTENT_STATUS		= #{contentStatus}
+			, CONTENT_LAST_MODIFIED	= #{contentLastModified}
+			, CONTENT_LAST_WORKER	= #{contentLastWorker.adminId}
+			, CONTENT_MEMO			= #{contentMemo}
+		<where>
+			CONTENT_ID		= #{contentId}
+		</where>
+	</update>	
+		
+	<delete id="deleteContent" parameterType="Content">
+		DELETE FROM ASA_CONTENT
+		<where>
+			<if test="contentId != null and contentId > 0">
+				CONTENT_ID = #{contentId}
+			</if>
+			<if test="contentRoot != null and contentRoot > 0">
+				CONTENT_ROOT = #{contentRoot}
+			</if>
+		</where>
+	</delete>
+	
+	<!-- ============================================================== -->
+	<!-- =====================릴레이션을 통한 콘텐츠 관리========================== -->
+	<!-- ============================================================== -->	
+	<select id="selectContentByRel" parameterType="egovframework.com.asapro.menu.service.MenuContentRelation" resultMap="contentPlainResultMap">
+		SELECT 
+			<include refid="contentJoinColumns"/>
+		FROM ASA_MENU_CONT_REL REL
+		LEFT OUTER JOIN (SELECT * FROM ASA_CONTENT WHERE CONTENT_STATUS = 'publish') CNT ON REL.CONTENT_ROOT = CNT.CONTENT_ROOT
+		<where>
+			REL.MENU_ID = #{menuId}
+			AND REL.SITE_PREFIX = #{sitePrefix}
+		</where>
+	
+	</select>
+	
+	<insert id="insertMenuContentRel" parameterType="egovframework.com.asapro.menu.service.MenuContentRelation">
+		INSERT INTO ASA_MENU_CONT_REL (
+			 MENU_ID
+			 , SITE_PREFIX
+			 , CONTENT_ROOT
+		) VALUES (
+			#{menuId}
+			, #{sitePrefix}
+			, #{contentRoot}
+		)
+	</insert>
+	
+	<delete id="deleteMenuContentRel" parameterType="egovframework.com.asapro.menu.service.MenuContentRelation">
+		DELETE FROM ASA_MENU_CONT_REL
+		<where>
+			MENU_ID = #{menuId}
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</delete>
+	
+</mapper>

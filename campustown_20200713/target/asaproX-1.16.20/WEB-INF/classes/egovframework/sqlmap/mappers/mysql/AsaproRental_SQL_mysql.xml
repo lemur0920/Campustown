@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.rental.service.RentalMapper">
+	
+	<resultMap type="Rental" id="rentalPlainResultMap">
+		<id column="RENT_ID" property="rentId" javaType="Integer" />
+		<result column="RENT_CATE1" property="rentCate1" javaType="String" />
+		<result column="RENT_CATE2" property="rentCate2" javaType="String" />	
+		<result column="RENT_MANAGER" property="rentManager" javaType="String" />
+		<result column="RENT_MANATER_TEL" property="rentManagerTel" javaType="String" />
+		<result column="RENT_TITLE" property="rentTitle" javaType="String" />
+		<result column="RENT_SHORT_DESCRIPTION" property="rentShortDescription" javaType="String" />
+		<result column="RENT_DIV" property="rentDiv" javaType="String" />	
+		<result column="RENT_RENTING_METHOD" property="rentRentingMethod" javaType="String" />	
+		<result column="RENT_CHARGE" property="rentCharge" javaType="Integer" />
+		<result column="RENT_RESERV_TYPE" property="rentReservType" javaType="String" />
+		<result column="RENT_PAYMENT_TYPE" property="rentPaymentType" javaType="String" />
+		<result column="RENT_DESCRIPTION" property="rentDescription" javaType="String" />	
+		<result column="RENT_FACILITY_INFO" property="rentFacilityInfo" javaType="String" />	
+		<result column="RENT_PRECAUTIONS" property="rentPrecautions" javaType="String" />	
+		<result column="RENT_REFUND_POKICY" property="rentRefundPokicy" javaType="String" />	
+		<result column="RENT_ETC" property="rentEtc" javaType="String" />
+		<result column="RENT_AVAILABLE_TIME" property="rentAvailableTime" javaType="String" />
+		<result column="RENT_USE" property="rentUse" javaType="Boolean" />
+		<result column="RENT_POSSIBLE_DAY_TYPE" property="rentPossiblelDayType" javaType="String" />
+		<result column="RENT_PERIOD_SDATE" property="rentPeriodSdate" javaType="String" />
+		<result column="RENT_PERIOD_EDATE" property="rentPeriodEdate" javaType="String" />
+		<result column="RENT_RESERV_SDATE_AFTER" property="rentReservSdateAfter" javaType="Integer" />
+		<result column="RENT_RESERV_EDATE_AFTER" property="rentReservEdateAfter" javaType="Integer" />
+		<result column="RENT_POSSIBLE_DAYOFWEEK" property="rentPossibleDayOfWeek" javaType="String" />
+		<result column="RENT_RESERV_TIME" property="rentReservTime" javaType="String" />
+		<result column="RENT_RESERV_TIME_SAT" property="rentReservTimeSat" javaType="String" />
+		<result column="RENT_RESERV_TIME_SUN" property="rentReservTimeSun" javaType="String" />
+		<result column="RENT_IMPOSSIBLE_DATE" property="rentImpossibleDate" javaType="String" />
+		<result column="RENT_REGDATE" property="rentRegDate" javaType="Date" />
+		<result column="RENT_STEP" property="rentStep" javaType="String" />
+		<result column="RENT_PARKING" property="rentParking" javaType="Integer" />
+		<result column="RENT_ORDER" property="rentOrder" javaType="Integer" />
+		<result column="RENT_VR" property="rentVR" javaType="String" />
+		<result column="RENT_APPROVE" property="rentApprove" javaType="Boolean" />
+		<result column="RENT_MEMBERSHIP" property="rentMembership" javaType="Boolean" />
+		<result column="RENT_MEMBER_DISCOUNT" property="rentMemberDiscount" javaType="Integer" />
+		<result column="RENT_RES_MIN_TIME" property="rentResMinTime" javaType="Integer" />
+		<result column="RENT_RES_MIN_NUMBER" property="rentResMinNumber" javaType="Integer" />
+		<result column="RENT_RES_MAX_NUMBER" property="rentResMaxNumber" javaType="Integer" />
+		<result column="RENT_REFUND_DATE_BEFORE" property="rentRefundDateBefore" javaType="Integer" />
+		<result column="RENT_REFUND_RATE" property="rentRefundRate" javaType="Integer" />
+		<result column="RENT_PAYMENT_TIME_LIMIT" property="rentPaymentTimeLimit" javaType="Integer" />
+		<association column="RENT_THUMB" property="thumb" javaType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap" />
+	</resultMap>
+	
+	<resultMap type="RentalReservationInfo" id="rentalReservationInfoPlainResultMap">
+		<id column="RESERV_ID" property="reservId" javaType="String" />
+		<result column="RESERV_RENT_ID" property="rental.rentId" javaType="Integer" />
+		<result column="RESERV_USER_ID" property="reservUserId" javaType="String" />
+		<result column="RESERV_NAME" property="reservName" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />	
+		<result column="RESERV_POSITION" property="reservPosition" javaType="String" />
+		<result column="RESERV_TEL" property="reservTel" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_HP" property="reservHp" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_EMAIL" property="reservEmail" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />	
+		<result column="RESERV_ORGANIZATION" property="reservOrganization" javaType="String" />
+		<result column="RESERV_ORG_DIV_CODE" property="reservOrgDivCode" javaType="String" />
+		<result column="RESERV_ZIPCODE" property="reservZipcode" javaType="String" />
+		<result column="RESERV_ADDRESS" property="reservAddress" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />	
+		<result column="RESERV_ADDRESS_DETAIL" property="reservAddressDetail" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_TOTAL" property="reservTotal" javaType="Integer" />
+		<result column="RESERV_DATE" property="reservDate" javaType="String" />
+		<result column="RESERV_TIME" property="reservTime" javaType="String" />
+		<result column="RESERV_USAGE_TIME" property="reservUsageTime" javaType="Integer" />
+		<result column="RESERV_TIME_ADD" property="reservTimeAdd" javaType="Integer" />
+		<result column="RESERV_PAID_TYPE" property="reservPaidType" javaType="String" />
+		<result column="RESERV_MEMBERSHIP" property="reservMembership" javaType="Boolean" />
+		<result column="RESERV_PRICE" property="reservPrice" javaType="Integer" />
+		<result column="RESERV_DISCOUNT_RATE" property="reservDiscountRate" javaType="Integer" />
+		<result column="RESERV_PAYMENT_AMOUNT" property="reservPaymentAmount" javaType="Integer" />
+		<result column="RESERV_TITLE" property="reservTitle" javaType="String" />
+		<result column="RESERV_CONTENT" property="reservContent" javaType="String" />
+		<result column="RESERV_REQUESTS" property="reservRequests" javaType="String" />
+		<result column="RESERV_PARKING" property="reservParking" javaType="Integer" />
+		<result column="RESERV_STATUS" property="reservStatus" javaType="String" />
+		<result column="RESERV_MEMO" property="reservMemo" javaType="String" />
+		<result column="RESERV_REGDATE" property="reservRegDate" javaType="Date" />
+		<result column="RESERV_CANCEL_DATE" property="reservCancelDate" javaType="String" />
+		<result column="RESERV_APPROV_DATE" property="reservApprovDate" javaType="String" />
+		<result column="RESERV_PAYMENT_DATE" property="reservPaymentDate" javaType="String" />
+		<result column="RESERV_PAY_CANCEL_DATE" property="reservPayCancelDate" javaType="String" />
+		<result column="RESERV_TID" property="reservTid" javaType="String" />
+		<association column="RESERV_FILE" property="reservAppendingFileInfo" javaType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap" />
+	</resultMap>
+	
+	<resultMap type="RentalReservationInfo" id="rentalReservationInfoComplexResultMap" extends="rentalReservationInfoPlainResultMap">
+		<association column="RESERV_RENT_ID" property="rental" javaType="Rental" resultMap="rentalPlainResultMap" />
+	</resultMap>
+	
+	<resultMap type="RentalReservCloseTime" id="rentalReservCloseTimePlainResultMap">
+		<id column="RENT_ID" property="rentId" javaType="Integer" />
+		<result column="RESERV_DATE" property="reservDate" javaType="String" />
+		<result column="RESERV_CLOSE_TIME" property="reservCloseTime" javaType="String" />
+	</resultMap>
+	
+	<sql id="rentalPlainColumns">
+		RENT_ID
+		, RENT_CATE1
+		, RENT_CATE2
+		, RENT_MANAGER
+		, RENT_MANATER_TEL
+		, RENT_TITLE
+		, RENT_SHORT_DESCRIPTION
+		, RENT_DIV
+		, RENT_RENTING_METHOD
+		, RENT_CHARGE
+		, RENT_RESERV_TYPE
+		, RENT_PAYMENT_TYPE
+		, RENT_DESCRIPTION
+		, RENT_FACILITY_INFO
+		, RENT_PRECAUTIONS
+		, RENT_REFUND_POKICY
+		, RENT_ETC
+		, RENT_AVAILABLE_TIME
+		, RENT_USE
+		, RENT_THUMB
+		, RENT_POSSIBLE_DAY_TYPE
+		, RENT_PERIOD_SDATE
+		, RENT_PERIOD_EDATE
+		, RENT_RESERV_SDATE_AFTER
+		, RENT_RESERV_EDATE_AFTER
+		, RENT_POSSIBLE_DAYOFWEEK
+		, RENT_RESERV_TIME
+		, RENT_RESERV_TIME_SAT
+		, RENT_RESERV_TIME_SUN
+		, RENT_IMPOSSIBLE_DATE
+		, RENT_REGDATE
+		, RENT_STEP
+		, RENT_PARKING
+		, RENT_ORDER
+		, RENT_VR
+		, RENT_APPROVE
+		, RENT_MEMBERSHIP
+		, RENT_MEMBER_DISCOUNT
+		, RENT_RES_MIN_TIME
+		, RENT_RES_MIN_NUMBER
+		, RENT_RES_MAX_NUMBER
+		, RENT_REFUND_DATE_BEFORE
+		, RENT_REFUND_RATE
+		, RENT_PAYMENT_TIME_LIMIT
+	</sql>
+	
+	<sql id="rentalJoinColumns">
+		RENT.RENT_ID
+		, RENT.RENT_CATE1
+		, RENT.RENT_CATE2
+		, RENT.RENT_MANAGER
+		, RENT.RENT_MANATER_TEL
+		, RENT.RENT_TITLE
+		, RENT.RENT_SHORT_DESCRIPTION
+		, RENT.RENT_DIV
+		, RENT.RENT_RENTING_METHOD
+		, RENT.RENT_CHARGE
+		, RENT.RENT_RESERV_TYPE
+		, RENT.RENT_PAYMENT_TYPE
+		, RENT.RENT_DESCRIPTION
+		, RENT.RENT_FACILITY_INFO
+		, RENT.RENT_PRECAUTIONS
+		, RENT.RENT_REFUND_POKICY
+		, RENT.RENT_ETC
+		, RENT.RENT_AVAILABLE_TIME
+		, RENT.RENT_USE
+		, RENT.RENT_THUMB
+		, RENT.RENT_POSSIBLE_DAY_TYPE
+		, RENT.RENT_PERIOD_SDATE
+		, RENT.RENT_PERIOD_EDATE
+		, RENT.RENT_RESERV_SDATE_AFTER
+		, RENT.RENT_RESERV_EDATE_AFTER
+		, RENT.RENT_POSSIBLE_DAYOFWEEK
+		, RENT.RENT_RESERV_TIME
+		, RENT.RENT_RESERV_TIME_SAT
+		, RENT.RENT_RESERV_TIME_SUN
+		, RENT.RENT_IMPOSSIBLE_DATE
+		, RENT.RENT_REGDATE
+		, RENT.RENT_STEP
+		, RENT.RENT_PARKING
+		, RENT.RENT_ORDER
+		, RENT.RENT_VR
+		, RENT.RENT_APPROVE
+		, RENT.RENT_MEMBERSHIP
+		, RENT.RENT_MEMBER_DISCOUNT
+		, RENT.RENT_RES_MIN_TIME
+		, RENT.RENT_RES_MIN_NUMBER
+		, RENT.RENT_RES_MAX_NUMBER
+		, RENT.RENT_REFUND_DATE_BEFORE
+		, RENT.RENT_REFUND_RATE
+		, RENT.RENT_PAYMENT_TIME_LIMIT
+	</sql>
+	
+	<sql id="rentalReservationInfoPlainColumns">
+		RESERV_ID
+		, RESERV_RENT_ID
+		, RESERV_USER_ID
+		, RESERV_NAME
+		, RESERV_POSITION
+		, RESERV_TEL
+		, RESERV_HP
+		, RESERV_EMAIL
+		, RESERV_ORGANIZATION
+		, RESERV_ORG_DIV_CODE
+		, RESERV_ZIPCODE
+		, RESERV_ADDRESS
+		, RESERV_ADDRESS_DETAIL
+		, RESERV_TOTAL
+		, RESERV_DATE
+		, RESERV_TIME
+		, RESERV_USAGE_TIME
+		, RESERV_TIME_ADD
+		, RESERV_PAID_TYPE
+		, RESERV_MEMBERSHIP
+		, RESERV_PRICE
+		, RESERV_DISCOUNT_RATE
+		, RESERV_PAYMENT_AMOUNT
+		, RESERV_TITLE
+		, RESERV_CONTENT
+		, RESERV_REQUESTS
+		, RESERV_PARKING
+		, RESERV_FILE
+		, RESERV_STATUS
+		, RESERV_MEMO
+		, RESERV_REGDATE
+		, RESERV_CANCEL_DATE
+		, RESERV_APPROV_DATE
+		, RESERV_PAYMENT_DATE
+		, RESERV_PAY_CANCEL_DATE
+		, RESERV_TID
+	</sql>
+	
+	<sql id="rentalReservationInfoJoinColumns">
+		RES.RESERV_ID
+		, RES.RESERV_RENT_ID
+		, RES.RESERV_USER_ID
+		, RES.RESERV_NAME
+		, RES.RESERV_POSITION
+		, RES.RESERV_TEL
+		, RES.RESERV_HP
+		, RES.RESERV_EMAIL
+		, RES.RESERV_ORGANIZATION
+		, RES.RESERV_ORG_DIV_CODE
+		, RES.RESERV_ZIPCODE
+		, RES.RESERV_ADDRESS
+		, RES.RESERV_ADDRESS_DETAIL
+		, RES.RESERV_TOTAL
+		, RES.RESERV_DATE
+		, RES.RESERV_TIME
+		, RES.RESERV_USAGE_TIME
+		, RES.RESERV_TIME_ADD
+		, RES.RESERV_PAID_TYPE
+		, RES.RESERV_MEMBERSHIP
+		, RES.RESERV_PRICE
+		, RES.RESERV_DISCOUNT_RATE
+		, RES.RESERV_PAYMENT_AMOUNT
+		, RES.RESERV_TITLE
+		, RES.RESERV_CONTENT
+		, RES.RESERV_REQUESTS
+		, RES.RESERV_PARKING
+		, RES.RESERV_FILE
+		, RES.RESERV_STATUS
+		, RES.RESERV_MEMO
+		, RES.RESERV_REGDATE
+		, RES.RESERV_CANCEL_DATE
+		, RES.RESERV_APPROV_DATE
+		, RES.RESERV_PAYMENT_DATE
+		, RES.RESERV_PAY_CANCEL_DATE
+		, RES.RESERV_TID
+	</sql>
+	
+	<select id="selectRentalList" parameterType="RentalSearch" resultMap="rentalPlainResultMap">
+		SELECT 
+			<include refid="rentalJoinColumns"/>
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL RENT
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RENT.RENT_THUMB = FI.FILE_ID
+		<where>
+			<if test="rentCate1 != null and rentCate1 != ''">
+				AND RENT.RENT_CATE1 = #{rentCate1}
+			</if>
+			<if test="rentCate2 != null and rentCate2 != ''">
+				AND RENT.RENT_CATE2 = #{rentCate2}
+			</if>
+			<if test="rentUse != null">
+				AND RENT.RENT_USE = #{rentUse}
+			</if>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RENT.RENT_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR RENT.RENT_DESCRIPTION LIKE CONCAT('%',#{sv},'%')
+						OR RENT.RENT_ETC LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY RENT.RENT_ORDER ASC
+		</if> 
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectRentalListTotal" parameterType="RentalSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_RENTAL RENT
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RENT.RENT_THUMB = FI.FILE_ID
+		<where>
+			<if test="rentCate1 != null and rentCate1 != ''">
+				AND RENT.RENT_CATE1 = #{rentCate1}
+			</if>
+			<if test="rentCate2 != null and rentCate2 != ''">
+				AND RENT.RENT_CATE2 = #{rentCate2}
+			</if>
+			<if test="rentUse != null">
+				AND RENT.RENT_USE = #{rentUse}
+			</if>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RENT.RENT_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR RENT.RENT_DESCRIPTION LIKE CONCAT('%',#{sv},'%')
+						OR RENT.RENT_ETC LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRental" parameterType="Rental" resultMap="rentalPlainResultMap">
+		SELECT 
+			<include refid="rentalJoinColumns"/>
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL RENT
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RENT.RENT_THUMB = FI.FILE_ID
+		<where>
+			RENT.RENT_ID = #{rentId}
+		</where>
+	</select>
+	
+	<insert id="insertRental" parameterType="Rental">
+		<selectKey keyProperty="rentId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO ${sitePrefix}_RENTAL (
+			RENT_ID
+			, RENT_CATE1
+			, RENT_CATE2
+			, RENT_MANAGER
+			, RENT_MANATER_TEL
+			, RENT_TITLE
+			, RENT_SHORT_DESCRIPTION
+			, RENT_DIV
+			, RENT_RENTING_METHOD
+			, RENT_CHARGE
+			, RENT_RESERV_TYPE
+			, RENT_PAYMENT_TYPE
+			, RENT_DESCRIPTION
+			, RENT_FACILITY_INFO
+			, RENT_PRECAUTIONS
+			, RENT_REFUND_POKICY
+			, RENT_ETC
+			, RENT_AVAILABLE_TIME
+			, RENT_USE
+			, RENT_THUMB
+			, RENT_REGDATE
+			, RENT_STEP
+			, RENT_PARKING
+			, RENT_ORDER
+			, RENT_VR
+			, RENT_APPROVE
+			, RENT_MEMBERSHIP
+			, RENT_MEMBER_DISCOUNT
+		) VALUES (
+			#{rentId}
+			, #{rentCate1}
+			, #{rentCate2}
+			, #{rentManager}
+			, #{rentManagerTel}
+			, #{rentTitle}
+			, #{rentShortDescription}
+			, #{rentDiv}
+			, #{rentRentingMethod}
+			, #{rentCharge}
+			, #{rentReservType}
+			, #{rentPaymentType}
+			, #{rentDescription}
+			, #{rentFacilityInfo}
+			, #{rentPrecautions}
+			, #{rentRefundPokicy}
+			, #{rentEtc}
+			, #{rentAvailableTime}
+			, #{rentUse}
+			, #{thumb.fileId}
+			, #{rentRegDate}
+			, #{rentStep}
+			, #{rentParking}
+			, #{rentOrder}
+			, #{rentVR}
+			, #{rentApprove}
+			, #{rentMembership}
+			, #{rentMemberDiscount}
+		)
+		
+	</insert>
+	
+	<update id="updateRentalBasic" parameterType="Rental">
+		UPDATE ${sitePrefix}_RENTAL SET
+			RENT_CATE1						=	#{rentCate1}
+			, RENT_CATE2					=	#{rentCate2}
+			, RENT_MANAGER					=	#{rentManager}
+			, RENT_MANATER_TEL				=	#{rentManagerTel}
+			, RENT_TITLE					=	#{rentTitle}
+			, RENT_SHORT_DESCRIPTION		=	#{rentShortDescription}
+			, RENT_DIV						=	#{rentDiv}
+			, RENT_RENTING_METHOD			=	#{rentRentingMethod}
+			, RENT_CHARGE					=	#{rentCharge}
+			, RENT_RESERV_TYPE				=	#{rentReservType}
+			, RENT_PAYMENT_TYPE				=	#{rentPaymentType}
+			, RENT_DESCRIPTION				=	#{rentDescription}
+			, RENT_FACILITY_INFO			=	#{rentFacilityInfo}
+			, RENT_PRECAUTIONS				=	#{rentPrecautions}
+			, RENT_REFUND_POKICY			=	#{rentRefundPokicy}
+			, RENT_ETC						=	#{rentEtc}
+			, RENT_AVAILABLE_TIME			=	#{rentAvailableTime}
+			, RENT_USE						=	#{rentUse}
+			, RENT_THUMB					=	#{thumb.fileId}
+			, RENT_PARKING					=	#{rentParking}
+			, RENT_VR						=	#{rentVR}
+			, RENT_APPROVE					=	#{rentApprove}
+			, RENT_MEMBERSHIP				=	#{rentMembership}
+			, RENT_MEMBER_DISCOUNT			=	#{rentMemberDiscount}
+		<where>	
+			RENT_ID	= #{rentId}
+		</where>
+	</update>
+	
+	<update id="updateRentalApplySet" parameterType="Rental">
+		UPDATE ${sitePrefix}_RENTAL SET
+			RENT_POSSIBLE_DAY_TYPE			=	#{rentPossiblelDayType}
+			, RENT_PERIOD_SDATE				=	#{rentPeriodSdate}
+			, RENT_PERIOD_EDATE				=	#{rentPeriodEdate}
+			, RENT_RESERV_SDATE_AFTER		=	#{rentReservSdateAfter}
+			, RENT_RESERV_EDATE_AFTER		=	#{rentReservEdateAfter}
+			, RENT_POSSIBLE_DAYOFWEEK		=	#{rentPossibleDayOfWeek}
+			, RENT_RESERV_TIME				=	#{rentReservTime}
+			, RENT_RESERV_TIME_SAT			=	#{rentReservTimeSat}
+			, RENT_RESERV_TIME_SUN			=	#{rentReservTimeSun}
+			, RENT_IMPOSSIBLE_DATE			=	#{rentImpossibleDate}
+			, RENT_RES_MIN_TIME				=	#{rentResMinTime}
+			, RENT_RES_MIN_NUMBER			=	#{rentResMinNumber}
+			, RENT_RES_MAX_NUMBER			=	#{rentResMaxNumber}
+			, RENT_REFUND_DATE_BEFORE		=	#{rentRefundDateBefore}
+			, RENT_REFUND_RATE				=	#{rentRefundRate}
+			, RENT_PAYMENT_TIME_LIMIT		=	#{rentPaymentTimeLimit}
+			<if test="rentStep != null and rentStep == 2">
+			, RENT_STEP						=	#{rentStep}
+			, RENT_USE						=	#{rentUse}
+			</if>
+		<where>
+			RENT_ID	= #{rentId}
+		</where>
+	</update>
+	
+	<delete id="deleteRental" parameterType="Rental">
+		DELETE FROM ${sitePrefix}_RENTAL
+		<where>
+			RENT_ID	= #{rentId}
+		</where>
+	</delete>
+	
+	<update id="updateRentalOrder" parameterType="Rental">
+		UPDATE ${sitePrefix}_RENTAL SET
+			RENT_ORDER	=	#{rentOrder}
+		<where>
+			RENT_ID		=	#{rentId}
+		</where>
+	</update>
+	
+	<!-- ============================================================================================= -->
+	<!-- =================================	신청정보		=========================================== -->
+	<!-- ============================================================================================= -->
+	
+	<select id="selectRentalReservationList" parameterType="RentalReservationSearch" resultMap="rentalReservationInfoPlainResultMap">
+		SELECT 
+			<include refid="rentalReservationInfoJoinColumns"/>
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RES.RESERV_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR RES.RESERV_CONTENT LIKE CONCAT('%',#{sv},'%')
+						OR RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						OR RES.RESERV_ORGANIZATION LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'RESERV_NAME'">
+						AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+					<if test="sc != 'RESERV_NAME'">
+						AND ${sc} LIKE CONCAT('%',#{sv},'%')
+					</if>
+				</if>
+			</if>
+			<if test="reservRentId != null and reservRentId > 0">
+				AND RES.RESERV_RENT_ID = #{reservRentId}
+			</if>
+			<if test="reservOrgDivCode != null and reservOrgDivCode != ''">
+				AND RES.RESERV_ORG_DIV_CODE = #{reservOrgDivCode}
+			</if>
+			<if test="reservPaidType != null and reservPaidType != ''">
+				AND RES.RESERV_PAID_TYPE = #{reservPaidType}
+			</if>
+			<if test="reservStatus != null and reservStatus != ''">
+				AND RES.RESERV_STATUS = #{reservStatus}
+			</if>
+			<if test="reservStatusPattern != null and reservStatusPattern != ''">
+				AND RES.RESERV_STATUS LIKE CONCAT(#{reservStatusPattern}, '%')
+			</if>
+			<if test="possibleStatus != null and possibleStatus == 'impossible'"> 
+				<!-- 승인대기,승인완료,결제대기,예약완료 -->
+				<![CDATA[
+				AND RES.RESERV_STATUS < 'RS50'
+				]]>
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RES.RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+			<if test="reservYear != null and reservYear != ''">
+				<if test="reservMonth != null and reservMonth != ''">
+					AND RES.RESERV_DATE LIKE CONCAT(#{reservYear}, '-', #{reservMonth}, '%')
+				</if>
+				<if test="reservMonth == null or reservMonth == ''">
+					AND RES.RESERV_DATE LIKE CONCAT(#{reservYear}, '%')
+				</if>
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY RES.RESERV_ID DESC
+		</if> 
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if> 
+	</select>
+	
+	<select id="selectRentalReservationListTotal" parameterType="RentalReservationSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RES.RESERV_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR RES.RESERV_CONTENT LIKE CONCAT('%',#{sv},'%')
+						OR RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						OR RES.RESERV_ORGANIZATION LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'RESERV_NAME'">
+						AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+					<if test="sc != 'RESERV_NAME'">
+						AND ${sc} LIKE CONCAT('%',#{sv},'%')
+					</if>
+				</if>
+			</if>
+			<if test="reservRentId != null and reservRentId > 0">
+				AND RES.RESERV_RENT_ID = #{reservRentId}
+			</if>
+			<if test="reservOrgDivCode != null and reservOrgDivCode != ''">
+				AND RES.RESERV_ORG_DIV_CODE = #{reservOrgDivCode}
+			</if>
+			<if test="reservPaidType != null and reservPaidType != ''">
+				AND RES.RESERV_PAID_TYPE = #{reservPaidType}
+			</if>
+			<if test="reservStatus != null and reservStatus != ''">
+				AND RES.RESERV_STATUS = #{reservStatus}
+			</if>
+			<if test="reservStatusPattern != null and reservStatusPattern != ''">
+				AND RES.RESERV_STATUS LIKE CONCAT(#{reservStatusPattern}, '%')
+			</if>
+			<if test="possibleStatus != null and possibleStatus == 'impossible'"> 
+				<!-- 승인대기,승인완료,결제대기,예약완료 -->
+				<![CDATA[
+				AND RES.RESERV_STATUS < 'RS50'
+				]]>
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RES.RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+			<if test="reservYear != null and reservYear != ''">
+				<if test="reservMonth != null and reservMonth != ''">
+					AND RES.RESERV_DATE LIKE CONCAT(#{reservYear}, '-', #{reservMonth}, '%')
+				</if>
+				<if test="reservMonth == null or reservMonth == ''">
+					AND RES.RESERV_DATE LIKE CONCAT(#{reservYear}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRentalReservationListByUserId" parameterType="RentalReservationSearch" resultMap="rentalReservationInfoComplexResultMap">
+		SELECT 
+			<include refid="rentalReservationInfoJoinColumns"/>
+			, <include refid="rentalJoinColumns" />
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_RENTAL RENT ON RES.RESERV_RENT_ID = RENT.RENT_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+				RES.RESERV_USER_ID = #{reservUserId}
+		</where>
+		ORDER BY RES.RESERV_ID DESC
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectRentalReservationListTotalByUserId" parameterType="RentalReservationSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_RENTAL RENT ON RES.RESERV_RENT_ID = RENT.RENT_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+			RES.RESERV_USER_ID = #{reservUserId}
+		</where>
+	</select>
+	
+	
+	<select id="selectRentalReservation" parameterType="RentalReservationInfo" resultMap="rentalReservationInfoComplexResultMap">
+		SELECT 
+			<include refid="rentalReservationInfoJoinColumns"/>
+			, <include refid="rentalJoinColumns" />
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_RENTAL RENT ON RES.RESERV_RENT_ID = RENT.RENT_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+			RES.RESERV_ID = #{reservId}
+		</where>
+	</select>
+	
+	<insert id="insertRentalReservation" parameterType="RentalReservationInfo">
+		<selectKey keyProperty="reservId" order="BEFORE" resultType="String">
+			SELECT 
+				CASE WHEN COUNT(RESERV_ID) = 0 
+					THEN CONCAT(#{reservId}, '_0000001') 
+				ELSE 
+					CONCAT(#{reservId}, '_', LPAD((MAX(SUBSTR(IFNULL(RESERV_ID, 'R99999999_0000000'), 11)) + 1), 7, '0'))
+				END 
+			FROM ASA_RENTAL_RESERVATION
+		</selectKey>
+		INSERT INTO ${sitePrefix}_RENTAL_RESERVATION (
+			<include refid="rentalReservationInfoPlainColumns"/>
+		) VALUES (
+			#{reservId}
+			, #{rental.rentId}
+			, #{reservUserId}
+			, #{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservPosition}
+			, #{reservTel, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservOrganization}
+			, #{reservOrgDivCode}
+			, #{reservZipcode}
+			, #{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservAddressDetail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservTotal}
+			, #{reservDate}
+			, #{reservTime}
+			, #{reservUsageTime}
+			, #{reservTimeAdd}
+			, #{reservPaidType}
+			, #{reservMembership}
+			, #{reservPrice}
+			, #{reservDiscountRate}
+			, #{reservPaymentAmount}
+			, #{reservTitle}
+			, #{reservContent}
+			, #{reservRequests}
+			, #{reservParking}
+			, #{reservAppendingFileInfo.fileId}
+			, #{reservStatus}
+			, #{reservMemo}
+			, #{reservRegDate}
+			, #{reservCancelDate}
+			, #{reservApprovDate}
+			, #{reservPaymentDate}
+			, #{reservPayCancelDate}
+			, #{reservTid}
+		)
+	</insert>
+	
+	<update id="updateRentalReservation" parameterType="RentalReservationInfo">
+		UPDATE ${sitePrefix}_RENTAL_RESERVATION SET
+			RESERV_NAME				=	#{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_POSITION			=	#{reservPosition}
+			, RESERV_TEL				=	#{reservTel, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_HP					=	#{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_EMAIL				=	#{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_ORGANIZATION		=	#{reservOrganization}
+			, RESERV_ORG_DIV_CODE		=	#{reservOrgDivCode}
+			, RESERV_ZIPCODE			=	#{reservZipcode}
+			, RESERV_ADDRESS			=	#{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_ADDRESS_DETAIL		=	#{reservAddressDetail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_TOTAL				=	#{reservTotal}
+			, RESERV_DATE				=	#{reservDate}
+			, RESERV_TIME				=	#{reservTime}
+			, RESERV_USAGE_TIME			=	#{reservUsageTime}
+			, RESERV_TIME_ADD			=	#{reservTimeAdd}
+			, RESERV_PAID_TYPE			=	#{reservPaidType}
+			, RESERV_MEMBERSHIP			=	#{reservMembership}
+			, RESERV_PRICE				=	#{reservPrice}
+			, RESERV_DISCOUNT_RATE		=	#{reservDiscountRate}
+			, RESERV_PAYMENT_AMOUNT		=	#{reservPaymentAmount}
+			, RESERV_TITLE				=	#{reservTitle}
+			, RESERV_CONTENT			=	#{reservContent}
+			, RESERV_REQUESTS			=	#{reservRequests}
+			, RESERV_PARKING			=	#{reservParking}
+			, RESERV_FILE				=	#{reservAppendingFileInfo.fileId}
+			<!-- , RESERV_STATUS				=	#{reservStatus} -->
+			, RESERV_MEMO				=	#{reservMemo}
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</update>
+	
+	<delete id="deleteRentalReservationInfo" parameterType="RentalReservationInfo">
+		DELETE FROM ${sitePrefix}_RENTAL_RESERVATION
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</delete>
+	
+	<select id="selectRentalReservationListByDate" parameterType="RentalReservationInfo" resultMap="rentalReservationInfoPlainResultMap">
+		SELECT 
+			<include refid="rentalReservationInfoJoinColumns"/>
+			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+		FROM ${sitePrefix}_RENTAL_RESERVATION RES
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON RES.RESERV_FILE = FI.FILE_ID
+		<where>
+			RES.RESERV_RENT_ID = #{rental.rentId}
+			AND RES.RESERV_DATE = #{reservDate}
+			<![CDATA[
+			AND RES.RESERV_STATUS < 'RS50'
+			]]>
+		</where>
+	</select>	
+	
+	<update id="updateReservStatus" parameterType="RentalReservationInfo">
+		UPDATE ${sitePrefix}_RENTAL_RESERVATION SET
+			RESERV_STATUS	=	#{reservStatus}
+			<if test="reservCancelDate != null and (reservStatus == 'RS50' or reservStatus == 'RS51' or reservStatus == 'RS52' or reservStatus == 'RS53') "><!-- 예약취소 -->
+				, RESERV_CANCEL_DATE	=	#{reservCancelDate}
+			</if>
+			<if test="reservApprovDate != null and (reservStatus == 'RS20' or reservStatus == 'RS30' or reservStatus == 'RS31' or reservStatus == 'RS32') "><!-- 승인 -->
+				, RESERV_APPROV_DATE	=	#{reservApprovDate}
+			</if>
+			<if test="reservPaymentDate != null and (reservStatus == 'RS40' or reservStatus == 'RS41' or reservStatus == 'RS42' or reservStatus == 'RS43') "><!-- 결제 -->
+				, RESERV_PAYMENT_DATE	=	#{reservPaymentDate}
+			</if>
+			<if test="reservPayCancelDate != null and (reservStatus == 'RS50' or reservStatus == 'RS51' or reservStatus == 'RS52' or reservStatus == 'RS53') "><!-- 결제취소 => 예약취소와 상태값동일 -->
+				, RESERV_PAY_CANCEL_DATE	=	#{reservPayCancelDate}
+			</if>
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</update>
+	
+	<!-- =================================================================== -->
+	<insert id="insertRentalReservCloseTime" parameterType="RentalReservCloseTime">
+		INSERT INTO ${sitePrefix}_RENTAL_CLOSE_TIME (
+			RENT_ID
+			, RESERV_DATE
+			, RESERV_CLOSE_TIME
+		) VALUES (
+			#{rentId}
+			, #{reservDate}
+			, #{reservCloseTime}
+		)
+	</insert>
+	
+	<delete id="deleteRentalReservCloseTime" parameterType="RentalReservCloseTime">
+		DELETE FROM ${sitePrefix}_RENTAL_CLOSE_TIME
+		<where>
+			RENT_ID					=	#{rentId}
+			AND RESERV_DATE			=	#{reservDate}
+			AND RESERV_CLOSE_TIME	=	#{reservCloseTime}
+		</where>
+	</delete>
+	
+	<select id="selectRentalReservCloseTime" parameterType="RentalReservCloseTime" resultMap="rentalReservCloseTimePlainResultMap">
+		SELECT 
+			RENT_ID
+			, RESERV_DATE
+			, RESERV_CLOSE_TIME
+		FROM ${sitePrefix}_RENTAL_CLOSE_TIME
+		<where>
+			RENT_ID					=	#{rentId}
+			AND RESERV_DATE			=	#{reservDate}
+			AND RESERV_CLOSE_TIME	=	#{reservCloseTime}
+		</where>
+	</select>	
+	
+	<select id="selectRentalReservCloseTimeList" parameterType="RentalReservCloseTime" resultMap="rentalReservCloseTimePlainResultMap">
+		SELECT 
+			RENT_ID
+			, RESERV_DATE
+			, RESERV_CLOSE_TIME
+		FROM ${sitePrefix}_RENTAL_CLOSE_TIME
+		<where>
+			RENT_ID	=	#{rentId}
+			<if test="reservDate != null and reservDate != ''">
+				AND RESERV_DATE	=	#{reservDate}
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+		</where>
+		ORDER BY RESERV_DATE ASC, RESERV_CLOSE_TIME ASC
+	</select>	
+</mapper>

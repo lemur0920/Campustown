@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.code.service.CodeMapper">
+	
+	<!-- <cache /> -->
+	
+	<resultMap id="codeCategoryPlainResultMap" type="CodeCategory">
+		<id column="CAT_ID" property="catId" javaType="String" />
+		<result column="CAT_NAME" property="catName" javaType="String"/>
+		<result column="CAT_NAME_EN" property="catNameEn" javaType="String"/>
+		<result column="CAT_DESCRIPTION" property="catDescription" javaType="String"/>
+		<result column="CAT_REGDATE" property="catRegDate" javaType="Date" />
+	</resultMap>
+	
+	<resultMap id="codeCategoryComplexResultMap" type="CodeCategory" extends="codeCategoryPlainResultMap">
+		<collection column="CAT_ID" property="codeList" javaType="ArrayList" ofType="Code" resultMap="codePlainResultMap" />
+	</resultMap>
+	
+	<resultMap id="codePlainResultMap" type="Code">
+		<id column="CODE_ID" property="codeId" />
+		<id column="CAT_ID" property="codeCategory.catId" />
+		<result column="CODE_NAME" property="codeName" javaType="String" />
+		<result column="CODE_NAME_EN" property="codeNameEn" javaType="String" />
+		<result column="CODE_DESCRIPTION" property="codeDescription" javaType="String" />
+		<result column="CODE_REGDATE" property="codeRegDate" javaType="Date" />
+		<result column="CODE_USE" property="codeUse" javaType="Boolean" />
+		<result column="CODE_ORDER" property="codeOrder" javaType="Integer" />
+	</resultMap>
+	
+	<resultMap id="codeComplexResultMap" type="Code" extends="codePlainResultMap">
+		<association property="codeCategory" column="CAT_ID" javaType="CodeCategory" resultMap="codeCategoryPlainResultMap" />
+	</resultMap>
+	
+	<!-- ========== codeCatgory ============= -->
+	<insert id="insertCodeCategory" parameterType="CodeCategory">
+		INSERT INTO ASA_CODE_CATEGORY (
+			CAT_ID
+			, CAT_NAME
+			, CAT_NAME_EN
+			, CAT_DESCRIPTION
+			, CAT_REGDATE
+		) VALUES (
+			#{catId}
+			, #{catName}
+			, #{catNameEn}
+			, #{catDescription}
+			, #{catRegDate}
+		)
+	</insert>
+	
+	<select id="selectCodeCategoryList" parameterType="CodeCategorySearch" resultMap="codeCategoryPlainResultMap">
+		SELECT
+			CAT_ID
+			, CAT_NAME
+			, CAT_NAME_EN
+			, CAT_DESCRIPTION
+			, CAT_REGDATE
+		FROM ASA_CODE_CATEGORY
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CAT_ID LIKE CONCAT('%',#{sv},'%')
+						OR CAT_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CAT_ID ASC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectCodeCategoryListTotal" parameterType="CodeCategorySearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_CODE_CATEGORY
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CAT_ID LIKE CONCAT('%',#{sv},'%')
+						OR CAT_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CAT_ID ASC
+		</if>
+	</select>
+	
+	<select id="selectCodeCategory" parameterType="String" resultMap="codeCategoryComplexResultMap">
+		SELECT
+			CC.CAT_ID
+			, CC.CAT_NAME
+			, CC.CAT_NAME_EN
+			, CC.CAT_DESCRIPTION
+			, CC.CAT_REGDATE
+			, CD.CODE_ID
+			, CD.CODE_NAME
+			, CD.CODE_NAME_EN
+			, CD.CODE_DESCRIPTION
+			, CD.CODE_REGDATE
+			, CD.CODE_USE
+		FROM ASA_CODE_CATEGORY CC
+		LEFT OUTER JOIN ASA_CODE CD ON CC.CAT_ID = CD.CAT_ID
+		<where>
+			CC.CAT_ID = #{value}
+		</where>
+		ORDER BY CD.CODE_ID ASC
+	</select>
+	
+	<update id="updateCodeCategory" parameterType="CodeCategory">
+		UPDATE ASA_CODE_CATEGORY SET
+			CAT_NAME 			= #{catName}
+			, CAT_NAME_EN		= #{catNameEn}
+			, CAT_DESCRIPTION 	= #{catDescription}
+		<where>
+			CAT_ID = #{catId}		
+		</where>
+	</update>
+	
+	<delete id="deleteCodeCategory" parameterType="String">
+		DELETE FROM ASA_CODE_CATEGORY 
+		<where>
+			CAT_ID = #{value}
+		</where>
+	</delete>
+	
+	
+	<!-- =================================================================================================================== -->
+	<!-- =============== code ============= -->
+	
+	<insert id="insertCode" parameterType="Code">
+		INSERT INTO ASA_CODE (
+			CODE_ID
+			, CAT_ID
+			, CODE_NAME
+			, CODE_NAME_EN
+			, CODE_DESCRIPTION
+			, CODE_REGDATE
+			, CODE_USE
+			, CODE_ORDER
+		) VALUES (
+			#{codeId}
+			, #{codeCategory.catId}
+			, #{codeName}
+			, #{codeNameEn}
+			, #{codeDescription}
+			, #{codeRegDate}
+			, #{codeUse}
+			, #{codeOrder}
+		) 
+	</insert>
+	
+	<select id="selectCodeList" parameterType="CodeSearch" resultMap="codeComplexResultMap">
+		SELECT 
+			CD.CODE_ID
+			, CD.CAT_ID
+			, CD.CODE_NAME
+			, CD.CODE_NAME_EN
+			, CD.CODE_DESCRIPTION
+			, CD.CODE_REGDATE
+			, CD.CODE_USE
+			, CD.CODE_ORDER
+			, CC.CAT_NAME
+			, CC.CAT_NAME_EN
+			, CC.CAT_DESCRIPTION
+			, CC.CAT_REGDATE
+		FROM ASA_CODE CD
+		LEFT OUTER JOIN ASA_CODE_CATEGORY CC ON CD.CAT_ID = CC.CAT_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CC.CAT_ID LIKE CONCAT('%',#{sv},'%')
+						OR CC.CAT_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CC.CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_ID LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_NAME_EN LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'codeId'">
+						AND CD.CODE_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'codeName'">
+						AND ( 
+							CD.CODE_NAME LIKE CONCAT('%',#{sv},'%')
+							OR CD.CODE_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						)
+					</if>
+					<if test="sc == 'catId'">
+						AND CC.CAT_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'catName'">
+						AND (
+							CC.CAT_NAME LIKE CONCAT('%',#{sv},'%')
+							OR CC.CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						)
+					</if>
+				</if>
+			</if>
+			<if test="codeUse != null and codeUse != ''">
+				AND CD.CODE_USE = #{codeUse}
+			</if>
+			<if test="catId != null and catId != ''">
+				AND CD.CAT_ID = #{catId}
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CC.CAT_ID ASC, CD.CODE_ORDER ASC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectCodeListTotal" parameterType="CodeSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ASA_CODE CD
+		LEFT OUTER JOIN ASA_CODE_CATEGORY CC ON CD.CAT_ID = CC.CAT_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CC.CAT_ID LIKE CONCAT('%',#{sv},'%')
+						OR CC.CAT_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CC.CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_ID LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_NAME LIKE CONCAT('%',#{sv},'%')
+						OR CD.CODE_NAME_EN LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'codeId'">
+						AND CD.CODE_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'codeName'">
+						AND (
+							CD.CODE_NAME LIKE CONCAT('%',#{sv},'%')
+							OR CD.CODE_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						)
+					</if>
+					<if test="sc == 'catId'">
+						AND CC.CAT_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'catName'">
+						AND (
+							CC.CAT_NAME LIKE CONCAT('%',#{sv},'%')
+							OR CC.CAT_NAME_EN LIKE CONCAT('%',#{sv},'%')
+						)
+					</if>
+				</if>
+			</if>
+			<if test="codeUse != null and codeUse != ''">
+				AND CD.CODE_USE = #{codeUse}
+			</if>
+			<if test="catId != null and catId != ''">
+				AND CD.CAT_ID = #{catId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCodeListForUse" parameterType="CodeSearch" resultMap="codePlainResultMap">
+		SELECT 
+			CODE_ID
+			, CAT_ID
+			, CODE_NAME
+			, CODE_NAME_EN
+			, CODE_DESCRIPTION
+			, CODE_REGDATE
+			, CODE_USE
+		FROM ASA_CODE
+		<where>
+			CAT_ID = #{catId}
+			AND CODE_USE = 1
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY CODE_ORDER ASC
+		</if>
+	</select>
+	
+	<select id="selectCode" parameterType="Code" resultMap="codeComplexResultMap">
+		SELECT 
+			CD.CODE_ID
+			, CD.CAT_ID
+			, CC.CAT_NAME
+			, CC.CAT_NAME_EN
+			, CC.CAT_DESCRIPTION
+			, CD.CODE_NAME
+			, CD.CODE_NAME_EN
+			, CD.CODE_DESCRIPTION
+			, CD.CODE_REGDATE
+			, CD.CODE_USE
+			, CD.CODE_ORDER
+		FROM ASA_CODE CD
+		INNER JOIN ASA_CODE_CATEGORY CC ON CD.CAT_ID = CC.CAT_ID
+		<where>
+			CD.CODE_ID = #{codeId}
+			AND CD.CAT_ID = #{codeCategory.catId}
+		</where>
+	</select>	
+	
+	<update id="updateCode" parameterType="Code">
+		UPDATE ASA_CODE SET
+			CAT_ID				= #{codeCategory.catId}
+			, CODE_NAME			= #{codeName}
+			, CODE_NAME_EN		= #{codeNameEn}
+			, CODE_DESCRIPTION	= #{codeDescription}
+			, CODE_USE			= #{codeUse}
+		<where>
+			CODE_ID = #{codeId}
+			AND CAT_ID = #{codeCategory.catId}
+		</where>
+	</update>
+	
+	<delete id="deleteCode" parameterType="Code">
+		DELETE FROM ASA_CODE 
+		<where>
+			CODE_ID = #{codeId} 
+			AND CAT_ID = #{codeCategory.catId} 
+		</where>
+	</delete>
+	
+	<update id="updateCodeOrder" parameterType="Code">
+		UPDATE ASA_CODE SET
+			CODE_ORDER	=	#{codeOrder}
+		<where>
+			CAT_ID		=	#{codeCategory.catId}
+			AND CODE_ID	=	#{codeId}
+		</where>
+	</update>
+		
+</mapper>

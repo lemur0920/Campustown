@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.counsel.legal_counsel.service.LawyerMapper">
+
+	<resultMap type="Lawyer" id="getLawyerListMap">
+		<result column="ADMIN_ID"						property="adminId"	  				javaType="String" />
+		<result column="ADMIN_NAME"						property="adminName"	 		    jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="ROLE_CODE"						property="roleCode"		 		    javaType="String" />
+	</resultMap>
+
+	<select id="getLawyerList" parameterType="Lawyer" resultMap="getLawyerListMap">
+		SELECT
+			AAM.ADMIN_ID,
+			AAM.ADMIN_NAME,
+			AASRR.ROLE_CODE
+		FROM
+			ASA_ADMIN_MEMBER AAM,
+			ASA_ADMIN_SITE_ROLE_REL AASRR
+		WHERE
+			AAM.ADMIN_ID = AASRR.ADMIN_ID
+			AND AASRR.ROLE_CODE = 'ROLE_LAWYER'
+	</select>
+
+	<select id="lawyerAssignSaveId" resultType="Integer">
+		SELECT LEGAL_LAWYER_ASSIGN_SEQ.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="lawyerAssignSave" parameterType="map">
+		INSERT INTO LEGAL_LAWYER_ASSIGN
+		(LEGAL_LAWYER_ASSIGN_SEQ, LEGAL_ADVICE_ID, LEGAL_LAWYER_ID)
+		VALUES
+		(#{seq}, #{id}, #{lawyerId})
+	</insert>
+
+	<update id="lawyerCounselSave" parameterType="map">
+		UPDATE LEGAL_LAWYER_ASSIGN SET
+			LEGAL_LAWYER_COUNSEL = #{lawyerCounsel}
+		<where>
+			LEGAL_LAWYER_ASSIGN_SEQ = #{seq}
+		</where>
+	</update>
+
+
+	<delete id="lawyerAssignDel" parameterType="map">
+		DELETE FROM LEGAL_LAWYER_ASSIGN
+		WHERE
+			LEGAL_ADVICE_ID = #{id}
+	</delete>
+
+	<update id="lawyerAssignUpdate" parameterType="map">
+		UPDATE LEGAL_LAWYER_ASSIGN SET
+			LEGAL_LAWYER_ID = #{lawyerId}
+		WHERE
+			LEGAL_ADVICE_ID = #{id}
+	</update>
+
+	<resultMap type="Lawyer" id="getLawyerAssignMap">
+		<result column="LEGAL_LAWYER_ASSIGN_SEQ"				property="seq"	  		   			javaType="Integer" />
+		<result column="LEGAL_ADVICE_ID"						property="id"		 		   		javaType="Integer" />
+		<result column="LEGAL_LAWYER_ID"						property="lawyerId"		 		    javaType="String" />
+		<result column="LEGAL_LAWYER_COUNSEL"					property="lawyerCounsel" 		    javaType="String" />
+	</resultMap>
+
+	<select id="getLawyerAssignId" parameterType="Lawyer" resultMap="getLawyerAssignMap">
+		SELECT
+			LEGAL_LAWYER_ASSIGN_SEQ,
+			LEGAL_ADVICE_ID,
+			LEGAL_LAWYER_ID,
+			LEGAL_LAWYER_COUNSEL
+		FROM
+			LEGAL_LAWYER_ASSIGN
+		WHERE
+			LEGAL_ADVICE_ID = #{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.board.service.BoardMapper">
+	
+	<resultMap id="boardConfigPlainResultMap" type="BoardConfig">
+		<id column="BC_ID" property="bcId" javaType="String" />
+		<result column="BC_NAME" property="bcName" javaType="String" />
+		<result column="BC_USE" property="bcUse" javaType="Boolean" />
+		<result column="BC_TYPE" property="bcType" javaType="String" />
+		<result column="BC_CATEGORY1" property="bcCategory1" javaType="String" />
+		<result column="BC_CATEGORY1_NAME" property="bcCategory1Name" javaType="String" />
+		<result column="BC_CATEGORY2" property="bcCategory2" javaType="String" />
+		<result column="BC_CATEGORY2_NAME" property="bcCategory2Name" javaType="String" />
+		<result column="BC_CATEGORY3" property="bcCategory3" javaType="String" />
+		<result column="BC_CATEGORY3_NAME" property="bcCategory3Name" javaType="String" />
+		<result column="BC_STATUS_CODE" property="bcStatusCode" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_1" property="bcCustomField1" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_2" property="bcCustomField2" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_3" property="bcCustomField3" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_4" property="bcCustomField4" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_5" property="bcCustomField5" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_6" property="bcCustomField6" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_7" property="bcCustomField7" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_8" property="bcCustomField8" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_9" property="bcCustomField9" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_10" property="bcCustomField10" javaType="String" />
+		<result column="BC_CUSTOM_FIELD_USE" property="bcCustomFieldUse" javaType="String" />
+		<result column="BC_LIST_FILE" property="bcListFile" javaType="String" />
+		<result column="BC_VIEW_FILE" property="bcViewFile" javaType="String" />
+		<result column="BC_FORM_FILE" property="bcFormFile" javaType="String" />
+		<result column="BC_ORGANIZATION" property="bcOrganization" javaType="String" />
+		<result column="BC_DEPARTMENT" property="bcDepartment" javaType="String" />
+		<result column="BC_GROUP" property="bcGroup" javaType="String" />
+		<result column="BC_ALLOW_MEMBER_LIST" property="bcAllowMemberList" javaType="Boolean" />
+		<result column="BC_ALLOW_MEMBER_VIEW" property="bcAllowMemberView" javaType="Boolean" />
+		<result column="BC_ALLOW_MEMBER_FORM" property="bcAllowMemberForm" javaType="Boolean" />
+		<result column="BC_ALLOW_MEMBER_DOWNLOAD" property="bcAllowMemberDownload" javaType="Boolean" />
+		<result column="BC_ALLOW_GUEST_LIST" property="bcAllowGuestList" javaType="Boolean" />
+		<result column="BC_ALLOW_GUEST_VIEW" property="bcAllowGuestView" javaType="Boolean" />
+		<result column="BC_ALLOW_GUEST_FORM" property="bcAllowGuestForm" javaType="Boolean" />
+		<result column="BC_ALLOW_GUEST_DOWNLOAD" property="bcAllowGuestDownload" javaType="Boolean" />
+		<result column="BC_SUPPORT_NOTICE" property="bcSupportNotice" javaType="Boolean" />
+		<result column="BC_NOTICE_EVERY_PAGE" property="bcNoticeEveryPage" javaType="Boolean" />
+		<result column="BC_SUPPORT_SECRET" property="bcSupportSecret" javaType="Boolean" />
+		<result column="BC_SUPPORT_COMMENT" property="bcSupportComment" javaType="Boolean" />
+		<result column="BC_SUPPORT_ANSWER" property="bcSupportAnswer" javaType="Boolean" />
+		<result column="BC_SUPPORT_RECOMMEND" property="bcSupportRecommend" javaType="Boolean" />
+		<result column="BC_SUPPORT_NURI" property="bcSupportNuri" javaType="Boolean" />
+		<result column="BC_SUPPORT_HIT_DAY" property="bcSupportHitDay" javaType="Boolean" />
+		<result column="BC_SUPPORT_MAIN_SELEC" property="bcSupportMainSelec" javaType="Boolean" />
+		<result column="BC_SUPPORT_COMM_SELEC" property="bcSupportCommSelec" javaType="Boolean" />
+		<result column="BC_SUPPORT_OPEN_DAY" property="bcSupportOpenDay" javaType="Boolean" />
+		<result column="BC_SUPPORT_IMAGE" property="bcSupportImage" javaType="Boolean" />
+		<result column="BC_SUPPORT_THUMBNAIL" property="bcSupportThumbnail" javaType="Boolean" />
+		<result column="BC_THUMBNAIL_CROP" property="bcThumbnailCrop" javaType="Boolean" />
+		<result column="BC_THUMBNAIL_WIDTH" property="bcThumbnailWidth" javaType="Integer" />
+		<result column="BC_THUMBNAIL_HEIGHT" property="bcThumbnailHeight" javaType="Integer" />
+		<result column="BC_UPLOAD_FILE_NUM" property="bcUploadFileNum" javaType="Integer" />
+		<result column="BC_UPLOAD_SIZE_MAX" property="bcUploadSizeMax" javaType="Integer" />
+		<result column="BC_PAGE_SIZE" property="bcPageSize" javaType="Integer" />
+		<result column="BC_REGDATE" property="bcRegDate" javaType="Date" />
+		<result column="BC_ARTICLE_TOTAL" property="bcArticleTotal" javaType="Integer" />
+	</resultMap>
+	
+	<resultMap id="boardArticlePlainResultMap" type="BoardArticle">
+		<id column="BA_ID" property="baId" javaType="Integer" />
+		<result column="BC_ID" property="bcId" javaType="String" />
+		<result column="BA_TITLE" property="baTitle" javaType="String" />
+		<result column="BA_CONTENT_HTML" property="baContentHtml" javaType="String" />
+		<result column="BA_CONTENT_PLAIN" property="baContentPlain" javaType="String" />
+		<result column="BA_NOTICE" property="baNotice" javaType="Boolean" />
+		<result column="BA_NOTICE_STARTDATE" property="baNoticeStartDate" javaType="String" />
+		<result column="BA_NOTICE_ENDDATE" property="baNoticeEndDate" javaType="String" />
+		<result column="BA_SECRET" property="baSecret" javaType="Boolean" />
+		<result column="BA_SECRET_PASSWORD" property="baSecretPassword" javaType="String" />
+		<result column="BA_CATEGORY1" property="baCategory1" javaType="String" />
+		<result column="BA_CATEGORY2" property="baCategory2" javaType="String" />
+		<result column="BA_CATEGORY3" property="baCategory3" javaType="String" />
+		<result column="BA_STATUS" property="baStatus" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_1" property="baCustomField1" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_2" property="baCustomField2" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_3" property="baCustomField3" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_4" property="baCustomField4" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_5" property="baCustomField5" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_6" property="baCustomField6" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_7" property="baCustomField7" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_8" property="baCustomField8" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_9" property="baCustomField9" javaType="String" />
+		<result column="BA_CUSTOM_FIELD_10" property="baCustomField10" javaType="String" />
+		<result column="MEM_ID" property="memId" javaType="String" />
+		<result column="DEP_ID" property="depId" javaType="String" />
+		<result column="TEAM_ID" property="teamId" javaType="String" />
+		<result column="BA_GUEST_NAME" property="baGuestName" javaType="String" />
+		<result column="BA_GUEST_PASSWORD" property="baGuestPassword" javaType="String" />
+		<result column="BA_EMAIL" property="baEmail" javaType="String" typeHandler="egovframework.com.asapro.support.crypto.CryptoStringTypeHandler" />
+		<result column="BA_IP" property="baIp" javaType="String"/>
+		<result column="BA_REGDATE" property="baRegDate" javaType="Date" />
+		<result column="BA_LAST_MODIFIED" property="baLastModified" javaType="Date" />
+		<result column="BA_UPDATER_ID" property="baUpdaterId" javaType="String" />
+		<result column="BA_HIT" property="baHit" javaType="Integer" />
+		<result column="BA_RECOMMEND" property="baRecommend" javaType="Integer" />
+		<result column="BA_COMMENT_TOTAL" property="baCommentTotal" javaType="Integer" />
+		<result column="BA_NURI" property="baNuri" javaType="String" />
+		<result column="BA_THUMB" property="baThumb" javaType="Integer" />
+		<result column="BA_USE" property="baUse" javaType="Boolean" />
+		<result column="BA_THUMB_TEXT" property="baThumbText" javaType="String" />
+		<result column="BA_ANSWER" property="baAnswer" javaType="String" />
+		<result column="BA_MAIN_SELEC" property="baMainSelec" javaType="Boolean" />
+		<result column="BA_COM_SEL_CAT" property="baComSelCat" javaType="String" />
+		<result column="BA_COMM_SELEC" property="baCommSelec" javaType="Boolean" />
+		<result column="BA_START_DATE" property="baStartDate" javaType="String" />
+		<result column="BA_START_TIME" property="baStartTime" javaType="String" />
+		<result column="BA_END_DATE" property="baEndDate" javaType="String" />
+		<result column="SITE_PREFIX" property="sitePrefix" javaType="String" />
+		<result column="CS_COUNT" property="csCount" javaType="Integer" />
+	</resultMap>
+	
+	<!-- userMember 사용자 개발후 사용자 개체로 변경 -->
+	<resultMap id="boardArticleComplexResultMap" type="BoardArticle" extends="boardArticlePlainResultMap">
+		<association column="MEM_ID" property="adminMember" javaType="AdminMember" resultMap="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberPlainResultMap" />
+		<association column="MEM_ID" property="userMember" javaType="AdminMember" resultMap="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberPlainResultMap" />
+		<association column="BA_THUMB" property="thumb" javaType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap" />
+		<collection property="baFileInfos" column="{fileModuleSubId=BA_ID,sitePrefix=SITE_PREFIX}" javaType="ArrayList" ofType="FileInfo" select="selectBoardArticleFileInfoList" />
+	</resultMap>
+	
+	<sql id="boardConfigColumns">
+		BC_ID
+		, BC_NAME
+		, BC_USE
+		, BC_TYPE
+		, BC_CATEGORY1
+		, BC_CATEGORY1_NAME
+		, BC_CATEGORY2
+		, BC_CATEGORY2_NAME
+		, BC_CATEGORY3
+		, BC_CATEGORY3_NAME
+		, BC_STATUS_CODE
+		, BC_CUSTOM_FIELD_1
+		, BC_CUSTOM_FIELD_2
+		, BC_CUSTOM_FIELD_3
+		, BC_CUSTOM_FIELD_4
+		, BC_CUSTOM_FIELD_5
+		, BC_CUSTOM_FIELD_6
+		, BC_CUSTOM_FIELD_7
+		, BC_CUSTOM_FIELD_8
+		, BC_CUSTOM_FIELD_9
+		, BC_CUSTOM_FIELD_10
+		, BC_CUSTOM_FIELD_USE
+		, BC_LIST_FILE
+		, BC_VIEW_FILE
+		, BC_FORM_FILE
+		, BC_ORGANIZATION
+		, BC_DEPARTMENT
+		, BC_GROUP
+		, BC_ALLOW_MEMBER_LIST
+		, BC_ALLOW_MEMBER_VIEW
+		, BC_ALLOW_MEMBER_FORM
+		, BC_ALLOW_MEMBER_DOWNLOAD
+		, BC_ALLOW_GUEST_LIST
+		, BC_ALLOW_GUEST_VIEW
+		, BC_ALLOW_GUEST_FORM
+		, BC_ALLOW_GUEST_DOWNLOAD
+		, BC_SUPPORT_NOTICE
+		, BC_NOTICE_EVERY_PAGE
+		, BC_SUPPORT_SECRET
+		, BC_SUPPORT_COMMENT
+		, BC_SUPPORT_ANSWER
+		, BC_SUPPORT_RECOMMEND
+		, BC_SUPPORT_NURI
+		, BC_SUPPORT_HIT_DAY
+		, BC_SUPPORT_MAIN_SELEC
+		, BC_SUPPORT_COMM_SELEC
+		, BC_SUPPORT_OPEN_DAY
+		, BC_SUPPORT_IMAGE
+		, BC_SUPPORT_THUMBNAIL
+		, BC_THUMBNAIL_CROP
+		, BC_THUMBNAIL_WIDTH
+		, BC_THUMBNAIL_HEIGHT
+		, BC_UPLOAD_FILE_NUM
+		, BC_UPLOAD_SIZE_MAX
+		, BC_PAGE_SIZE
+		, BC_REGDATE
+	</sql>
+	
+	<sql id="boardArticleColumns">
+		BA_ID
+		, BC_ID
+		, BA_TITLE
+		, BA_CONTENT_HTML
+		, BA_CONTENT_PLAIN
+		, BA_NOTICE
+		, BA_NOTICE_STARTDATE
+		, BA_NOTICE_ENDDATE
+		, BA_SECRET
+		, BA_SECRET_PASSWORD
+		, BA_CATEGORY1
+		, BA_CATEGORY2
+		, BA_CATEGORY3
+		, BA_STATUS
+		, BA_CUSTOM_FIELD_1
+		, BA_CUSTOM_FIELD_2
+		, BA_CUSTOM_FIELD_3
+		, BA_CUSTOM_FIELD_4
+		, BA_CUSTOM_FIELD_5
+		, BA_CUSTOM_FIELD_6
+		, BA_CUSTOM_FIELD_7
+		, BA_CUSTOM_FIELD_8
+		, BA_CUSTOM_FIELD_9
+		, BA_CUSTOM_FIELD_10
+		, MEM_ID
+		, BA_GUEST_NAME
+		, BA_GUEST_PASSWORD
+		, BA_EMAIL
+		, BA_IP
+		, BA_REGDATE
+		, BA_LAST_MODIFIED
+		, BA_UPDATER_ID
+		, BA_HIT
+		, BA_RECOMMEND
+		, BA_COMMENT_TOTAL
+		, BA_NURI
+		, BA_THUMB
+		, BA_USE
+		, BA_THUMB_TEXT
+		, BA_ANSWER
+		, DEP_ID
+		, TEAM_ID
+		, BA_MAIN_SELEC
+		, BA_COM_SEL_CAT
+		, BA_COMM_SELEC
+		, BA_START_DATE
+		, BA_START_TIME
+		, BA_END_DATE
+	</sql>
+	
+	<sql id="boardArticleJoinColumns">
+		BA.BA_ID
+		, BA.BC_ID
+		, BA.BA_TITLE
+		, BA.BA_CONTENT_HTML
+		, BA.BA_CONTENT_PLAIN
+		, BA.BA_NOTICE
+		, BA.BA_NOTICE_STARTDATE
+		, BA.BA_NOTICE_ENDDATE
+		, BA.BA_SECRET
+		, BA.BA_SECRET_PASSWORD
+		, BA.BA_CATEGORY1
+		, BA.BA_CATEGORY2
+		, BA.BA_CATEGORY3
+		, BA.BA_STATUS
+		, BA.BA_CUSTOM_FIELD_1
+		, BA.BA_CUSTOM_FIELD_2
+		, BA.BA_CUSTOM_FIELD_3
+		, BA.BA_CUSTOM_FIELD_4
+		, BA.BA_CUSTOM_FIELD_5
+		, BA.BA_CUSTOM_FIELD_6
+		, BA.BA_CUSTOM_FIELD_7
+		, BA.BA_CUSTOM_FIELD_8
+		, BA.BA_CUSTOM_FIELD_9
+		, BA.BA_CUSTOM_FIELD_10
+		, BA.MEM_ID
+		, BA.BA_GUEST_NAME
+		, BA.BA_GUEST_PASSWORD
+		, BA.BA_EMAIL
+		, BA.BA_IP
+		, BA.BA_REGDATE
+		, BA.BA_LAST_MODIFIED
+		, BA.BA_UPDATER_ID
+		, BA.BA_HIT
+		, BA.BA_RECOMMEND
+		, BA.BA_COMMENT_TOTAL
+		, BA.BA_NURI
+		, BA.BA_THUMB
+		, BA.BA_USE
+		, BA.BA_THUMB_TEXT
+		, BA.BA_ANSWER
+		, BA.DEP_ID
+		, BA.TEAM_ID
+		, BA.BA_MAIN_SELEC
+		, BA.BA_COM_SEL_CAT
+		, BA.BA_COMM_SELEC
+		, BA.BA_START_DATE
+		, BA.BA_START_TIME
+		, BA.BA_END_DATE
+	</sql>
+	
+	<!-- ===================================================== -->
+	<!-- =================   게시판   ========================== -->
+	<!-- ===================================================== -->
+	
+	<select id="selectBoardConfigList" parameterType="BoardConfigSearch" resultMap="boardConfigPlainResultMap">
+		SELECT 
+			<include refid="boardConfigColumns" />
+			, ( SELECT COUNT(*) FROM ${sitePrefix}_BOARD_ARTICLE WHERE BC_ID = BC.BC_ID AND BA_USE = 1 ) AS BC_ARTICLE_TOTAL
+		FROM ${sitePrefix}_BOARD_CONFIG BC
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						BC_ID LIKE CONCAT('%',#{sv},'%')
+						OR BC_NAME LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="bcUse != null">
+				AND BC_USE	=	#{bcUse}
+			</if>
+			<if test="bcAdmin != null and bcAdmin == false">
+				AND (BC_DEPARTMENT = '' OR BC_DEPARTMENT is null
+				<if test="bcDepartment != null and bcDepartment != ''">
+					OR BC_DEPARTMENT LIKE CONCAT('%',#{bcDepartment},'%')
+				</if>
+				)
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY BC_REGDATE DESC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectBoardConfigListTotal" parameterType="BoardConfigSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_BOARD_CONFIG
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						BC_ID LIKE CONCAT('%',#{sv},'%')
+						OR BC_NAME LIKE CONCAT('%',#{sv},'%')
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					AND ${sc} LIKE CONCAT('%',#{sv},'%')
+				</if>
+			</if>
+			<if test="bcUse != null">
+				AND BC_USE	=	#{bcUse}
+			</if>
+			<if test="bcAdmin != null and bcAdmin == false">
+				AND (BC_DEPARTMENT = '' OR BC_DEPARTMENT is null
+				<if test="bcDepartment != null and bcDepartment != ''">
+					OR BC_DEPARTMENT LIKE CONCAT('%',#{bcDepartment},'%')
+				</if>
+				)
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectBoardConfig" parameterType="BoardConfig" resultMap="boardConfigPlainResultMap">
+		SELECT 
+			<include refid="boardConfigColumns" />
+		FROM ${sitePrefix}_BOARD_CONFIG
+		<where>
+			BC_ID = #{bcId}
+		</where>
+	</select>
+	
+	<insert id="insertBoardConfig" parameterType="BoardConfig">
+		INSERT INTO ${sitePrefix}_BOARD_CONFIG (
+			<include refid="boardConfigColumns" />
+		) VALUES (
+			#{bcId}
+			, #{bcName}
+			, #{bcUse}
+			, #{bcType}
+			, #{bcCategory1}
+			, #{bcCategory1Name}
+			, #{bcCategory2}
+			, #{bcCategory2Name}
+			, #{bcCategory3}
+			, #{bcCategory3Name}
+			, #{bcStatusCode}
+			, #{bcCustomField1}
+			, #{bcCustomField2}
+			, #{bcCustomField3}
+			, #{bcCustomField4}
+			, #{bcCustomField5}
+			, #{bcCustomField6}
+			, #{bcCustomField7}
+			, #{bcCustomField8}
+			, #{bcCustomField9}
+			, #{bcCustomField10}
+			, #{bcCustomFieldUse}
+			, #{bcListFile}
+			, #{bcViewFile}
+			, #{bcFormFile}
+			, #{bcOrganization}
+			, #{bcDepartment}
+			, #{bcGroup}
+			, #{bcAllowMemberList}
+			, #{bcAllowMemberView}
+			, #{bcAllowMemberForm}
+			, #{bcAllowMemberDownload}
+			, #{bcAllowGuestList}
+			, #{bcAllowGuestView}
+			, #{bcAllowGuestForm}
+			, #{bcAllowGuestDownload}
+			, #{bcSupportNotice}
+			, #{bcNoticeEveryPage}
+			, #{bcSupportSecret}
+			, #{bcSupportComment}
+			, #{bcSupportAnswer}
+			, #{bcSupportRecommend}
+			, #{bcSupportNuri}
+			, #{bcSupportHitDay}
+			, #{bcSupportMainSelec}
+			, #{bcSupportCommSelec}
+			, #{bcSupportOpenDay}
+			, #{bcSupportImage}
+			, #{bcSupportThumbnail}
+			, #{bcThumbnailCrop}
+			, #{bcThumbnailWidth}
+			, #{bcThumbnailHeight}
+			, #{bcUploadFileNum}
+			, #{bcUploadSizeMax}
+			, #{bcPageSize}
+			, #{bcRegDate}
+		)
+	</insert>
+	
+	<update id="updateBoardConfig" parameterType="BoardConfig" >
+		UPDATE ${sitePrefix}_BOARD_CONFIG SET
+			BC_NAME							=	#{bcName}
+			, BC_USE						=	#{bcUse}
+			, BC_TYPE						=	#{bcType}
+			, BC_CATEGORY1					=	#{bcCategory1}
+			, BC_CATEGORY1_NAME				=	#{bcCategory1Name}
+			, BC_CATEGORY2					=	#{bcCategory2}
+			, BC_CATEGORY2_NAME				=	#{bcCategory2Name}
+			, BC_CATEGORY3					=	#{bcCategory3}
+			, BC_CATEGORY3_NAME				=	#{bcCategory3Name}
+			, BC_STATUS_CODE				=	#{bcStatusCode}
+			, BC_CUSTOM_FIELD_1				=	#{bcCustomField1}
+			, BC_CUSTOM_FIELD_2				=	#{bcCustomField2}
+			, BC_CUSTOM_FIELD_3				=	#{bcCustomField3}
+			, BC_CUSTOM_FIELD_4				=	#{bcCustomField4}
+			, BC_CUSTOM_FIELD_5				=	#{bcCustomField5}
+			, BC_CUSTOM_FIELD_6				=	#{bcCustomField6}
+			, BC_CUSTOM_FIELD_7				=	#{bcCustomField7}
+			, BC_CUSTOM_FIELD_8				=	#{bcCustomField8}
+			, BC_CUSTOM_FIELD_9				=	#{bcCustomField9}
+			, BC_CUSTOM_FIELD_10			=	#{bcCustomField10}
+			, BC_CUSTOM_FIELD_USE			=	#{bcCustomFieldUse}
+			, BC_LIST_FILE					=	#{bcListFile}
+			, BC_VIEW_FILE					=	#{bcViewFile}
+			, BC_FORM_FILE					=	#{bcFormFile}
+			, BC_ORGANIZATION				=	#{bcOrganization}
+			, BC_DEPARTMENT					=	#{bcDepartment}
+			, BC_GROUP						=	#{bcGroup}
+			, BC_ALLOW_MEMBER_LIST			=	#{bcAllowMemberList}
+			, BC_ALLOW_MEMBER_VIEW			=	#{bcAllowMemberView}
+			, BC_ALLOW_MEMBER_FORM			=	#{bcAllowMemberForm}
+			, BC_ALLOW_MEMBER_DOWNLOAD		=	#{bcAllowMemberDownload}
+			, BC_ALLOW_GUEST_LIST			=	#{bcAllowGuestList}
+			, BC_ALLOW_GUEST_VIEW			=	#{bcAllowGuestView}
+			, BC_ALLOW_GUEST_FORM			=	#{bcAllowGuestForm}
+			, BC_ALLOW_GUEST_DOWNLOAD		=	#{bcAllowGuestDownload}
+			, BC_SUPPORT_NOTICE				=	#{bcSupportNotice}
+			, BC_NOTICE_EVERY_PAGE			=	#{bcNoticeEveryPage}
+			, BC_SUPPORT_SECRET				=	#{bcSupportSecret}
+			, BC_SUPPORT_COMMENT			=	#{bcSupportComment}
+			, BC_SUPPORT_ANSWER				=	#{bcSupportAnswer}
+			, BC_SUPPORT_RECOMMEND			=	#{bcSupportRecommend}
+			, BC_SUPPORT_NURI				=	#{bcSupportNuri}
+			, BC_SUPPORT_HIT_DAY			=	#{bcSupportHitDay}
+			, BC_SUPPORT_MAIN_SELEC			=	#{bcSupportMainSelec}
+			, BC_SUPPORT_COMM_SELEC			=	#{bcSupportCommSelec}
+			, BC_SUPPORT_OPEN_DAY			=	#{bcSupportOpenDay}
+			, BC_SUPPORT_IMAGE				=	#{bcSupportImage}
+			, BC_SUPPORT_THUMBNAIL			=	#{bcSupportThumbnail}
+			, BC_THUMBNAIL_CROP				=	#{bcThumbnailCrop}
+			, BC_THUMBNAIL_WIDTH			=	#{bcThumbnailWidth}
+			, BC_THUMBNAIL_HEIGHT			=	#{bcThumbnailHeight}
+			, BC_UPLOAD_FILE_NUM			=	#{bcUploadFileNum}
+			, BC_UPLOAD_SIZE_MAX			=	#{bcUploadSizeMax}
+			, BC_PAGE_SIZE					=	#{bcPageSize}
+		<where>
+			BC_ID	=	#{bcId}
+		</where>
+	</update>
+	
+	<delete id="deleteBoardConfig" parameterType="BoardConfig">
+		DELETE FROM ${sitePrefix}_BOARD_CONFIG
+		<where>
+			BC_ID = #{bcId}
+		</where>
+	</delete>
+	
+	<!-- ===================================================== -->
+	<!-- =================   게시글   ========================== -->
+	<!-- ===================================================== -->
+	
+	<select id="selectBoardArticleList" parameterType="BoardArticleSearch" resultMap="boardArticleComplexResultMap" >
+		SELECT 
+  			<include refid="boardArticleJoinColumns"/>
+  			, #{sitePrefix} AS SITE_PREFIX
+  			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+		FROM ${sitePrefix}_BOARD_ARTICLE BA
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON BA.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BA.BA_THUMB = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						BA.BA_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR BA.BA_CONTENT_PLAIN LIKE CONCAT('%',#{sv},'%')
+						OR BA.BA_GUEST_NAME LIKE CONCAT('%',#{sv},'%')
+						OR ADM.ADMIN_ID LIKE CONCAT('%',#{sv},'%')
+						OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'baTitle'">
+						AND BA.BA_TITLE LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'baContentPlain'">
+						AND BA.BA_CONTENT_PLAIN LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'memberId'">
+						AND ADM.ADMIN_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'memberName'">
+						AND (
+							BA.BA_GUEST_NAME LIKE CONCAT('%',#{sv},'%')
+							OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						)
+					</if>	
+				</if>
+			</if>
+			<if test="baNotice != null and baNotice">
+			<![CDATA[
+				AND (BA.BA_NOTICE = 1
+					AND #{now} <= BA.BA_NOTICE_ENDDATE
+				)
+			]]>
+			</if>
+			<if test="baNotice != null and !baNotice">
+			<![CDATA[
+				AND (BA.BA_NOTICE = 0
+					OR (BA.BA_NOTICE = 1 AND BA.BA_NOTICE_ENDDATE < #{now})
+				)
+			]]>
+			</if>
+			<if test="bcId != null and bcId != ''">
+				AND BA.BC_ID = #{bcId}
+			</if>
+			<if test="baCategory1 != null and baCategory1 != ''">
+				AND (BA.BA_CATEGORY1 = #{baCategory1}
+				<if test="baCommSelec != null and baCommSelec">
+					OR (BA.BA_COM_SEL_CAT = #{baCategory1} AND BA.BA_COMM_SELEC = 1)
+				</if>
+				)
+			</if>
+			<if test="baCategory2 != null and baCategory2 != ''">
+				AND BA.BA_CATEGORY2 = #{baCategory2}
+			</if>
+			<if test="baCategory3 != null and baCategory3 != ''">
+				AND BA.BA_CATEGORY3 = #{baCategory3}
+			</if>
+			<if test="baUse != null">
+				AND BA.BA_USE = #{baUse}
+			</if>
+			<if test="baMainSelec != null">
+				AND BA.BA_MAIN_SELEC = #{baMainSelec}
+			</if>
+			<if test="baOpenDay != null and baOpenDay">
+				<![CDATA[
+				AND CONCAT(#{now}, #{nowTime}) >= CONCAT(IFNULL(BA.BA_START_DATE, '2000-01-01'), IFNULL(BA.BA_START_TIME, '00:00'))
+				AND #{now} <= IFNULL(BA.BA_END_DATE, '2099-01-01')
+				]]>	
+			</if>
+			
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND BA.BA_REGDATE >= STR_TO_DATE(CONCAT(IFNULL(#{startDate}, '2000-01-01'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+				]]>	
+				<if test="endDate != null and endDate != ''">
+					<![CDATA[
+					AND BA.BA_REGDATE <= STR_TO_DATE(CONCAT(IFNULL(#{endDate}, '2099-01-01'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+					]]>	
+				</if>
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND BA.MEM_ID = #{memberId}
+			</if>
+			<if test="depId != null and depId != ''">
+				AND BA.DEP_ID = #{depId}
+			</if>
+			<if test="teamId != null and teamId != ''">
+				AND BA.TEAM_ID = #{teamId}
+			</if>
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY BA.${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY BA.BA_REGDATE DESC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectBoardArticleListTotal" parameterType="BoardArticleSearch" resultType="Integer">
+		SELECT 
+  			COUNT(*)
+		FROM ${sitePrefix}_BOARD_ARTICLE BA
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON BA.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BA.BA_THUMB = FI.FILE_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						BA.BA_TITLE LIKE CONCAT('%',#{sv},'%')
+						OR BA.BA_CONTENT_PLAIN LIKE CONCAT('%',#{sv},'%')
+						OR BA.BA_GUEST_NAME LIKE CONCAT('%',#{sv},'%')
+						OR ADM.ADMIN_ID LIKE CONCAT('%',#{sv},'%')
+						OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'baTitle'">
+						AND BA.BA_TITLE LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'baContentPlain'">
+						AND BA.BA_CONTENT_PLAIN LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'memberId'">
+						AND ADM.ADMIN_ID LIKE CONCAT('%',#{sv},'%')
+					</if>
+					<if test="sc == 'memberName'">
+						AND (
+							BA.BA_GUEST_NAME LIKE CONCAT('%',#{sv},'%')
+							OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+						)
+					</if>	
+				</if>
+			</if>
+			<if test="baNotice != null and baNotice">
+			<![CDATA[
+				AND (BA.BA_NOTICE = 1
+					AND #{now} <= BA.BA_NOTICE_ENDDATE
+				)
+			]]>
+			</if>
+			<if test="baNotice != null and !baNotice">
+			<![CDATA[
+				AND (BA.BA_NOTICE = 0
+					OR (BA.BA_NOTICE = 1 AND BA.BA_NOTICE_ENDDATE < #{now})
+				)
+			]]>
+			</if>
+			<if test="bcId != null and bcId != ''">
+				AND BA.BC_ID = #{bcId}
+			</if>
+			<if test="baCategory1 != null and baCategory1 != ''">
+				AND (BA.BA_CATEGORY1 = #{baCategory1}
+				<if test="baCommSelec != null and baCommSelec">
+					OR (BA.BA_COM_SEL_CAT = #{baCategory1} AND BA.BA_COMM_SELEC = 1)
+				</if>
+				)
+			</if>
+			<if test="baCategory2 != null and baCategory2 != ''">
+				AND BA.BA_CATEGORY2 = #{baCategory2}
+			</if>
+			<if test="baCategory3 != null and baCategory3 != ''">
+				AND BA.BA_CATEGORY3 = #{baCategory3}
+			</if>
+			<if test="baUse != null">
+				AND BA.BA_USE = #{baUse}
+			</if>
+			<if test="baMainSelec != null">
+				AND BA.BA_MAIN_SELEC = #{baMainSelec}
+			</if>
+			<if test="baOpenDay != null and baOpenDay">
+				<![CDATA[
+				AND CONCAT(#{now}, #{nowTime}) >= CONCAT(IFNULL(BA.BA_START_DATE, '2000-01-01'), IFNULL(BA.BA_START_TIME, '00:00'))
+				AND #{now} <= IFNULL(BA.BA_END_DATE, '2099-01-01')
+				]]>	
+			</if>
+			
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND BA.BA_REGDATE >= STR_TO_DATE(CONCAT(IFNULL(#{startDate}, '2000-01-01'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+				]]>	
+				<if test="endDate != null and endDate != ''">
+					<![CDATA[
+					AND BA.BA_REGDATE <= STR_TO_DATE(CONCAT(IFNULL(#{endDate}, '2099-01-01'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+					]]>	
+				</if>
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND BA.MEM_ID = #{memberId}
+			</if>
+			<if test="depId != null and depId != ''">
+				AND BA.DEP_ID = #{depId}
+			</if>
+			<if test="teamId != null and teamId != ''">
+				AND BA.TEAM_ID = #{teamId}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertBoardArticle" parameterType="BoardArticle">
+		<selectKey keyProperty="baId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO ${sitePrefix}_BOARD_ARTICLE (
+			<include refid="boardArticleColumns" />
+		) VALUES (
+			#{baId}
+			, #{bcId}
+			, #{baTitle}
+			, #{baContentHtml}
+			, #{baTitle}
+			, #{baNotice}
+			, #{baNoticeStartDate}
+			, #{baNoticeEndDate}
+			, #{baSecret}
+			, #{baSecretPassword}
+			, #{baCategory1}
+			, #{baCategory2}
+			, #{baCategory3}
+			, #{baStatus}
+			, #{baCustomField1}
+			, #{baCustomField2}
+			, #{baCustomField3}
+			, #{baCustomField4}
+			, #{baCustomField5}
+			, #{baCustomField6}
+			, #{baCustomField7}
+			, #{baCustomField8}
+			, #{baCustomField9}
+			, #{baCustomField10}
+			, #{memId}
+			, #{baGuestName}
+			, #{baGuestPassword}
+			, #{baEmail, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+			, #{baIp}
+			, #{baRegDate}
+			, #{baLastModified}
+			, #{baUpdaterId}
+			, #{baHit}
+			, #{baRecommend}
+			, #{baCommentTotal}
+			, #{baNuri}
+			, #{thumb.fileId}
+			, #{baUse}
+			, #{baThumbText}
+			, #{baAnswer}
+			, #{depId}
+			, #{teamId}
+			, #{baMainSelec}
+			, #{baComSelCat}
+			, #{baCommSelec}
+			, #{baStartDate}
+			, #{baStartTime}
+			, #{baEndDate}
+		)
+	</insert>
+
+	<select id="selectBoardArticle" parameterType="BoardArticle" resultMap="boardArticleComplexResultMap">
+		SELECT 
+  			<include refid="boardArticleJoinColumns"/>
+  			, #{sitePrefix} AS SITE_PREFIX
+  			, <include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoJoinColumns" />
+  			, <include refid="egovframework.com.asapro.member.admin.service.AdminMemberMapper.adminMemberJoinColumns" />
+		FROM ${sitePrefix}_BOARD_ARTICLE BA
+		LEFT OUTER JOIN ASA_ADMIN_MEMBER ADM ON BA.MEM_ID = ADM.ADMIN_ID
+		LEFT OUTER JOIN ${sitePrefix}_FILEINFO FI ON BA.BA_THUMB = FI.FILE_ID
+		<where>
+			BA.BA_ID = #{baId}
+		</where>
+	</select>
+	
+	<update id="updateBoardArticle" parameterType="BoardArticle">
+		UPDATE ${sitePrefix}_BOARD_ARTICLE SET
+			BA_TITLE				= #{baTitle}
+			, BA_CONTENT_HTML		= #{baContentHtml}
+			, BA_CONTENT_PLAIN		= #{baContentPlain}
+			, BA_NOTICE				= #{baNotice}
+			, BA_NOTICE_STARTDATE	= #{baNoticeStartDate}
+			, BA_NOTICE_ENDDATE		= #{baNoticeEndDate}
+			, BA_SECRET				= #{baSecret}
+			, BA_SECRET_PASSWORD	= #{baSecretPassword}
+			, BA_CATEGORY1			= #{baCategory1}
+			, BA_CATEGORY2			= #{baCategory2}
+			, BA_CATEGORY3			= #{baCategory3}
+			, BA_STATUS				= #{baStatus}
+			, BA_CUSTOM_FIELD_1		= #{baCustomField1}
+			, BA_CUSTOM_FIELD_2		= #{baCustomField2}
+			, BA_CUSTOM_FIELD_3		= #{baCustomField3}
+			, BA_CUSTOM_FIELD_4		= #{baCustomField4}
+			, BA_CUSTOM_FIELD_5		= #{baCustomField5}
+			, BA_CUSTOM_FIELD_6		= #{baCustomField6}
+			, BA_CUSTOM_FIELD_7		= #{baCustomField7}
+			, BA_CUSTOM_FIELD_8		= #{baCustomField8}
+			, BA_CUSTOM_FIELD_9		= #{baCustomField9}
+			, BA_CUSTOM_FIELD_10	= #{baCustomField10}
+			<!-- , BA_GUEST_NAME			= #{baGuestName} -->
+			, BA_GUEST_PASSWORD		= #{baGuestPassword}
+			, BA_EMAIL				= #{baEmail, javaType=String, jdbcType=VARCHAR, typeHandler=egovframework.com.asapro.support.crypto.CryptoStringTypeHandler}
+			, BA_IP					= #{baIp}
+			, BA_LAST_MODIFIED		= #{baLastModified}
+			, BA_UPDATER_ID			= #{baUpdaterId}
+			, BA_NURI				= #{baNuri}
+			, BA_THUMB				= #{thumb.fileId}
+			, BA_USE				= #{baUse}
+			, BA_THUMB_TEXT			= #{baThumbText}
+			, BA_ANSWER				= #{baAnswer}
+			, BA_MAIN_SELEC			= #{baMainSelec}
+			, BA_COM_SEL_CAT		= #{baComSelCat}
+			, BA_COMM_SELEC			= #{baCommSelec}
+			, BA_START_DATE			= #{baStartDate}
+			, BA_START_TIME			= #{baStartTime}
+			, BA_END_DATE			= #{baEndDate}
+		<where>
+			BA_ID = #{baId}
+		</where>
+	</update>
+	
+	<delete id="deleteBoardArticle" parameterType="BoardArticle">
+		DELETE FROM ${sitePrefix}_BOARD_ARTICLE
+		<where>
+			BA_ID = #{baId}
+		</where>
+	</delete>
+	
+	<select id="selectBoardArticleFileInfoList" parameterType="FileInfo" resultMap="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoPlainResultMap">
+		SELECT 
+			<include refid="egovframework.com.asapro.fileinfo.service.FileInfoMapper.fileInfoColumns"/>
+		FROM ${sitePrefix}_FILEINFO
+		<where>
+			FILE_MODULE 				= 'board'
+			AND FILE_MODULE_SUB 		= 'article'
+			AND FILE_MODULE_SUB_ID 		= #{fileModuleSubId}
+			AND FILE_ATTACHMENT_TYPE 	= 'appending'
+		</where>
+		ORDER BY FILE_REGDATE ASC, FILE_ORIGINAL_NAME ASC
+	</select>
+	
+	<update id="updateBoardArticleHit" parameterType="BoardArticle">
+		UPDATE ${sitePrefix}_BOARD_ARTICLE 
+		SET BA_HIT = BA_HIT + 1
+		<where>
+			BA_ID = #{baId}
+		</where> 
+	</update>
+	
+	<select id="selectPrevBoardArticle" parameterType="BoardArticle" resultMap="boardArticlePlainResultMap">
+		SELECT 
+			<include refid="boardArticleColumns" />
+			, #{sitePrefix} AS SITE_PREFIX
+		FROM ${sitePrefix}_BOARD_ARTICLE B1
+		<where>
+			BA_ID = (SELECT MAX(BA_ID)
+					FROM ${sitePrefix}_BOARD_ARTICLE
+					<where>
+						BC_ID = #{bcId}
+						AND BA_ID &lt; #{baId}
+					</where>
+					)
+		</where>
+	</select>
+	
+	<select id="selectNextBoardArticle" parameterType="BoardArticle" resultMap="boardArticlePlainResultMap">
+		SELECT 
+			<include refid="boardArticleColumns" />
+			, #{sitePrefix} AS SITE_PREFIX
+		FROM ${sitePrefix}_BOARD_ARTICLE B1
+		<where>
+			BA_ID = (
+					SELECT MIN(BA_ID)
+					FROM ${sitePrefix}_BOARD_ARTICLE
+					<where>
+						BC_ID = #{bcId}
+						AND BA_ID &gt; #{baId}
+					</where>
+					)
+		</where>
+	</select>
+	
+	<update id="updateBoardArticleRecommend" parameterType="BoardArticle">
+		UPDATE ${sitePrefix}_BOARD_ARTICLE
+		SET BA_RECOMMEND = BA_RECOMMEND + 1
+		<where>
+			BA_ID = #{baId}
+		</where>
+	</update>
+	
+	<update id="updateBoardArticleCommentTotal" parameterType="BoardArticle">
+		UPDATE ${sitePrefix}_BOARD_ARTICLE
+		SET BA_COMMENT_TOTAL = #{baCommentTotal}
+		<where>
+			BA_ID = #{baId} 
+		</where>
+	</update>
+
+</mapper>

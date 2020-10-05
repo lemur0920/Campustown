@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.note.service.NoteMapper">
+	
+	
+	<resultMap id="notePlainResultMap" type="Note">
+		<id column="NOTE_ID" property="noteId" javaType="String" />
+		<result column="NOTE_TITLE" property="noteTitle" javaType="String"/>
+		<result column="NOTE_CONTENT" property="noteContent" javaType="String"/>
+		<result column="NOTE_REG_ID" property="noteRegId" javaType="String"/>
+		<result column="NOTE_REG_DATE" property="noteRegDate" javaType="Date" />
+		
+		<result column="NOTE_TRANSMIT_ID" property="noteTransmitId" javaType="String"/>
+		<result column="NOTE_TRANSMITER_ID" property="noteTransmiterId" javaType="String"/>
+		<result column="NOTE_SEND_DATE" property="noteSendDate" javaType="Date" />
+		
+		<result column="NOTE_RECEPTION_ID" property="noteReceptionId" javaType="String"/>
+		<result column="NOTE_RECEIVER_ID" property="noteReceiverId" javaType="String"/>
+		<result column="NOTE_RECEIVE_DATE" property="noteReceiveDate" javaType="Date" />
+		<result column="NOTE_OPEN" property="noteOpen" javaType="Boolean"/>
+		<result column="NOTE_CANCEL_YN" property="noteCancelYn" javaType="String"/>
+	</resultMap>
+	
+	<resultMap id="noteComplexResultMap" type="Note" extends="notePlainResultMap">
+		<association property="receiver" column="NOTE_RECEIVER_ID" javaType="AdminMember" select="egovframework.com.asapro.member.admin.service.AdminMemberMapper.selectAdminMemberById"/>
+		<association property="transmiter" column="NOTE_TRANSMITER_ID" javaType="AdminMember" select="egovframework.com.asapro.member.admin.service.AdminMemberMapper.selectAdminMemberById"/>
+	</resultMap>
+	
+	<sql id="noteColumns">
+		NOTE_ID
+		, NOTE_TITLE
+		, NOTE_CONTENT
+		, NOTE_REG_ID
+		, NOTE_REG_DATE
+	</sql>
+	
+	<sql id="noteJoinColumns">
+		NT.NOTE_ID
+		, NT.NOTE_TITLE
+		, NT.NOTE_CONTENT
+		, NT.NOTE_REG_ID
+		, NT.NOTE_REG_DATE
+	</sql>
+	
+	<sql id="transmitNoteColumns">
+		NOTE_TRANSMIT_ID
+		, NOTE_ID
+		, NOTE_TRANSMITER_ID
+		, NOTE_SEND_DATE
+	</sql>
+	
+	<sql id="transmitNoteJoinColumns">
+		TM.NOTE_TRANSMIT_ID
+		, TM.NOTE_ID AS T_NOTE_ID
+		, TM.NOTE_TRANSMITER_ID
+		, TM.NOTE_SEND_DATE
+	</sql>
+	
+	<sql id="receptionNoteColumns">
+		NOTE_RECEPTION_ID
+		, NOTE_ID
+		, NOTE_TRANSMIT_ID
+		, NOTE_RECEIVER_ID
+		, NOTE_RECEIVE_DATE
+		, NOTE_OPEN
+		, NOTE_CANCEL_YN
+	</sql>
+	
+	<sql id="receptionNoteJoinColumns">
+		RT.NOTE_RECEPTION_ID
+		, RT.NOTE_ID AS R_NOTE_ID
+		, RT.NOTE_TRANSMIT_ID AS R_NOTE_TRANSMIT_ID
+		, RT.NOTE_RECEIVER_ID
+		, RT.NOTE_RECEIVE_DATE
+		, RT.NOTE_OPEN
+		, RT.NOTE_CANCEL_YN
+	</sql>
+	
+	
+	<insert id="insertNote" parameterType="Note">
+		INSERT INTO ASA_NOTE (
+			<include refid="noteColumns" />
+		) VALUES (
+			#{noteId}
+			, #{noteTitle}
+			, #{noteContent}
+			, #{noteRegId}
+			, #{noteRegDate}
+		)
+	</insert>
+	
+	<insert id="insertTransmitNote" parameterType="Note">
+		INSERT INTO ASA_NOTE_TRANSMIT (
+			<include refid="transmitNoteColumns" />
+		) VALUES (
+			#{noteTransmitId}
+			, #{noteId}
+			, #{noteTransmiterId}
+			, #{noteSendDate}
+		)
+	</insert>
+	
+	<insert id="insertReceptionNote" parameterType="Note">
+		INSERT INTO ASA_NOTE_RECEPTION (
+			<include refid="receptionNoteColumns" />
+		) VALUES (
+			#{noteReceptionId}
+			, #{noteId}
+			, #{noteTransmitId}
+			, #{noteReceiverId}
+			, #{noteReceiveDate}
+			, #{noteOpen}
+			, 'N'
+		)
+	</insert>
+	
+	<select id="selectTransmitNoteList" parameterType="NoteSearch" resultMap="noteComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="transmitNoteJoinColumns" />
+				, <include refid="noteJoinColumns" />
+				, <include refid="receptionNoteJoinColumns" />
+			FROM ASA_NOTE_TRANSMIT TM
+			LEFT JOIN ASA_NOTE NT ON TM.NOTE_ID = NT.NOTE_ID
+			LEFT JOIN ASA_NOTE_RECEPTION RT ON TM.NOTE_TRANSMIT_ID = RT.NOTE_TRANSMIT_ID
+			LEFT JOIN ASA_ADMIN_MEMBER ADM ON RT.NOTE_RECEIVER_ID = ADM.ADMIN_ID
+			<where>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							RT.NOTE_RECEIVER_ID = #{sv}
+							OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'NOTE_RECEIVER_ID'">
+							RT.NOTE_RECEIVER_ID = #{sv}
+						</if>
+						<if test="sc == 'ADMIN_NAME'">
+							AND ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						</if>
+					</if>
+				</if>
+				<if test="startDate != null and startDate != ''">
+					<![CDATA[
+					AND TM.NOTE_SEND_DATE >= TO_DATE(nvl(#{startDate}, '2000-01-01')||' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+					]]>	
+					<if test="endDate != null and endDate != ''">
+						<![CDATA[
+						AND TM.NOTE_SEND_DATE <= TO_DATE(nvl(#{endDate}, '2099-01-01')||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+						]]>	
+					</if>
+				</if>
+				AND TM.NOTE_TRANSMITER_ID = #{noteTransmiterId}
+				AND TM.NOTE_TRANS_DEL_YN	 = 'N'
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY NOTE_SEND_DATE DESC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectTransmitNoteListTotal" parameterType="NoteSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_NOTE_TRANSMIT TM
+		LEFT JOIN ASA_NOTE NT ON TM.NOTE_ID = NT.NOTE_ID
+		LEFT JOIN ASA_NOTE_RECEPTION RT ON TM.NOTE_TRANSMIT_ID = RT.NOTE_TRANSMIT_ID
+		LEFT JOIN ASA_ADMIN_MEMBER ADM ON RT.NOTE_RECEIVER_ID = ADM.ADMIN_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RT.NOTE_RECEIVER_ID = #{sv}
+						OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'NOTE_RECEIVER_ID'">
+						RT.NOTE_RECEIVER_ID = #{sv}
+					</if>
+					<if test="sc == 'ADMIN_NAME'">
+						AND ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+				</if>
+			</if>
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND TM.NOTE_SEND_DATE >= TO_DATE(nvl(#{startDate}, '2000-01-01')||' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				]]>	
+				<if test="endDate != null and endDate != ''">
+					<![CDATA[
+					AND TM.NOTE_SEND_DATE <= TO_DATE(nvl(#{endDate}, '2099-01-01')||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+					]]>	
+				</if>
+			</if>
+			AND TM.NOTE_TRANSMITER_ID = #{noteTransmiterId}
+			AND TM.NOTE_TRANS_DEL_YN	 = 'N'
+		</where>
+	</select>
+	
+	<select id="selectReceptionNoteList" parameterType="NoteSearch" resultMap="noteComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="receptionNoteJoinColumns" />
+				, <include refid="noteJoinColumns" />
+				, <include refid="transmitNoteJoinColumns" />
+			FROM ASA_NOTE_RECEPTION RT
+			LEFT JOIN ASA_NOTE NT ON RT.NOTE_ID = NT.NOTE_ID
+			LEFT JOIN ASA_NOTE_TRANSMIT TM ON RT.NOTE_TRANSMIT_ID = TM.NOTE_TRANSMIT_ID
+			LEFT JOIN ASA_ADMIN_MEMBER ADM ON TM.NOTE_TRANSMITER_ID = ADM.ADMIN_ID
+			<where>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							TM.NOTE_TRANSMITER_ID = #{sv}
+							OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'NOTE_TRANSMITER_ID'">
+							TM.NOTE_TRANSMITER_ID = #{sv}
+						</if>
+						<if test="sc == 'ADMIN_NAME'">
+							AND ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						</if>
+					</if>
+				</if>
+				<if test="startDate != null and startDate != ''">
+					<![CDATA[
+					AND TM.NOTE_SEND_DATE >= TO_DATE(nvl(#{startDate}, '2000-01-01')||' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+					]]>	
+					<if test="endDate != null and endDate != ''">
+						<![CDATA[
+						AND TM.NOTE_SEND_DATE <= TO_DATE(nvl(#{endDate}, '2099-01-01')||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+						]]>	
+					</if>
+				</if>
+				AND RT.NOTE_RECEIVER_ID = #{noteReceiverId}
+				AND RT.NOTE_RECEP_DEL_YN	 = 'N'
+				AND RT.NOTE_CANCEL_YN	 = 'N'
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY NOTE_REG_DATE DESC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectReceptionNoteListTotal" parameterType="NoteSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_NOTE_RECEPTION RT
+		LEFT JOIN ASA_NOTE NT ON RT.NOTE_ID = NT.NOTE_ID
+		LEFT JOIN ASA_NOTE_TRANSMIT TM ON RT.NOTE_TRANSMIT_ID = TM.NOTE_TRANSMIT_ID
+		LEFT JOIN ASA_ADMIN_MEMBER ADM ON TM.NOTE_TRANSMITER_ID = ADM.ADMIN_ID
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						TM.NOTE_TRANSMITER_ID = #{sv}
+						OR ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'NOTE_TRANSMITER_ID'">
+						TM.NOTE_TRANSMITER_ID = #{sv}
+					</if>
+					<if test="sc == 'ADMIN_NAME'">
+						AND ADM.ADMIN_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+				</if>
+			</if>
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND TM.NOTE_SEND_DATE >= TO_DATE(nvl(#{startDate}, '2000-01-01')||' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				]]>	
+				<if test="endDate != null and endDate != ''">
+					<![CDATA[
+					AND TM.NOTE_SEND_DATE <= TO_DATE(nvl(#{endDate}, '2099-01-01')||' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+					]]>	
+				</if>
+			</if>
+			AND RT.NOTE_RECEIVER_ID = #{noteReceiverId}
+			AND RT.NOTE_RECEP_DEL_YN	 = 'N'
+			AND RT.NOTE_CANCEL_YN	 = 'N'
+		</where>
+	</select>
+	
+	<select id="selectReceptionNote" parameterType="Note" resultMap="noteComplexResultMap">
+		SELECT
+			<include refid="receptionNoteJoinColumns" />
+			, <include refid="noteJoinColumns" />
+			, <include refid="transmitNoteJoinColumns" />
+		FROM ASA_NOTE_RECEPTION RT
+		LEFT JOIN ASA_NOTE NT ON RT.NOTE_ID = NT.NOTE_ID
+		LEFT JOIN ASA_NOTE_TRANSMIT TM ON RT.NOTE_TRANSMIT_ID = TM.NOTE_TRANSMIT_ID
+		<where>
+			RT.NOTE_RECEPTION_ID		 = #{noteReceptionId}
+			AND RT.NOTE_RECEIVER_ID		 = #{noteReceiverId}
+			AND RT.NOTE_RECEP_DEL_YN	 = 'N'
+			AND RT.NOTE_CANCEL_YN		 = 'N'
+		</where>
+	</select>
+	
+	<select id="selectTransmitNote" parameterType="Note" resultMap="noteComplexResultMap">
+		SELECT
+			<include refid="transmitNoteJoinColumns" />
+			, <include refid="noteJoinColumns" />
+			, <include refid="receptionNoteJoinColumns" />
+		FROM ASA_NOTE_TRANSMIT TM
+		LEFT JOIN ASA_NOTE NT ON TM.NOTE_ID = NT.NOTE_ID
+		LEFT JOIN ASA_NOTE_RECEPTION RT ON TM.NOTE_TRANSMIT_ID = RT.NOTE_TRANSMIT_ID
+		<where>
+			TM.NOTE_TRANSMIT_ID			 = #{noteTransmitId}
+			AND TM.NOTE_TRANSMITER_ID	 = #{noteTransmiterId}
+			AND TM.NOTE_TRANS_DEL_YN	 = 'N'
+		</where>
+	</select>
+	
+	<update id="updateNoteOpen" parameterType="Note">
+		UPDATE ASA_NOTE_RECEPTION SET
+			NOTE_OPEN 				= #{noteOpen}
+			, NOTE_RECEIVE_DATE		= #{noteReceiveDate}
+		<where>
+			NOTE_RECEPTION_ID		 = #{noteReceptionId}
+			AND NOTE_RECEIVER_ID	 = #{noteReceiverId}
+			AND NOTE_RECEP_DEL_YN	 = 'N'
+		</where>
+	</update>
+	
+	<update id="updateNoteCancel" parameterType="Note">
+		UPDATE ASA_NOTE_RECEPTION SET
+			NOTE_CANCEL_YN			= 'Y'
+		<where>
+			NOTE_RECEPTION_ID		 = #{noteReceptionId}
+			AND NOTE_RECEP_DEL_YN	 = 'N'
+			AND NOTE_OPEN			 = 0
+		</where>
+	</update>
+	
+	<update id="deleteTransmitNote" parameterType="Note">
+		UPDATE ASA_NOTE_TRANSMIT SET
+			NOTE_TRANS_DEL_YN 		= 'Y'
+		<where>
+			NOTE_TRANSMIT_ID		 = #{noteTransmitId}
+			AND NOTE_TRANSMITER_ID	 = #{noteTransmiterId}
+		</where>
+	</update>
+	
+	<update id="deleteReceptionNote" parameterType="Note">
+		UPDATE ASA_NOTE_RECEPTION SET
+			NOTE_RECEP_DEL_YN 		= 'Y'
+		<where>
+			NOTE_RECEPTION_ID		 = #{noteReceptionId}
+			AND NOTE_RECEIVER_ID	 = #{noteReceiverId}
+		</where>
+	</update>
+	
+	<select id="selectNonOpenNoteCnt" parameterType="NoteSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_NOTE_RECEPTION
+		<where>
+			NOTE_RECEP_DEL_YN		 = 'N'
+			AND NOTE_OPEN			 = 0
+			AND NOTE_CANCEL_YN		 = 'N'
+			AND NOTE_RECEIVER_ID	 = #{noteReceiverId}
+		</where>
+	</select>
+	
+	
+		
+</mapper>

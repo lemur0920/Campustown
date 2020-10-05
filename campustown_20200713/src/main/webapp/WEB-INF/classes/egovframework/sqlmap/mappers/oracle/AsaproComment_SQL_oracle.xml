@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.comment.service.CommentMapper">
+	
+	<resultMap type="Comment" id="commentPlainResultMap">
+		<id property="cmtId" column="CMT_ID" javaType="Integer" />
+		<result property="cmtParentId" column="CMT_PARENT_ID" javaType="Integer" />
+		<result property="cmtTitle" column="CMT_TITLE" javaType="String" />
+		<result property="cmtContent" column="CMT_CONTENT" javaType="String" />
+		<result property="cmtModule" column="CMT_MODULE" javaType="String" />
+		<result property="cmtModuleSub" column="CMT_MODULE_SUB" javaType="String" />
+		<result property="cmtModCategory" column="CMT_MOD_CATEGORY" javaType="String" />
+		<result property="cmtModItemId" column="CMT_MOD_ITEM_ID" javaType="String" />
+		<result property="cmtPageUrl" column="CMT_PAGE_URL" javaType="String" />
+		<result property="cmtLoginType" column="CMT_LOGIN_TYPE" javaType="String" />
+		<result property="cmtUserId" column="CMT_USER_ID" javaType="String" />
+		<result property="cmtSnsUserId" column="CMT_SNS_USER_ID" javaType="String" />
+		<result property="cmtSnsUserName" column="CMT_SNS_USER_NAME" javaType="String" />
+		<result property="cmtSnsUserHome" column="CMT_SNS_USER_HOME" javaType="String" />
+		<result property="cmtProfileImage" column="CMT_PROFILE_IMAGE" javaType="String" />
+		<result property="cmtAgree" column="CMT_AGREE" javaType="Integer" />
+		<result property="cmtDisagree" column="CMT_DISAGREE" javaType="Integer" />
+		<result property="cmtRecommend" column="CMT_RECOMMEND" javaType="Integer" />
+		<result property="cmtReport" column="CMT_REPORT" javaType="Integer" />
+		<result property="cmtRegIp" column="CMT_REG_IP" javaType="String" />
+		<result property="cmtRegDate" column="CMT_REGDATE" javaType="Date" />
+		<result property="cmtStatus" column="CMT_STATUS" javaType="String" />
+		<result property="sitePrefix" column="SITE_PREFIX" javaType="String" />
+	</resultMap>
+	
+	<resultMap id="commentComplexResultMap" type="Comment" extends="commentPlainResultMap">
+		<association property="cmtParent" column="{cmtId=CMT_PARENT_ID,sitePrefix=SITE_PREFIX}" javaType="Comment" select="selectCommentParent" />
+	</resultMap>
+	
+	
+	<sql id="commentPlainColumns">
+		CMT_ID
+			, CMT_PARENT_ID
+			, CMT_TITLE
+			, CMT_CONTENT
+			, CMT_MODULE
+			, CMT_MODULE_SUB
+			, CMT_MOD_CATEGORY
+			, CMT_MOD_ITEM_ID
+			, CMT_PAGE_URL
+			, CMT_LOGIN_TYPE
+			, CMT_USER_ID
+			, CMT_SNS_USER_ID
+			, CMT_SNS_USER_NAME
+			, CMT_SNS_USER_HOME
+			, CMT_PROFILE_IMAGE
+			, CMT_AGREE
+			, CMT_DISAGREE
+			, CMT_RECOMMEND
+			, CMT_REPORT
+			, CMT_REG_IP
+			, CMT_REGDATE
+			, CMT_STATUS
+	</sql>
+	
+	<sql id="commentJoinColumns">
+		CMT.CMT_ID
+			, CMT.CMT_PARENT_ID
+			, CMT.CMT_TITLE
+			, CMT.CMT_CONTENT
+			, CMT.CMT_MODULE
+			, CMT.CMT_MODULE_SUB
+			, CMT.CMT_MOD_CATEGORY
+			, CMT.CMT_MOD_ITEM_ID
+			, CMT.CMT_PAGE_URL
+			, CMT.CMT_LOGIN_TYPE
+			, CMT.CMT_USER_ID
+			, CMT.CMT_SNS_USER_ID
+			, CMT.CMT_SNS_USER_NAME
+			, CMT.CMT_SNS_USER_HOME
+			, CMT.CMT_PROFILE_IMAGE
+			, CMT.CMT_AGREE
+			, CMT.CMT_DISAGREE
+			, CMT.CMT_RECOMMEND
+			, CMT.CMT_REPORT
+			, CMT.CMT_REG_IP
+			, CMT.CMT_REGDATE
+			, CMT.CMT_STATUS
+	</sql>
+	
+	<insert id="insertComment" parameterType="Comment">
+		<selectKey keyProperty="cmtId" order="BEFORE" resultType="Integer">
+			SELECT ${sitePrefix}_COMMENT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ${sitePrefix}_COMMENT (
+			<include refid="commentPlainColumns"/>
+		) VALUES (
+			#{cmtId}
+			, #{cmtParentId}
+			, #{cmtTitle}
+			, #{cmtContent}
+			, #{cmtModule}
+			, #{cmtModuleSub}
+			, #{cmtModCategory}
+			, #{cmtModItemId}
+			, #{cmtPageUrl}
+			, #{cmtLoginType}
+			, #{cmtUserId}
+			, #{cmtSnsUserId}
+			, #{cmtSnsUserName}
+			, #{cmtSnsUserHome}
+			, #{cmtProfileImage}
+			, #{cmtAgree}
+			, #{cmtDisagree}
+			, #{cmtRecommend}
+			, #{cmtReport}
+			, #{cmtRegIp}
+			, #{cmtRegDate}
+			, #{cmtStatus}
+		)
+	</insert>
+	
+	<select id="selectCommentParent" parameterType="Comment" resultMap="commentPlainResultMap" >
+		SELECT
+			<include refid="commentPlainColumns"/>
+		FROM ${sitePrefix}_COMMENT
+		<where>
+			CMT_ID = #{cmtId}
+		</where>
+	</select>
+	
+	<select id="selectComment" parameterType="Comment" resultMap="commentComplexResultMap">
+		SELECT
+			<include refid="commentPlainColumns"/>
+			, #{sitePrefix} AS SITE_PREFIX
+		FROM ${sitePrefix}_COMMENT
+		<where>
+			CMT_ID = #{cmtId}
+		</where>
+	</select>
+	
+	<select id="selectCommentList" parameterType="CommentSearch" resultMap="commentComplexResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+				<include refid="commentJoinColumns"/>
+				, #{sitePrefix} AS SITE_PREFIX
+			FROM ${sitePrefix}_COMMENT CMT
+			<where>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							CMT.CMT_SNS_USER_NAME LIKE '%'||#{sv}||'%'
+							OR CMT.CMT_CONTENT LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'cmtName'">
+							AND (
+								CMT.CMT_SNS_USER_NAME LIKE '%'||#{sv}||'%'
+							)
+						</if>
+						<if test="sc == 'cmtContent'">
+							AND CMT.CMT_CONTENT LIKE '%'||#{sv}||'%'
+						</if>
+					</if>
+				</if>
+				<if test="cmtStatus != '' and cmtStatus != null">
+					AND CMT.CMT_STATUS = #{cmtStatus}
+				</if>
+				<if test="cmtModule != '' and cmtModule != null">
+					AND CMT.CMT_MODULE = #{cmtModule}
+				</if>
+				<if test="cmtModuleSub != '' and cmtModuleSub != null">
+					AND CMT.CMT_MODULE_SUB = #{cmtModuleSub}
+				</if>
+				<if test="cmtModCategory != '' and cmtModCategory != null">
+					AND CMT.CMT_MOD_CATEGORY = #{cmtModCategory}
+				</if>
+				<if test="cmtModItemId != '' and cmtModItemId != null">
+					AND CMT.CMT_MOD_ITEM_ID = #{cmtModItemId}
+				</if>
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY CMT.${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY CMT.CMT_REGDATE DESC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectCommentListTotal" parameterType="CommentSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_COMMENT CMT
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						CMT.CMT_SNS_USER_NAME LIKE '%'||#{sv}||'%'
+						OR CMT.CMT_CONTENT LIKE '%'||#{sv}||'%'
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'cmtName'">
+						AND (
+							CMT.CMT_SNS_USER_NAME LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc == 'cmtContent'">
+						AND CMT.CMT_CONTENT LIKE '%'||#{sv}||'%'
+					</if>
+				</if>
+			</if>
+			<if test="cmtStatus != '' and cmtStatus != null">
+				AND CMT.CMT_STATUS = #{cmtStatus}
+			</if>
+			<if test="cmtModule != '' and cmtModule != null">
+				AND CMT.CMT_MODULE = #{cmtModule}
+			</if>
+			<if test="cmtModuleSub != '' and cmtModuleSub != null">
+				AND CMT.CMT_MODULE_SUB = #{cmtModuleSub}
+			</if>
+			<if test="cmtModCategory != '' and cmtModCategory != null">
+				AND CMT.CMT_MOD_CATEGORY = #{cmtModCategory}
+			</if>
+			<if test="cmtModItemId != '' and cmtModItemId != null">
+				AND CMT.CMT_MOD_ITEM_ID = #{cmtModItemId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="countCommentTotal" parameterType="Comment" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_COMMENT C
+		LEFT OUTER JOIN ${sitePrefix}_COMMENT P ON C.CMT_PARENT_ID = P.CMT_ID
+		<where>
+			( P.CMT_STATUS = #{cmtStatus} OR C.CMT_PARENT_ID = 0 )
+			AND C.CMT_STATUS = #{cmtStatus}
+			<if test="cmtModule != null and  cmtModule != ''">
+				AND C.CMT_MODULE = #{cmtModule}
+			</if>
+			<if test="cmtModuleSub != null and cmtModuleSub != ''">
+				AND C.CMT_MODULE_SUB = #{cmtModuleSub}
+			</if>
+			<if test="cmtModCategory != null and cmtModCategory != ''">
+				AND C.CMT_MOD_CATEGORY = #{cmtModCategory}
+			</if>
+			<if test="cmtModItemId != null and cmtModItemId != ''">
+				AND C.CMT_MOD_ITEM_ID = #{cmtModItemId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateCommentStatus" parameterType="Comment">
+		UPDATE ${sitePrefix}_COMMENT SET
+			CMT_STATUS = #{cmtStatus}
+		<where>
+			CMT_ID = #{cmtId}
+		</where>
+	</update>
+	
+	<delete id="clearDeletedComments" parameterType="String">
+		DELETE FROM ${value}_COMMENT
+		<where>
+			CMT_ID IN (
+				SELECT * FROM (
+					SELECT 
+						C.CMT_ID
+					FROM ${value}_COMMENT C
+					LEFT OUTER JOIN ${value}_COMMENT P
+						ON C.CMT_PARENT_ID = P.CMT_ID
+					<where>
+						C.CMT_STATUS = 'DELETED'
+						OR P.CMT_STATUS = 'DELETED'
+					</where>
+				) TEMP
+			)
+		</where>
+	</delete>
+	
+	<update id="updateCommentRecommend" parameterType="Comment">
+		UPDATE ${sitePrefix}_COMMENT SET
+			CMT_RECOMMEND = CMT_RECOMMEND + 1
+		<where>
+			CMT_ID = #{cmtId}
+		</where>
+	</update>
+	
+</mapper>

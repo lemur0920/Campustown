@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.campustown.counsel.legal_counsel.service.LegalCounselMapper">
+
+	<resultMap type="LegalCounsel" id="getLegalCounselListMap">
+		<id column="LEGAL_ADVICE_SEQ"							property="id"		   				javaType="Integer" />
+		<result column="LEGAL_ADVICE_REALM"						property="realm"		  			javaType="String" />
+		<result column="LEGAL_ADVICE_TITLE"						property="title"		 		    javaType="String" />
+		<result column="LEGAL_ADVICE_TEAM_NAME"					property="teamName"		  		    javaType="String" />
+		<result column="LEGAL_ADVICE_STATUS"					property="status"		  		    javaType="Integer" />
+		<result column="LEGAL_ADVICE_REG_NAME"					property="regName"					javaType="String" />
+		<result column="LEGAL_ADVICE_REG_DATE"					property="regDate"					javaType="Date" />
+		<result column="LEGAL_ADVICE_REG_ID"					property="regId"					javaType="String" />
+	</resultMap>
+
+	<resultMap type="LegalCounsel" id="getUserLegalCounselSavePT">
+		<id column="LEGAL_ADVICE_SEQ"							property="id"		   				javaType="Integer" />
+		<result column="LEGAL_ADVICE_REALM"						property="realm"		  			javaType="String" />
+		<result column="LEGAL_ADVICE_TITLE"						property="title"		 		    javaType="String" />
+		<result column="LEGAL_ADVICE_STATUS"					property="status"		    		javaType="String" />
+		<result column="LEGAL_ADVICE_TEAM_NAME"					property="teamName"		  		    javaType="String" />
+		<result column="LEGAL_ADVICE_REG_NAME"					property="regName"					javaType="String" />
+		<result column="LEGAL_ADVICE_CONTENTS"					property="contents"					javaType="String" />
+		<result column="LEGAL_LAWYER_ID"						property="lawyerId"					javaType="String" />
+		<result column="LEGAL_LAWYER_COUNSEL"					property="lawyerCounsel"			javaType="String" />
+	</resultMap>
+
+    <select id="getUserLegalCounselList" parameterType="LegalCounsel" resultMap="getLegalCounselListMap">
+		SELECT * FROM
+		(
+			SELECT ROWNUM RN, Z.* FROM
+			(
+				SELECT
+					LEGAL_ADVICE_SEQ,
+					LEGAL_ADVICE_REALM,
+					LEGAL_ADVICE_TITLE,
+					LEGAL_ADVICE_TEAM_NAME,
+					LEGAL_ADVICE_STATUS,
+					LEGAL_ADVICE_REG_NAME,
+					LEGAL_ADVICE_REG_DATE,
+					LEGAL_ADVICE_REG_ID
+				FROM
+					LEGAL_ADVICE
+				WHERE 1=1
+				<if test="regName != null and regName != ''">
+					AND LEGAL_ADVICE_REG_NAME = #{regName}
+				</if>
+				ORDER BY LEGAL_ADVICE_REG_DATE DESC
+			) Z
+		)
+		<where>
+		    RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+	</select>
+
+	<select id="getUserLegalCounselListTotalCount" resultType="Integer">
+		SELECT COUNT(A.LEGAL_ADVICE_SEQ)
+		FROM
+			(
+				SELECT ROWNUM RN, Z.*
+				FROM (
+				    SELECT LEGAL_ADVICE_SEQ FROM LEGAL_ADVICE
+					WHERE 1=1
+					<if test="regName != null and regName != ''">
+						AND LEGAL_ADVICE_REG_NAME = #{regName}
+					</if>
+				)
+			Z)
+		A
+	</select>
+
+
+	<select id="getLegalCounselSaveId" resultType="Integer">
+		SELECT LEGAL_ADVICE_SEQ.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="getUserLegalCounselSave" parameterType="LegalCounsel">
+		INSERT INTO LEGAL_ADVICE
+			(LEGAL_ADVICE_SEQ, LEGAL_ADVICE_REALM, LEGAL_ADVICE_TITLE, LEGAL_ADVICE_STATUS,
+             LEGAL_ADVICE_TEAM_NAME, LEGAL_ADVICE_REG_NAME, LEGAL_ADVICE_CONTENTS, LEGAL_ADVICE_REG_ID)
+		VALUES (#{id}, #{realm}, #{title}, #{status}, #{teamName}, #{regName}, #{contents}, #{regId})
+	</insert>
+
+	<select id="getUserLegalCounselView" parameterType="Integer" resultMap="getUserLegalCounselSavePT">
+		SELECT
+			LEGAL_ADVICE_SEQ,
+			LEGAL_ADVICE_REALM,
+			LEGAL_ADVICE_TITLE,
+			LEGAL_ADVICE_CONTENTS,
+			LEGAL_ADVICE_TEAM_NAME,
+			LEGAL_ADVICE_REG_NAME,
+			LEGAL_ADVICE_REG_DATE,
+			LLA.LEGAL_LAWYER_ID,
+			LLA.LEGAL_LAWYER_COUNSEL
+		FROM LEGAL_ADVICE LA
+   	       , LEGAL_LAWYER_ASSIGN LLA
+	   WHERE LA.LEGAL_ADVICE_SEQ = LLA.LEGAL_ADVICE_ID (+)
+  		 AND LEGAL_ADVICE_SEQ = #{id}
+	</select>
+
+	<resultMap type="FileInfo" id="fileInfoPlainResultMap">
+		<id property="fileId" column="FILE_ID" javaType="Integer" />
+		<result property="memberId" column="MEMBER_ID" javaType="String" />
+		<result property="fileModule" column="FILE_MODULE" javaType="String" />
+		<result property="fileModuleId" column="FILE_MODULE_ID" javaType="String" />
+		<result property="fileModuleSub" column="FILE_MODULE_SUB" javaType="String" />
+		<result property="fileModuleSubId" column="FILE_MODULE_SUB_ID" javaType="String" />
+		<result property="fileOriginalName" column="FILE_ORIGINAL_NAME" javaType="String" />
+		<result property="filePath" column="FILE_PATH" javaType="String" />
+		<result property="fileThumbnailPath" column="FILE_THUMBNAIL_PATH" javaType="String" />
+		<result property="fileExt" column="FILE_EXT" javaType="String" />
+		<result property="fileMimeType" column="FILE_MIME_TYPE" javaType="String" />
+		<result property="fileMediaType" column="FILE_MEDIA_TYPE" javaType="String" />
+		<result property="fileSize" column="FILE_SIZE" javaType="Long" />
+		<result property="fileRegDate" column="FILE_REGDATE" javaType="Date" />
+		<result property="fileAltText" column="FILE_ALT_TEXT" javaType="String" />
+		<result property="fileDownloadCount" column="FILE_DOWNLOAD_COUNT" javaType="Integer" />
+		<result property="fileUUID" column="FILE_UUID" javaType="String" />
+		<result property="fileOriImageWidth" column="FILE_ORI_IMAGE_WIDTH" javaType="Integer" />
+		<result property="fileOriImageHeight" column="FILE_ORI_IMAGE_HEIGHT" javaType="Integer" />
+		<result property="fileAttachmentType" column="FILE_ATTACHMENT_TYPE" javaType="String" />
+		<result property="fileServletUrl" column="FILE_SERVLET_URL" javaType="String" />
+		<result property="fileServletThumbnailUrl" column="FILE_SERVLET_THUMBNAIL_URL" javaType="String" />
+	</resultMap>
+
+	<select id="selectFileInfo" parameterType="FileInfo" resultMap="fileInfoPlainResultMap">
+		SELECT
+		FILE_ID
+		, MEMBER_ID
+		, FILE_MODULE
+		, FILE_MODULE_ID
+		, FILE_MODULE_SUB
+		, FILE_MODULE_SUB_ID
+		, FILE_ORIGINAL_NAME
+		, FILE_PATH
+		, FILE_THUMBNAIL_PATH
+		, FILE_EXT
+		, FILE_MIME_TYPE
+		, FILE_MEDIA_TYPE
+		, FILE_SIZE
+		, FILE_REGDATE
+		, FILE_ALT_TEXT
+		, FILE_DOWNLOAD_COUNT
+		, FILE_UUID
+		, FILE_ORI_IMAGE_WIDTH
+		, FILE_ORI_IMAGE_HEIGHT
+		, FILE_ATTACHMENT_TYPE
+		, FILE_SERVLET_URL
+		, FILE_SERVLET_THUMBNAIL_URL
+		FROM ${sitePrefix}_FILEINFO
+		<where>
+			FILE_MODULE_SUB = #{fileModuleSub}
+			AND FILE_MODULE_SUB_ID = #{fileModuleSubId}
+			<!--			<if test="fileUUID != null and fileUUID != ''">-->
+			<!--				FILE_UUID = #{fileUUID}-->
+			<!--			</if>-->
+			<!--			<if test="fileUUID == null or fileUUID == ''">-->
+			<!--				AND FILE_ID = #{fileId}-->
+			<!--			</if>-->
+			<!--			<if test="fileAttachmentType != null and fileAttachmentType != ''">-->
+			<!--				AND FILE_ATTACHMENT_TYPE = #{fileAttachmentType}-->
+			<!--			</if>-->
+		</where>
+	</select>
+
+</mapper>

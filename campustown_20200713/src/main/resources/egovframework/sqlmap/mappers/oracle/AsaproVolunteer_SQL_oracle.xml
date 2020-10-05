@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.volunteer.service.VolunteerMapper">
+	
+	<resultMap type="VolunteerReservation" id="volunteerReservationPlainResultMap">
+		<id column="RESERV_ID" property="reservId" javaType="Integer" />
+		<result column="RESERV_NAME" property="reservName" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />	
+		<result column="RESERV_GROUP" property="reservGroup" javaType="String" />
+		<result column="RESERV_ADDRESS" property="reservAddress" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_EMAIL" property="reservEmail" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_PEOPLE" property="reservPeople" javaType="Integer" />	
+		<result column="RESERV_PURPOSE" property="reservPurpose" javaType="String" />
+		<result column="RESERV_DATE" property="reservDate" javaType="String" />
+		<result column="RESERV_STIME" property="reservStime" javaType="String" />
+		<result column="RESERV_ETIME" property="reservEtime" javaType="String" />	
+		<result column="RESERV_HP" property="reservHp" javaType="String" jdbcType="VARCHAR" typeHandler="CryptoStringTypeHandler" />
+		<result column="RESERV_SUGGEST" property="reservSuggest" javaType="String" />
+		<result column="RESERV_STATUS" property="reservStatus" javaType="String" />
+		<result column="RESERV_REGDATE" property="reservRegdate" javaType="Date" />
+		<result column="RESERV_AGREE" property="reservAgree" javaType="Boolean" />
+	</resultMap>
+	
+	
+	<sql id="volunteerReservationPlainColumns">
+		RESERV_ID
+		, RESERV_NAME
+		, RESERV_GROUP
+		, RESERV_ADDRESS
+		, RESERV_EMAIL
+		, RESERV_PEOPLE
+		, RESERV_PURPOSE
+		, RESERV_DATE
+		, RESERV_STIME
+		, RESERV_ETIME
+		, RESERV_HP
+		, RESERV_SUGGEST
+		, RESERV_STATUS
+		, RESERV_REGDATE
+		, RESERV_AGREE
+	</sql>
+	
+	<sql id="volunteerReservationJoinColumns">
+		RES.RESERV_ID
+		, RES.RESERV_NAME
+		, RES.RESERV_GROUP
+		, RES.RESERV_ADDRESS
+		, RES.RESERV_EMAIL
+		, RES.RESERV_PEOPLE
+		, RES.RESERV_PURPOSE
+		, RES.RESERV_DATE
+		, RES.RESERV_STIME
+		, RES.RESERV_ETIME
+		, RES.RESERV_HP
+		, RES.RESERV_SUGGEST
+		, RES.RESERV_STATUS
+		, RES.RESERV_REGDATE
+		, RES.RESERV_AGREE
+	</sql>
+	
+	
+	<!-- ============================================================================================= -->
+	<!-- =================================	신청정보		=========================================== -->
+	<!-- ============================================================================================= -->
+	
+	<select id="selectVolunteerReservationList" parameterType="VolunteerReservationSearch" resultMap="volunteerReservationPlainResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT 
+				<include refid="volunteerReservationJoinColumns"/>
+			FROM ${sitePrefix}_VOLUNTEER_RESERVATION RES
+			<where>
+				<if test="sv != null and sv != ''">
+					<if test="sc == null or sc == ''">
+						AND (
+							RES.RESERV_PURPOSE LIKE '%'||#{sv}||'%'
+							OR RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+							OR RES.RESERV_GROUP LIKE '%'||#{sv}||'%'
+						)
+					</if>
+					<if test="sc != null and sc != ''">
+						<if test="sc == 'RESERV_NAME'">
+							AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						</if>
+						<if test="sc != 'RESERV_NAME'">
+							AND ${sc} LIKE '%'||#{sv}||'%'
+						</if>
+					</if>
+				</if>
+				<if test="reservStatus != null and reservStatus != ''">
+					AND RES.RESERV_STATUS = #{reservStatus}
+				</if>
+				<if test="reservStartDate != null and reservStartDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE >= #{reservStartDate}
+					]]>	
+					<if test="reservEndDate != null and reservEndDate != ''">
+						<![CDATA[
+						AND RES.RESERV_DATE <= #{reservEndDate}
+						]]>	
+					</if>
+				</if>
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY RES.RESERV_ID DESC
+			</if> 
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if> 
+	</select>
+	
+	<select id="selectVolunteerReservationListTotal" parameterType="RentalReservationSearch" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM ${sitePrefix}_VOLUNTEER_RESERVATION RES
+		<where>
+			<if test="sv != null and sv != ''">
+				<if test="sc == null or sc == ''">
+					AND (
+						RES.RESERV_PURPOSE LIKE '%'||#{sv}||'%'
+						OR RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+						OR RES.RESERV_GROUP LIKE '%'||#{sv}||'%'
+					)
+				</if>
+				<if test="sc != null and sc != ''">
+					<if test="sc == 'RESERV_NAME'">
+						AND RES.RESERV_NAME = #{sv, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+					</if>
+					<if test="sc != 'RESERV_NAME'">
+						AND ${sc} LIKE '%'||#{sv}||'%'
+					</if>
+				</if>
+			</if>
+			<if test="reservStatus != null and reservStatus != ''">
+				AND RES.RESERV_STATUS = #{reservStatus}
+			</if>
+			<if test="reservStartDate != null and reservStartDate != ''">
+				<![CDATA[
+				AND RES.RESERV_DATE >= #{reservStartDate}
+				]]>	
+				<if test="reservEndDate != null and reservEndDate != ''">
+					<![CDATA[
+					AND RES.RESERV_DATE <= #{reservEndDate}
+					]]>	
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertVolunteerReservation" parameterType="VolunteerReservation">
+		<selectKey keyProperty="reservId" order="BEFORE" resultType="Integer">
+			SELECT ${sitePrefix}_VOLUNTEER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ${sitePrefix}_VOLUNTEER_RESERVATION (
+			<include refid="volunteerReservationPlainColumns"/>
+		) VALUES (
+			#{reservId}
+			, #{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservGroup}
+			, #{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservPeople}
+			, #{reservPurpose}
+			, #{reservDate}
+			, #{reservStime}
+			, #{reservEtime}
+			, #{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, #{reservSuggest}
+			, #{reservStatus}
+			, #{reservRegdate}
+			, #{reservAgree}
+		)
+	</insert>
+	
+	<select id="selectVolunteerReservation" parameterType="VolunteerReservation" resultMap="volunteerReservationPlainResultMap">
+		SELECT 
+			<include refid="volunteerReservationJoinColumns"/>
+		FROM ${sitePrefix}_VOLUNTEER_RESERVATION RES
+		<where>
+			RES.RESERV_ID = #{reservId}
+		</where>
+	</select>
+	
+	<update id="updateVolunteerReservation" parameterType="VolunteerReservation">
+		UPDATE ${sitePrefix}_VOLUNTEER_RESERVATION SET
+			RESERV_NAME					=	#{reservName, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_GROUP				=	#{reservGroup}
+			, RESERV_ADDRESS			=	#{reservAddress, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_EMAIL				=	#{reservEmail, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_PEOPLE				=	#{reservPeople}
+			, RESERV_PURPOSE			=	#{reservPurpose}
+			, RESERV_DATE				=	#{reservDate}
+			, RESERV_STIME				=	#{reservStime}
+			, RESERV_ETIME				=	#{reservEtime}
+			, RESERV_HP					=	#{reservHp, javaType=String, jdbcType=VARCHAR, typeHandler=CryptoStringTypeHandler}
+			, RESERV_SUGGEST			=	#{reservSuggest}
+			, RESERV_STATUS				=	#{reservStatus}
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</update>
+	
+	<delete id="deleteVolunteerReservation" parameterType="VolunteerReservation">
+		DELETE FROM ${sitePrefix}_VOLUNTEER_RESERVATION
+		<where>
+			RESERV_ID	=	#{reservId}
+		</where>
+	</delete>
+	
+	
+</mapper>

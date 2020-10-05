@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cafe105a-d20e-451f-9f13-66f88771e3b5" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1iB5LdRS9rZ3cSBY2PViiZWubNj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cafe105a-d20e-451f-9f13-66f88771e3b5" name="Default Changelist" comment="" />
+      <created>1601368090337</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601368090337</updated>
+      <workItem from="1601368091453" duration="3000" />
+      <workItem from="1601447435003" duration="21000" />
+      <workItem from="1601805641483" duration="2975000" />
+      <workItem from="1601863100632" duration="395000" />
+      <workItem from="1601865269849" duration="62000" />
+      <workItem from="1601865371924" duration="1605000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="438" y="281" key="#Notifications" timestamp="1601871789494">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="438" y="281" key="#Notifications/0.0.1440.900@0.0.1440.900" timestamp="1601871789494" />
+    <state x="320" y="79" key="#Plugins" timestamp="1601865249284">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state x="320" y="79" key="#Plugins/0.23.1440.817@0.23.1440.817" timestamp="1601865249284" />
+    <state x="575" y="354" key="Github.ShareDialog" timestamp="1601871774927">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="575" y="354" key="Github.ShareDialog/0.0.1440.900@0.0.1440.900" timestamp="1601871774927" />
+    <state x="221" y="89" key="SettingsEditor" timestamp="1601871674223">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1601871674223" />
+    <state width="647" height="445" key="SwitcherDM" timestamp="1601812113191">
+      <screen x="0" y="23" width="1440" height="817" />
+    </state>
+    <state width="647" height="445" key="SwitcherDM/0.23.1440.817@0.23.1440.817" timestamp="1601812113191" />
+    <state x="385" y="155" width="670" height="745" key="search.everywhere.popup" timestamp="1601871764823">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="155" width="670" height="745" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1601871764823" />
+    <state x="385" y="164" width="670" height="676" key="search.everywhere.popup/0.23.1440.817@0.23.1440.817" timestamp="1601865454922" />
+  </component>
+</project>

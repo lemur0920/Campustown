@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.allowmac.service.AllowMacMapper">
+	
+	<resultMap id="allowMacPlainResultMap" type="AllowMac">
+		<id column="MAC_ID" property="macId" javaType="Integer"/>
+		<result column="MAC_TYPE" property="macType" javaType="String"/>
+		<result column="MAC_ADDRESS" property="macAddress" javaType="String"/>
+		<result column="MAC_REGDATE" property="macRegDate" javaType="Date" />
+		<result column="MAC_RULE_NAME" property="macRuleName" javaType="String" />
+		<result column="MAC_USE" property="macUse" javaType="Boolean" />
+	</resultMap>
+	
+	<sql id="allowMacPlainColumns">
+		MAC_ID
+		, MAC_TYPE
+		, MAC_ADDRESS
+		, MAC_REGDATE
+		, MAC_RULE_NAME
+		, MAC_USE
+		, SITE_PREFIX
+	</sql>
+	
+	
+	<select id="selectAllowMacList" parameterType="AllowMacSearch" resultMap="allowMacPlainResultMap">
+		SELECT
+			<include refid="allowMacPlainColumns"/>
+		FROM ASA_ALLOW_MAC
+		<where>
+			<if test="macType != null and macType != ''">
+				MAC_TYPE = #{macType}
+			</if>
+			<if test="macUse != null ">
+				AND MAC_USE = #{macUse}
+			</if>
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+		<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+			ORDER BY ${sortOrder} ${sortDirection}
+		</if>
+		<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+			ORDER BY MAC_REGDATE DESC
+		</if>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectAllowMacListTotal" parameterType="AllowMacSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_ALLOW_MAC
+		<where>
+			<if test="macType != null and macType != ''">
+				MAC_TYPE = #{macType}
+			</if>
+			<if test="macUse != null ">
+				AND MAC_USE = #{macUse}
+			</if>
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<insert id="insertAllowMac" parameterType="AllowMac">
+		<selectKey keyProperty="macId" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO ASA_ALLOW_MAC (
+			<include refid="allowMacPlainColumns"/>
+		) VALUES (
+			#{macId}
+			, #{macType}
+			, #{macAddress}
+			, #{macRegDate}
+			, #{macRuleName}
+			, #{macUse}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<select id="selectAllowMac" parameterType="AllowMac" resultMap="allowMacPlainResultMap">
+		SELECT
+			<include refid="allowMacPlainColumns"/>
+		FROM ASA_ALLOW_MAC
+		<where>
+			<if test="macId != null and macId != ''">
+				MAC_ID = #{macId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateAllowMac" parameterType="AllowMac">
+		UPDATE ASA_ALLOW_MAC SET
+			MAC_TYPE 			= #{macType}
+			, MAC_ADDRESS		= #{macAddress}
+			, MAC_RULE_NAME		= #{macRuleName}
+			, MAC_USE			= #{macUse}
+		<where>
+			MAC_ID = #{macId}		
+		</where>
+	</update>
+	
+	<delete id="deleteAllowMac" parameterType="AllowMac">
+		DELETE FROM ASA_ALLOW_MAC 
+		<where>
+			MAC_ID = #{macId}
+		</where>
+	</delete>
+	
+	
+		
+</mapper>

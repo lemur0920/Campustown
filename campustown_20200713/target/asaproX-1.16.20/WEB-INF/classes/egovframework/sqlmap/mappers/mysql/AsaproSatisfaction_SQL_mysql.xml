@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.satisfaction.service.SatisfactionMapper">
+	
+	<resultMap type="Satisfaction" id="satisfactionPlainResultMap">
+		<id property="menuId" column="MENU_ID" javaType="String" />
+		<result property="sitePrefix" column="SITE_PREFIX" javaType="String" />
+		<result property="satisScore5" column="SATIS_SCORE_5" javaType="Integer" />
+		<result property="satisScore4" column="SATIS_SCORE_4" javaType="Integer" />
+		<result property="satisScore3" column="SATIS_SCORE_3" javaType="Integer" />
+		<result property="satisScore2" column="SATIS_SCORE_2" javaType="Integer" />
+		<result property="satisScore1" column="SATIS_SCORE_1" javaType="Integer" />
+		<result property="satisLastPartiDate" column="SATIS_LAST_PARTI_DATE" javaType="Date" />
+		<result property="satisResetDate" column="SATIS_RESET_DATE" javaType="Date" />
+	</resultMap>
+	<resultMap type="SatisOpinion" id="satisOpinionPlainResultMap">
+		<id property="menuId" column="MENU_ID" javaType="String" />
+		<result property="sitePrefix" column="SITE_PREFIX" javaType="String" />
+		<result property="satisOpinion" column="SATIS_OPINION" javaType="String" />
+		<result property="satisOpiDate" column="SATIS_OPI_DATE" javaType="Date" />
+	</resultMap>
+	
+	<sql id="satisfactionPlainColumns">
+		MENU_ID
+		, SITE_PREFIX
+		, SATIS_SCORE_5
+		, SATIS_SCORE_4
+		, SATIS_SCORE_3
+		, SATIS_SCORE_2
+		, SATIS_SCORE_1
+		, SATIS_LAST_PARTI_DATE
+		, SATIS_RESET_DATE
+	</sql>
+	
+	<sql id="satisOpinionPlainColumns">
+		MENU_ID
+		, SITE_PREFIX
+		, SATIS_OPINION
+		, SATIS_OPI_DATE
+	</sql>
+	
+	<insert id="insertSatisfaction" parameterType="Satisfaction">
+		INSERT INTO ASA_SATISFACTION (
+			<include refid="satisfactionPlainColumns"/>
+		) VALUES (
+			#{menuId}
+			, #{sitePrefix}
+			, #{satisScore5}
+			, #{satisScore4}
+			, #{satisScore3}
+			, #{satisScore2}
+			, #{satisScore1}
+			, #{satisLastPartiDate}
+			, #{satisResetDate}
+		)
+	</insert>
+	
+	<select id="selectSatisfactionList" parameterType="SatisfactionSearch" resultMap="satisfactionPlainResultMap">
+		SELECT 
+			<include refid="satisfactionPlainColumns"/>
+		FROM ASA_SATISFACTION
+		<where>
+			SITE_PREFIX		=	#{sitePrefix}
+		</where>
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+		
+	<select id="selectSatisfaction" parameterType="String" resultMap="satisfactionPlainResultMap">
+		SELECT 
+			<include refid="satisfactionPlainColumns"/>
+		FROM ASA_SATISFACTION
+		<where>
+			MENU_ID				=	#{menuId}
+			AND SITE_PREFIX		=	#{sitePrefix}
+		</where>
+	</select>	
+		
+	<update id="updateSatisfaction" parameterType="Satisfaction">
+		UPDATE ASA_SATISFACTION SET
+			SATIS_LAST_PARTI_DATE = #{satisLastPartiDate}
+			<if test="satisScore == 5">
+				, SATIS_SCORE_5 = SATIS_SCORE_5 + 1 
+			</if>
+			<if test="satisScore == 4">
+					, SATIS_SCORE_4 = SATIS_SCORE_4 + 1 
+			</if>
+			<if test="satisScore == 3">
+				, SATIS_SCORE_3 = SATIS_SCORE_3 + 1 
+			</if>
+			<if test="satisScore == 2">
+				, SATIS_SCORE_2 = SATIS_SCORE_2 + 1 
+			</if>
+			<if test="satisScore == 1">
+				, SATIS_SCORE_1 = SATIS_SCORE_1 + 1 
+			</if>
+		<where>
+			MENU_ID				=	#{menuId}
+			AND SITE_PREFIX		=	#{sitePrefix}
+		</where>
+	</update>
+	
+	<update id="resetSatisfaction" parameterType="Satisfaction">
+		UPDATE ASA_SATISFACTION SET
+			SATIS_SCORE_5 = 0
+			, SATIS_SCORE_4 = 0
+			, SATIS_SCORE_3 = 0
+			, SATIS_SCORE_2 = 0
+			, SATIS_SCORE_1 = 0
+			, SATIS_RESET_DATE = #{satResetDate}
+		<where>
+			MENU_ID				=	#{menuId}
+			AND SITE_PREFIX		=	#{sitePrefix}
+		</where>
+	</update>
+	
+	<delete id="deleteSatisfaction" parameterType="Satisfaction">
+		DELETE FROM ASA_SATISFACTION
+		<where>
+			MENU_ID				=	#{menuId}
+			AND SITE_PREFIX		=	#{sitePrefix}
+		</where>
+	</delete>
+	
+	<!-- 평가의견 -->
+	<!-- 평가의견 -->
+	<insert id="insertSatisOpinion" parameterType="Satisfaction">
+		INSERT INTO ASA_SATIS_OPINION (
+			<include refid="satisOpinionPlainColumns"/>
+		) VALUES (
+			#{menuId}
+			, #{sitePrefix}
+			, #{opinion.satisOpinion}
+			, #{opinion.satisOpiDate}
+		)
+	</insert>
+	<select id="selectSatisOpinionList" parameterType="SatisOpinionSearch" resultMap="satisOpinionPlainResultMap">
+		SELECT 
+			<include refid="satisOpinionPlainColumns"/>
+		FROM ASA_SATIS_OPINION
+		<where>
+			MENU_ID				=	#{menuId}
+			AND SITE_PREFIX		=	#{sitePrefix}
+		</where>
+		ORDER BY SATIS_OPI_DATE DESC
+		<if test="paging">
+		LIMIT ${pageSize} OFFSET #{offset}
+		</if>
+	</select>
+	
+</mapper>

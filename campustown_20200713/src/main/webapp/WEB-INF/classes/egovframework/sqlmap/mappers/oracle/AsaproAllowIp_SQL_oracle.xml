@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.com.asapro.allowip.service.AllowIpMapper">
+	
+	<resultMap id="allowIpPlainResultMap" type="AllowIp">
+		<id column="IP_ID" property="ipId" javaType="Integer"/>
+		<result column="IP_TYPE" property="ipType" javaType="String"/>
+		<result column="IP_START" property="ipStart" javaType="String"/>
+		<result column="IP_END" property="ipEnd" javaType="String"/>
+		<result column="IP_REGDATE" property="ipRegDate" javaType="Date" />
+		<result column="IP_RULE_NAME" property="ipRuleName" javaType="String" />
+		<result column="IP_USE" property="ipUse" javaType="Boolean" />
+	</resultMap>
+	
+	<resultMap id="allowIpTempPlainResultMap" type="AllowIpTemp">
+		<id column="ADMIN_ID" property="adminId" javaType="String"/>
+		<result column="TEMP_IP" property="tempIp" javaType="String"/>
+		<result column="ADMIN_HP" property="adminHp" javaType="String"/>
+		<result column="CERTI_NUM" property="certiNum" javaType="String"/>
+		<result column="TEMP_REGDATE" property="tempRegdate" javaType="Date" />
+		<result column="CERTI_REQUEST_DATE" property="certiRequestDate" javaType="Date" />
+		<result column="CERTI_COMPLET_DATE" property="certiCompletDate" javaType="Date" />
+		<result column="AUTHENTICATION" property="authentication" javaType="Boolean" />
+		<result column="SMS_SEND_CNT" property="smsSendCnt" javaType="Integer" />
+		<result column="AUTHENTI_FAIL_CNT" property="authentiFailCnt" javaType="Integer" />
+	</resultMap>
+	
+	<sql id="allowIpPlainColumns">
+		IP_ID
+		, IP_TYPE
+		, IP_START
+		, IP_END
+		, IP_REGDATE
+		, IP_RULE_NAME
+		, IP_USE
+		, SITE_PREFIX
+	</sql>
+	
+	<sql id="allowIpTempPlainColumns">
+		ADMIN_ID
+		, TEMP_IP
+		, ADMIN_HP
+		, CERTI_NUM
+		, TEMP_REGDATE
+		, CERTI_REQUEST_DATE
+		, CERTI_COMPLET_DATE
+		, AUTHENTICATION
+		, SMS_SEND_CNT
+		, AUTHENTI_FAIL_CNT
+	</sql>
+	
+	
+	<select id="selectAllowIpList" parameterType="AllowIpSearch" resultMap="allowIpPlainResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="allowIpPlainColumns"/>
+			FROM ASA_ALLOW_IP
+			<where>
+				<if test="ipType != null and ipType != ''">
+					IP_TYPE = #{ipType}
+				</if>
+				<if test="ipUse != null ">
+					AND IP_USE = #{ipUse}
+				</if>
+				AND SITE_PREFIX = #{sitePrefix}
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY IP_START ASC, IP_END ASC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectAllowIpListTotal" parameterType="AllowIpSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_ALLOW_IP
+		<where>
+			<if test="ipType != null and ipType != ''">
+				IP_TYPE = #{ipType}
+			</if>
+			<if test="ipUse != null ">
+				AND IP_USE = #{ipUse}
+			</if>
+			AND SITE_PREFIX = #{sitePrefix}
+		</where>
+	</select>
+	
+	<insert id="insertAllowIp" parameterType="AllowIp">
+		<selectKey keyProperty="ipId" order="BEFORE" resultType="Integer">
+			SELECT ASA_COMMON_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ASA_ALLOW_IP (
+			<include refid="allowIpPlainColumns"/>
+		) VALUES (
+			#{ipId}
+			, #{ipType}
+			, #{ipStart}
+			, #{ipEnd}
+			, #{ipRegDate}
+			, #{ipRuleName}
+			, #{ipUse}
+			, #{sitePrefix}
+		)
+	</insert>
+	
+	<select id="selectAllowIp" parameterType="AllowIp" resultMap="allowIpPlainResultMap">
+		SELECT
+			<include refid="allowIpPlainColumns"/>
+		FROM ASA_ALLOW_IP
+		<where>
+			<if test="ipId != null and ipId != ''">
+				IP_ID = #{ipId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateAllowIp" parameterType="AllowIp">
+		UPDATE ASA_ALLOW_IP SET
+			IP_TYPE 			= #{ipType}
+			, IP_START 			= #{ipStart}
+			, IP_END			= #{ipEnd}
+			, IP_RULE_NAME		= #{ipRuleName}
+			, IP_USE			= #{ipUse}
+		<where>
+			IP_ID = #{ipId}		
+		</where>
+	</update>
+	
+	<delete id="deleteAllowIp" parameterType="AllowIp">
+		DELETE FROM ASA_ALLOW_IP 
+		<where>
+			IP_ID = #{ipId}
+		</where>
+	</delete>
+	
+	
+	<!-- ============================================================================================= -->
+	<!-- ================================= 임시접속 허용 IP ================================================== -->
+	<!-- ============================================================================================= -->
+	
+	<insert id="insertAllowIpTemp" parameterType="AllowIpTemp">
+		INSERT INTO ASA_ALLOW_IP_TEMP (
+			ADMIN_ID
+			, TEMP_IP
+			, ADMIN_HP
+			, CERTI_NUM
+			, TEMP_REGDATE
+			, CERTI_REQUEST_DATE
+			, SMS_SEND_CNT
+		) VALUES (
+			#{adminId}
+			, #{tempIp}
+			, #{adminHp}
+			, #{certiNum}
+			, #{tempRegdate}
+			, #{certiRequestDate}
+			, #{smsSendCnt}
+		)
+	</insert>
+	
+	<select id="selectAllowIpTemp" parameterType="AllowIpTemp" resultMap="allowIpTempPlainResultMap">
+		SELECT 
+			<include refid="allowIpTempPlainColumns"/>
+		FROM ASA_ALLOW_IP_TEMP
+		<where>
+			ADMIN_ID = #{adminId}
+		</where>
+	</select>
+	
+	<delete id="deleteAllowIpTemp" parameterType="AllowIpTemp">
+		DELETE FROM ASA_ALLOW_IP_TEMP
+		<where>
+			ADMIN_ID = #{adminId}
+		</where>
+	</delete>
+	
+	<update id="updateAuthentication" parameterType="AllowIpTemp">
+		UPDATE ASA_ALLOW_IP_TEMP SET
+			CERTI_COMPLET_DATE 			= #{certiCompletDate}
+			, AUTHENTICATION 			= #{authentication}
+		<where>
+			ADMIN_ID = #{adminId}
+		</where>
+	</update>
+	
+	<select id="selectAuthentication" parameterType="String" resultType="Boolean">
+		SELECT 
+			AUTHENTICATION
+		FROM ASA_ALLOW_IP_TEMP
+		<where>
+			TEMP_IP = #{value}
+		</where>
+	</select>
+	
+	<select id="selectAllowIpTempList" parameterType="AllowIpTempSearch" resultMap="allowIpTempPlainResultMap">
+		<if test="paging">
+		SELECT * FROM(
+			SELECT ROWNUM RN, Z.* FROM(
+		</if>
+			SELECT
+				<include refid="allowIpTempPlainColumns"/>
+			FROM ASA_ALLOW_IP_TEMP
+			<where>
+				<if test="authentication != null ">
+					AND AUTHENTICATION = #{authentication}
+				</if>
+			</where>
+			<if test="sortOrder != null and sortOrder != '' and sortDirection != null and sortDirection != ''">
+				ORDER BY ${sortOrder} ${sortDirection}
+			</if>
+			<if test="sortOrder == null or sortOrder == '' or sortDirection == null or sortDirection == ''">
+				ORDER BY TEMP_REGDATE DESC
+			</if>
+		<if test="paging">
+			) Z
+		)
+		<where>
+			RN BETWEEN #{startRow} AND #{endRow}
+		</where>
+		</if>
+	</select>
+	
+	<select id="selectAllowIpTempListTotal" parameterType="AllowIpTempSearch" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ASA_ALLOW_IP_TEMP
+		<where>
+			<if test="authentication != null ">
+				AND AUTHENTICATION = #{authentication}
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deleteAllowIpTempAll">
+		DELETE FROM ASA_ALLOW_IP_TEMP
+	</delete>
+	
+	<update id="updateCertifiNum" parameterType="AllowIpTemp">
+		UPDATE ASA_ALLOW_IP_TEMP SET
+			CERTI_NUM		= #{certiNum}
+			, SMS_SEND_CNT	= SMS_SEND_CNT + 1
+		<where>
+			ADMIN_ID = #{adminId}
+		</where>
+	</update>
+	
+	<update id="updateAuthentiFailCnt" parameterType="AllowIpTemp">
+		UPDATE ASA_ALLOW_IP_TEMP SET
+			AUTHENTI_FAIL_CNT	= AUTHENTI_FAIL_CNT + 1
+		<where>
+			ADMIN_ID = #{adminId}
+		</where>
+	</update>
+		
+</mapper>
