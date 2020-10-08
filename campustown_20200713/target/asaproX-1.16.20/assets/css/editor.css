@@ -1,8 +1,0 @@
-@CHARSET "UTF-8";
-/*
-	Add this styleSheet as last member of CKEDITOR contentCss property.
-*/
-body{
-	background-color: #FFFFFF;
-	min-width: 0;
-}

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
@@ -9,23 +12,24 @@
         <webroots>
           <root url="file://$MODULE_DIR$/campustown_20200713/src/main/webapp" relative="/" />
         </webroots>
-      </configuration>
-    </facet>
-    <facet type="web" name="Web2">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/campustown_20200713/target/asaproX-1.16.20/WEB-INF/web.xml" />
-        </descriptors>
-        <webroots>
-          <root url="file://$MODULE_DIR$/campustown_20200713/target/asaproX-1.16.20" relative="/" />
-        </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/campustown_20200713/src/main/java" />
+          <root url="file://$MODULE_DIR$/campustown_20200713/src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$/campustown_20200713">
+      <sourceFolder url="file://$MODULE_DIR$/campustown_20200713/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/campustown_20200713/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/campustown_20200713/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/campustown_20200713/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/campustown_20200713/target" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jdk1.7" level="project" />
   </component>
 </module>
